@@ -1,0 +1,149 @@
+/* 画面全体のコンテナ */
+.auth-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+/* ロゴエリア全体 */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 80px; /* ボタンとの間隔 */
+}
+
+/* ロゴ画像を配置する場所 */
+.logo-placeholder {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* ロゴ画像のスタイル（画像を追加したときに適用） */
+.logo-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ボタンエリア全体 */
+.button-section {
+  width: 100%;
+  max-width: 300px; /* ボタンの最大幅 */
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* ボタン間の間隔 */
+}
+
+/* ボタンの共通スタイル */
+.auth-button {
+  width: 100%;
+  height: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+/* ログインボタン：枠線のみ */
+.login-button {
+  background-color: transparent;
+  border: 2px solid #a52a44; /* 濃い赤色の枠線 */
+  color: #a52a44; /* 濃い赤色のテキスト */
+}
+
+/* ログインボタンのホバー時 */
+.login-button:hover {
+  background-color: #f5e6e8; /* 薄いピンクの背景 */
+  transform: translateY(-2px); /* 少し浮き上がる */
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
+}
+
+/* ログインボタンのアクティブ時（クリック時） */
+.login-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2);
+}
+
+/* 新規登録ボタン：塗りつぶし */
+.register-button {
+  background-color: #a52a44; /* 濃い赤色の背景 */
+  color: #ffffff; /* 白色のテキスト */
+  border: 2px solid #a52a44;
+}
+
+/* 新規登録ボタンのホバー時 */
+.register-button:hover {
+  background-color: #8b2339; /* より濃い赤色 */
+  border-color: #8b2339;
+  transform: translateY(-2px); /* 少し浮き上がる */
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+/* 新規登録ボタンのアクティブ時（クリック時） */
+.register-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+/* レスポンシブ対応：タブレット以下 */
+@media (max-width: 768px) {
+  .logo-section {
+    margin-bottom: 60px;
+  }
+
+  .app-title {
+    font-size: 28px;
+  }
+
+  .button-section {
+    max-width: 280px;
+  }
+
+  .auth-button {
+    height: 48px;
+    font-size: 15px;
+  }
+}
+
+/* レスポンシブ対応：スマートフォン */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 30px 16px;
+  }
+
+  .logo-placeholder {
+    width: 100px;
+    height: 100px;
+  }
+
+  .logo-section {
+    margin-bottom: 50px;
+  }
+
+  .app-title {
+    font-size: 26px;
+  }
+
+  .button-section {
+    max-width: 100%;
+    padding: 0 20px;
+  }
+
+  .auth-button {
+    height: 46px;
+    font-size: 14px;
+  }
+}
