@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './LoginScreen.css';
+import LogoImage from '../assets/titleIcon.png';
 
 /**
  * LoginScreen (ログイン画面) コンポーネント
@@ -68,7 +69,7 @@ const LoginScreen = ({ onLoginSuccess, onBackToAuth }) => {
         {/* ロゴエリア */}
         <div className="login-logo-section">
           <div className="login-logo-placeholder">
-            {/* <img src="/path/to/your/logo.png" alt="FamLink Logo" /> */}
+            {<img src={LogoImage} alt="FamLink Logo" />}
             {/* 上のコメントを外して、srcにロゴ画像のパスを指定してください */}
           </div>
         </div>
