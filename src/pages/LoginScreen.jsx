@@ -20,7 +20,6 @@ const LoginScreen = ({ onLoginSuccess, onBackToAuth }) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
     console.log('ログイン:', { email, password });
     
-    // TODO: 実際のログインAPI呼び出し処理を追加
     // 仮のトークンでログイン成功を通知（実際はAPIレスポンスのトークンを使用）
     const dummyToken = 'dummy-auth-token-' + Date.now();
     
