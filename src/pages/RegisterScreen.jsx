@@ -60,7 +60,7 @@ const RegisterScreen = () => {
         {/* ロゴエリア */}
         <div className="register-logo-section">
           <div className="register-logo-placeholder">
-            {<img src={LogoImage} alt="FamLink Logo" />}*/
+            {<img src={LogoImage} alt="FamLink Logo" />}
             {/* 上のコメントを外して、srcにロゴ画像のパスを指定してください */}
           </div>
         </div>
