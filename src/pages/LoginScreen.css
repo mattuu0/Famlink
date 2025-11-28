@@ -1,0 +1,349 @@
+/* ========================================
+   ログイン画面全体のスタイル
+   ======================================== */
+
+/* 画面全体のコンテナ */
+.login-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+/* ========================================
+   装飾用の丸（タブレット・PC版のみ）
+   ======================================== */
+
+/* 装飾用の丸を配置するエリア */
+.login-decoration {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* 左上の装飾丸エリア */
+.login-decoration-top-left {
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 右下の装飾丸エリア */
+.login-decoration-bottom-right {
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 静止した丸の基本スタイル */
+.login-blob {
+  position: absolute;
+  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+}
+
+/* 左上の丸1：濃い赤色 */
+.login-blob-1 {
+  width: 380px;
+  height: 380px;
+  background-color: #a52a44;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+/* 左上の丸2：薄いピンク色 */
+.login-blob-2 {
+  width: 280px;
+  height: 280px;
+  background-color: #e8a5b5;
+  top: 120px;
+  left: 150px;
+  opacity: 0.4;
+}
+
+/* 右下の丸3：薄いピンク色 */
+.login-blob-3 {
+  width: 350px;
+  height: 350px;
+  background-color: #f5c2d0;
+  bottom: 0;
+  right: 100px;
+  opacity: 0.7;
+}
+
+/* 右下の丸4：少し濃い赤色 */
+.login-blob-4 {
+  width: 350px;
+  height: 350px;
+  background-color: #a01e3a;
+  bottom: 200px;
+  right: 70px;
+  opacity: 0.4;
+}
+
+
+/* ========================================
+   コンテンツエリア
+   ======================================== */
+
+/* ログインフォーム全体のコンテンツ */
+.login-content {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+/* ロゴエリア */
+.login-logo-section {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ロゴ画像のプレースホルダー */
+.login-logo-placeholder {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ロゴ画像のスタイル */
+.login-logo-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+
+/* ========================================
+   フォームのスタイル
+   ======================================== */
+
+/* フォーム全体 */
+.login-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* フォームグループ（各入力欄のまとまり） */
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ラベルと注意書きの行 */
+.login-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+/* ラベル */
+.login-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #a52a44;
+}
+
+/* パスワードの注意書き */
+.login-password-hint {
+  font-size: 11px;
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+/* 入力欄 */
+.login-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 14px;
+  border: 2px solid #a52a44;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+/* 入力欄のフォーカス時 */
+.login-input:focus {
+  border-color: #8b2339;
+}
+
+/* プレースホルダーのスタイル */
+.login-input::placeholder {
+  color: #bdbdbd;
+}
+
+/* パスワードを忘れた場合のリンク */
+.login-forgot-link {
+  align-self: flex-end;
+  font-size: 12px;
+  color: #a52a44;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 0;
+  margin-top: 4px;
+}
+
+/* パスワードを忘れた場合のリンクのホバー */
+.login-forgot-link:hover {
+  color: #8b2339;
+}
+
+
+/* ========================================
+   ボタンのスタイル
+   ======================================== */
+
+/* ログインボタン */
+.login-submit-button {
+  width: 100%;
+  height: 52px;
+  background-color: #a52a44;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid #a52a44;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  outline: none;
+}
+
+/* ログインボタンのホバー */
+.login-submit-button:hover {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+/* ログインボタンのアクティブ */
+.login-submit-button:active {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+/* ログインボタンのフォーカス */
+.login-submit-button:focus {
+  background-color: #a52a44;
+  border-color: #a52a44;
+  outline: none;
+}
+
+/* 新規登録へのリンク */
+.login-register-link {
+  font-size: 14px;
+  color: #a52a44;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 16px 0;
+  margin-top: 16px;
+}
+
+/* 新規登録へのリンクのホバー */
+.login-register-link:hover {
+  color: #8b2339;
+}
+
+
+/* ========================================
+   レスポンシブ対応：タブレット（768px以上）
+   ======================================== */
+@media (min-width: 768px) {
+  /* 装飾用の丸を表示 */
+  .login-decoration {
+    display: block;
+  }
+
+  /* コンテンツエリア */
+  .login-content {
+    max-width: 360px;
+  }
+
+  /* ロゴエリア */
+  .login-logo-section {
+    margin-bottom: 50px;
+  }
+
+  /* ロゴ画像のプレースホルダー */
+  .login-logo-placeholder {
+    width: 140px;
+    height: 140px;
+  }
+
+  /* 入力欄 */
+  .login-input {
+    height: 52px;
+    font-size: 15px;
+  }
+
+  /* ログインボタン */
+  .login-submit-button {
+    height: 56px;
+    font-size: 17px;
+  }
+}
+
+
+/* ========================================
+   レスポンシブ対応：PC（1280px以上）
+   ======================================== */
+@media (min-width: 1280px) {
+  /* コンテンツエリア */
+  .login-content {
+    max-width: 400px;
+  }
+
+  /* ロゴエリア */
+  .login-logo-section {
+    margin-bottom: 60px;
+  }
+
+  /* ロゴ画像のプレースホルダー */
+  .login-logo-placeholder {
+    width: 160px;
+    height: 160px;
+  }
+
+  /* 入力欄 */
+  .login-input {
+    height: 56px;
+    font-size: 16px;
+  }
+
+  /* ログインボタン */
+  .login-submit-button {
+    height: 60px;
+    font-size: 18px;
+  }
+}
