@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './RegisterScreen.css';
+import LogoImage from '../assets/titleIcon.png';
 
 /**
  * RegisterScreen (新規登録画面) コンポーネント
@@ -59,7 +60,7 @@ const RegisterScreen = () => {
         {/* ロゴエリア */}
         <div className="register-logo-section">
           <div className="register-logo-placeholder">
-            {/* <img src="/path/to/your/logo.png" alt="FamLink Logo" /> */}
+            {<img src={LogoImage} alt="FamLink Logo" />}*/}
             {/* 上のコメントを外して、srcにロゴ画像のパスを指定してください */}
           </div>
         </div>
