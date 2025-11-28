@@ -1,247 +1,400 @@
-/* タイトル画面全体のコンテナ */
+/* ========================================
+   タイトル画面全体のスタイル
+   ======================================== */
+
+/* タイトル画面全体のコンテナ
+   - 画面全体を覆うサイズに設定
+   - 縦方向のグラデーション背景
+   - 中央配置のためにflexboxを使用 */
 .title-container {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(to bottom, #f5e6e8, #faf3f3);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100vw; /* ビューポートの幅いっぱい */
+  height: 100vh; /* ビューポートの高さいっぱい */
+  background: linear-gradient(to bottom, #f5e6e8, #faf3f3); /* 上から下へのグラデーション */
+  position: relative; /* 子要素の絶対配置の基準点 */
+  overflow: hidden; /* はみ出た装飾を隠す */
+  display: flex; /* flexboxで中央配置 */
+  justify-content: center; /* 横方向の中央配置 */
+  align-items: center; /* 縦方向の中央配置 */
 }
 
-/* 装飾要素の基本スタイル */
+
+/* ========================================
+   装飾要素（ぐにゃぐにゃ動く丸）の基本スタイル
+   ======================================== */
+
+/* 装飾要素の基本スタイル
+   - 絶対配置で画面の隅に配置
+   - クリックイベントを無視する設定 */
 .decoration {
-  position: absolute;
-  pointer-events: none; /* クリックイベントを無視 */
+  position: absolute; /* 絶対配置 */
+  pointer-events: none; /* マウスイベントを無視（クリックできないように） */
 }
 
-/* 左上の装飾エリア */
+/* 左上の装飾エリア - スマホ用デフォルトサイズ
+   - 画面左上に配置
+   - 丸が2つ入るエリア */
 .decoration-top-left {
-  top: -50px;
-  left: -50px;
-  width: 400px;
-  height: 400px;
+  top: -40px; /* 上端から-40px（画面外にはみ出す） */
+  left: -40px; /* 左端から-40px（画面外にはみ出す） */
+  width: 250px; /* 装飾エリアの幅 */
+  height: 250px; /* 装飾エリアの高さ */
 }
 
-/* 右下の装飾エリア */
+/* 右下の装飾エリア - スマホ用デフォルトサイズ
+   - 画面右下に配置
+   - 丸が2つ入るエリア */
 .decoration-bottom-right {
-  bottom: -50px;
-  right: -50px;
-  width: 450px;
-  height: 450px;
+  bottom: -40px; /* 下端から-40px（画面外にはみ出す） */
+  right: -40px; /* 右端から-40px（画面外にはみ出す） */
+  width: 280px; /* 装飾エリアの幅 */
+  height: 280px; /* 装飾エリアの高さ */
 }
 
-/* ぐにゃぐにゃ動く丸の基本スタイル */
+
+/* ========================================
+   ぐにゃぐにゃ動く丸（blob）のスタイル
+   ======================================== */
+
+/* ぐにゃぐにゃ動く丸の基本スタイル
+   - 不規則な形の丸を作る
+   - アニメーションを適用 */
 .blob {
-  position: absolute;
-  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
-  animation-iteration-count: infinite;
-  animation-timing-function: ease-in-out;
+  position: absolute; /* 親要素内で絶対配置 */
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%; /* 不規則な丸の形 */
+  animation-iteration-count: infinite; /* アニメーションを無限に繰り返す */
+  animation-timing-function: ease-in-out; /* 滑らかな動き */
 }
 
-/* 左上の丸1：濃い赤 */
+/* 左上の丸1：濃い赤色 - スマホ用デフォルトサイズ
+   - 装飾エリアの左上に配置
+   - 変形と回転のアニメーションを適用 */
 .blob-1 {
-  width: 250px;
-  height: 250px;
-  background-color: #a52a44;
-  top: 0;
-  left: 0;
+  width: 150px; /* 丸の幅 */
+  height: 150px; /* 丸の高さ */
+  background-color: #a52a44; /* 濃い赤色 */
+  top: 0; /* 装飾エリアの上端 */
+  left: 0; /* 装飾エリアの左端 */
   animation: 
-    blob-morph-1 8s infinite,
-    blob-rotate-1 12s infinite;
+    blob-morph-1 8s infinite, /* 8秒かけて変形を繰り返す */
+    blob-rotate-1 12s infinite; /* 12秒かけて回転を繰り返す */
 }
 
-/* 左上の丸2：薄いピンク */
+/* 左上の丸2：薄いピンク色 - スマホ用デフォルトサイズ
+   - 装飾エリアの中央やや右寄りに配置
+   - 丸1と重なって奥行きを出す */
 .blob-2 {
-  width: 200px;
-  height: 200px;
-  background-color: #e8a5b5;
-  top: -10px;
-  left: 120px;
+  width: 120px; /* 丸の幅 */
+  height: 120px; /* 丸の高さ */
+  background-color: #e8a5b5; /* 薄いピンク色 */
+  top: 30px; /* 装飾エリアの上から30px */
+  left: 50px; /* 装飾エリアの左から50px */
   animation: 
-    blob-morph-2 10s infinite,
-    blob-rotate-2 15s infinite;
+    blob-morph-2 10s infinite, /* 10秒かけて変形を繰り返す */
+    blob-rotate-2 15s infinite; /* 15秒かけて回転を繰り返す */
 }
 
-/* 右下の丸3：濃い赤 */
+/* 右下の丸3：濃い赤色 - スマホ用デフォルトサイズ
+   - 装飾エリアの右下に配置 */
 .blob-3 {
-  width: 280px;
-  height: 280px;
-  background-color: #a52a44;
-  bottom: 0;
-  right: 0;
+  width: 170px; /* 丸の幅 */
+  height: 170px; /* 丸の高さ */
+  background-color: #a52a44; /* 濃い赤色 */
+  bottom: 0; /* 装飾エリアの下端 */
+  right: 0; /* 装飾エリアの右端 */
   animation: 
-    blob-morph-3 9s infinite,
-    blob-rotate-3 13s infinite;
+    blob-morph-3 9s infinite, /* 9秒かけて変形を繰り返す */
+    blob-rotate-3 13s infinite; /* 13秒かけて回転を繰り返す */
 }
 
-/* 右下の丸4：薄いピンク */
+/* 右下の丸4：薄いピンク色 - スマホ用デフォルトサイズ
+   - 装飾エリアの中央やや左寄りに配置
+   - 丸3と重なって奥行きを出す */
 .blob-4 {
-  width: 230px;
-  height: 230px;
-  background-color: #f5c2d0;
-  bottom: -30px;
-  right: 130px;
+  width: 140px; /* 丸の幅 */
+  height: 140px; /* 丸の高さ */
+  background-color: #f5c2d0; /* 薄いピンク色 */
+  bottom: 40px; /* 装飾エリアの下から40px */
+  right: 60px; /* 装飾エリアの右から60px */
   animation: 
-    blob-morph-4 11s infinite,
-    blob-rotate-4 16s infinite;
+    blob-morph-4 11s infinite, /* 11秒かけて変形を繰り返す */
+    blob-rotate-4 16s infinite; /* 16秒かけて回転を繰り返す */
 }
 
-/* 丸が変形するアニメーション - パターン1 */
+
+/* ========================================
+   丸が変形するアニメーション
+   - 4つの異なるパターンで変形
+   - それぞれ異なるタイミングで動く
+   ======================================== */
+
+/* 丸が変形するアニメーション - パターン1
+   - 4つの段階で形を変える
+   - border-radiusを変化させて不規則な形を作る */
 @keyframes blob-morph-1 {
   0%, 100% {
+    /* 開始時と終了時の形 */
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   }
   25% {
+    /* アニメーション25%地点の形 */
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
   50% {
+    /* アニメーション50%地点（中間）の形 */
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
   }
   75% {
+    /* アニメーション75%地点の形 */
     border-radius: 70% 30% 40% 60% / 40% 70% 50% 30%;
   }
 }
 
-/* 丸が変形するアニメーション - パターン2 */
+/* 丸が変形するアニメーション - パターン2
+   - 3つの段階で形を変える
+   - パターン1とは異なるタイミングで変形 */
 @keyframes blob-morph-2 {
   0%, 100% {
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
   33% {
+    /* アニメーション33%地点の形 */
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
   }
   66% {
+    /* アニメーション66%地点の形 */
     border-radius: 70% 30% 40% 60% / 40% 70% 50% 30%;
   }
 }
 
-/* 丸が変形するアニメーション - パターン3 */
+/* 丸が変形するアニメーション - パターン3
+   - 3つの段階で形を変える
+   - さらに異なるタイミングで変形 */
 @keyframes blob-morph-3 {
   0%, 100% {
     border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
   }
   30% {
+    /* アニメーション30%地点の形 */
     border-radius: 70% 30% 40% 60% / 40% 70% 50% 30%;
   }
   60% {
+    /* アニメーション60%地点の形 */
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   }
 }
 
-/* 丸が変形するアニメーション - パターン4 */
+/* 丸が変形するアニメーション - パターン4
+   - 3つの段階で形を変える
+   - 他のパターンとは異なるリズムで変形 */
 @keyframes blob-morph-4 {
   0%, 100% {
     border-radius: 70% 30% 40% 60% / 40% 70% 50% 30%;
   }
   40% {
+    /* アニメーション40%地点の形 */
     border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
   }
   80% {
+    /* アニメーション80%地点の形 */
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
   }
 }
 
-/* 回転アニメーション - パターン1 */
+
+/* ========================================
+   回転アニメーション
+   - 変形と同時に回転することで自然な動きを作る
+   - scaleで少し大きさも変化させる
+   ======================================== */
+
+/* 回転アニメーション - パターン1
+   - 180度回転しながら少し拡大 */
 @keyframes blob-rotate-1 {
   0%, 100% {
-    transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1); /* 元のサイズ、回転なし */
   }
   50% {
-    transform: rotate(180deg) scale(1.1);
+    transform: rotate(180deg) scale(1.1); /* 180度回転、10%拡大 */
   }
 }
 
-/* 回転アニメーション - パターン2 */
+/* 回転アニメーション - パターン2
+   - 逆方向に180度回転しながら少し縮小 */
 @keyframes blob-rotate-2 {
   0%, 100% {
-    transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1); /* 元のサイズ、回転なし */
   }
   50% {
-    transform: rotate(-180deg) scale(0.95);
+    transform: rotate(-180deg) scale(0.95); /* -180度回転、5%縮小 */
   }
 }
 
-/* 回転アニメーション - パターン3 */
+/* 回転アニメーション - パターン3
+   - 160度回転しながら少し拡大 */
 @keyframes blob-rotate-3 {
   0%, 100% {
-    transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1); /* 元のサイズ、回転なし */
   }
   50% {
-    transform: rotate(160deg) scale(1.08);
+    transform: rotate(160deg) scale(1.08); /* 160度回転、8%拡大 */
   }
 }
 
-/* 回転アニメーション - パターン4 */
+/* 回転アニメーション - パターン4
+   - 逆方向に160度回転しながら少し縮小 */
 @keyframes blob-rotate-4 {
   0%, 100% {
-    transform: rotate(0deg) scale(1);
+    transform: rotate(0deg) scale(1); /* 元のサイズ、回転なし */
   }
   50% {
-    transform: rotate(-160deg) scale(0.92);
+    transform: rotate(-160deg) scale(0.92); /* -160度回転、8%縮小 */
   }
 }
 
-/* ロゴを配置する中央のコンテナ */
+
+/* ========================================
+   ロゴ配置エリアのスタイル
+   ======================================== */
+
+/* ロゴを配置する中央のコンテナ - スマホ用デフォルト
+   - 装飾より前面に表示
+   - 画面中央に配置 */
 .logo-container {
-  position: relative;
-  z-index: 10; /* 装飾より前面に表示 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  position: relative; /* 相対配置 */
+  z-index: 10; /* 装飾（z-index未設定=0）より前面に表示 */
+  display: flex; /* flexboxで中央配置 */
+  justify-content: center; /* 横方向の中央配置 */
+  align-items: center; /* 縦方向の中央配置 */
 }
 
-/* ロゴ画像を入れる場所 */
+/* ロゴ画像を入れる場所 - スマホ用デフォルトサイズ
+   - 画像を差し込むためのプレースホルダー */
 .logo-placeholder {
-  width: 300px;
-  height: 300px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 250px; /* プレースホルダーの幅 */
+  height: 250px; /* プレースホルダーの高さ */
+  display: flex; /* flexboxで中央配置 */
+  justify-content: center; /* 横方向の中央配置 */
+  align-items: center; /* 縦方向の中央配置 */
 }
 
-/* ロゴ画像のスタイル（画像を追加したときに適用） */
+/* ロゴ画像のスタイル（画像を追加したときに適用）
+   - 画像がプレースホルダーからはみ出さないように調整 */
 .logo-placeholder img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  max-width: 100%; /* 最大幅を100%に制限 */
+  max-height: 100%; /* 最大高さを100%に制限 */
+  object-fit: contain; /* アスペクト比を保ちながら収める */
 }
 
-/* レスポンシブ対応：小さい画面用 */
-@media (max-width: 768px) {
+
+/* ========================================
+   レスポンシブ対応：タブレット（768px以上）
+   - タブレットサイズ以上の画面用調整
+   ======================================== */
+@media (min-width: 768px) {
+  /* 左上の装飾エリア - タブレット用 */
   .decoration-top-left {
-    width: 300px;
-    height: 300px;
+    top: -60px; /* 画面外へのはみ出しを大きく */
+    left: -60px;
+    width: 400px; /* エリアを大きく */
+    height: 400px;
   }
   
+  /* 右下の装飾エリア - タブレット用 */
   .decoration-bottom-right {
+    bottom: -60px;
+    right: -60px;
+    width: 450px;
+    height: 450px;
+  }
+  
+  /* 左上の丸1 - タブレット用サイズ */
+  .blob-1 {
+    width: 250px;
+    height: 250px;
+  }
+  
+  /* 左上の丸2 - タブレット用サイズと位置 */
+  .blob-2 {
+    width: 200px;
+    height: 200px;
+    top: 50px; /* 位置も調整 */
+    left: 80px;
+  }
+  
+  /* 右下の丸3 - タブレット用サイズ */
+  .blob-3 {
+    width: 280px;
+    height: 280px;
+  }
+  
+  /* 右下の丸4 - タブレット用サイズと位置 */
+  .blob-4 {
+    width: 220px;
+    height: 220px;
+    bottom: 60px; /* 位置も調整 */
+    right: 100px;
+  }
+  
+  /* ロゴプレースホルダー - タブレット用サイズ */
+  .logo-placeholder {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+
+/* ========================================
+   レスポンシブ対応：PC（1280px以上）
+   - PC・大画面用に装飾を大きく表示
+   ======================================== */
+@media (min-width: 1280px) {
+  /* 左上の装飾エリア - PC用 */
+  .decoration-top-left {
+    top: -80px; /* 画面外へさらに大きくはみ出す */
+    left: -80px;
+    width: 500px; /* エリアをさらに大きく */
+    height: 500px;
+  }
+  
+  /* 右下の装飾エリア - PC用 */
+  .decoration-bottom-right {
+    bottom: -80px;
+    right: -80px;
+    width: 550px;
+    height: 550px;
+  }
+  
+  /* 左上の丸1 - PC用サイズ */
+  .blob-1 {
     width: 320px;
     height: 320px;
   }
   
-  .blob-1 {
-    width: 180px;
-    height: 180px;
-  }
-  
+  /* 左上の丸2 - PC用サイズと位置 */
   .blob-2 {
-    width: 150px;
-    height: 150px;
-  }
-  
-  .blob-3 {
-    width: 200px;
-    height: 200px;
-  }
-  
-  .blob-4 {
-    width: 160px;
-    height: 160px;
-  }
-  
-  .logo-placeholder {
     width: 250px;
     height: 250px;
+    top: 60px; /* 位置も大きく */
+    left: 100px;
+  }
+  
+  /* 右下の丸3 - PC用サイズ */
+  .blob-3 {
+    width: 350px;
+    height: 350px;
+  }
+  
+  /* 右下の丸4 - PC用サイズと位置 */
+  .blob-4 {
+    width: 280px;
+    height: 280px;
+    bottom: 70px;
+    right: 120px;
+  }
+  
+  /* ロゴプレースホルダー - PC用サイズ */
+  .logo-placeholder {
+    width: 400px;
+    height: 400px;
   }
 }
