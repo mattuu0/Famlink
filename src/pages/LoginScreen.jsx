@@ -5,7 +5,7 @@ import './LoginScreen.css';
  * LoginScreen (ログイン画面) コンポーネント
  * 役割: ユーザーがメールアドレスとパスワードを入力してログインする画面
  */
-const LoginScreen = () => {
+const LoginScreen = ({ onLoginSuccess, onBackToAuth }) => {
   // メールアドレスの状態管理
   const [email, setEmail] = useState('');
   
@@ -14,12 +14,18 @@ const LoginScreen = () => {
 
   /**
    * ログインボタンがクリックされたときの処理
-   * TODO: 実際のログイン処理を実装
    */
   const handleLogin = (e) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
     console.log('ログイン:', { email, password });
-    // ここに実際のログイン処理を追加
+    
+    // TODO: 実際のログインAPI呼び出し処理を追加
+    // 仮のトークンでログイン成功を通知（実際はAPIレスポンスのトークンを使用）
+    const dummyToken = 'dummy-auth-token-' + Date.now();
+    
+    if (onLoginSuccess) {
+      onLoginSuccess(dummyToken);
+    }
   };
 
   /**
@@ -35,7 +41,11 @@ const LoginScreen = () => {
    */
   const handleGoToRegister = () => {
     console.log('新規登録画面へ遷移');
-    // 新規登録画面への遷移処理を追加
+    // AuthScreenに戻ってから新規登録画面へ遷移
+    // または直接新規登録画面へ遷移する処理を追加
+    if (onBackToAuth) {
+      onBackToAuth();
+    }
   };
 
   return (
