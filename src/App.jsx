@@ -3,7 +3,7 @@ import Title from "./pages/Title.jsx";           // アプリ起動時のロー�
 import HomePage from "./pages/HomePage.jsx";     // 認証済み（ログイン後）のメインコンテンツ
 import AuthScreen from "./pages/AuthScreen.jsx"; // 未認証（ログイン前）の画面
 import LoginScreen from "./pages/LoginScreen.jsx"; // ログイン画面
-import RegisterScreen from "./pages/RegisterScreen.jsx"; // 新規登録画面（後で追加）
+// import RegisterScreen from "./pages/RegisterScreen.jsx"; // 新規登録画面（後で追加）
 
 function App() {
   // === 状態管理 (State Hooks) ===
@@ -22,14 +22,11 @@ function App() {
   // アプリ起動時に一度だけ実行される初期化処理
   useEffect(() => {
     // 1. 認証トークンの確認
-    // ブラウザに前回のログイン情報（authToken）が残っているかチェックする
-    const userToken = localStorage.getItem('authToken'); 
-    
-    if (userToken) {
-        // トークンがあれば認証済みとみなし、状態を更新する
-        setIsAuthenticated(true); 
-        // ※ 実際はここでサーバーにトークンの有効性を確認する
-    }
+    // ※ 開発中は毎回AuthScreenから開始するため、トークンチェックをスキップ
+    // const userToken = localStorage.getItem('authToken'); 
+    // if (userToken) {
+    //     setIsAuthenticated(true); 
+    // }
     
     // 2. ローディング完了タイマー
     // スプラッシュ/タイトル画面を3秒間表示するための時間差処理
@@ -117,15 +114,21 @@ function App() {
 
   // 2-2. 新規登録画面（後で実装）
   if (currentScreen === 'register') {
-    RegisterScreenコンポーネントが作成されたらコメントを外す
-    return (
-      <RegisterScreen 
-        onRegisterSuccess={handleLoginSuccess}
-        onBackToAuth={handleBackToAuth}
-      />
-    );
+    // RegisterScreenコンポーネントが作成されたらコメントを外す
+    // return (
+    //   <RegisterScreen 
+    //     onRegisterSuccess={handleLoginSuccess}
+    //     onBackToAuth={handleBackToAuth}
+    //   />
+    // );
     
-  
+    // 一時的な表示（RegisterScreen実装前）
+    return (
+      <div style={{ padding: '40px', textAlign: 'center' }}>
+        <h2>新規登録画面（準備中）</h2>
+        <button onClick={handleBackToAuth}>戻る</button>
+      </div>
+    );
   }
 
   // 2-3. 初期画面（ログイン/新規登録選択）
