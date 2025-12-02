@@ -1,0 +1,430 @@
+/* ========================================
+   ホーム画面全体のスタイル（PC版）
+   ======================================== */
+
+/* リセットスタイル */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 画面全体のコンテナ */
+.home-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+
+/* ========================================
+   通知ボタン
+   ======================================== */
+
+/* 通知ボタン */
+.notification-button {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  padding: 0;
+  transition: transform 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notification-button:hover {
+  transform: scale(1.1);
+}
+
+/* 通知画像 */
+.notification-image {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+}
+
+/* 通知ドット（新着通知があるとき） */
+.notification-dot {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 15px;
+  height: 15px;
+  background-color: #f44336;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+/* 通知ドットの点滅アニメーション */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+
+/* ========================================
+   感情選択エリア
+   ======================================== */
+
+/* 感情選択エリア全体 */
+.emotion-container {
+  width: 100%;
+  max-width: 700px;
+  padding: 40px 60px;
+  border: 2px solid #a52a44;
+  border-radius: 16px;
+  background-color: #ffffff;
+  margin-bottom: 40px;
+}
+
+/* タイトル */
+.emotion-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #a52a44;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* スライダーコンテナ */
+.slider-container {
+  margin-bottom: 40px;
+}
+
+/* 感情の表示エリア */
+.emotions-display {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin-bottom: 30px;
+  height: 100px;
+}
+
+/* 各感情アイテム */
+.emotion-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  opacity: 0.5;
+}
+
+.emotion-item.selected {
+  opacity: 1;
+  transform: scale(1.2);
+}
+
+/* 感情の画像 */
+.emotion-image {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  transition: all 0.3s ease;
+}
+
+.emotion-item.selected .emotion-image {
+  width: 72px;
+  height: 72px;
+}
+
+/* 感情の絵文字 */
+.emotion-emoji {
+  font-size: 60px;
+  transition: all 0.3s ease;
+}
+
+.emotion-item.selected .emotion-emoji {
+  font-size: 72px;
+}
+
+/* スライダー */
+.slider-input {
+  width: 100%;
+  height: 8px;
+  -webkit-appearance: none;
+  appearance: none;
+  border-radius: 4px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* スライダーのつまみ（Webkit用） */
+.slider-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background-color: #a52a44;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+/* スライダーのつまみ（Firefox用） */
+.slider-input::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  background-color: #a52a44;
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+
+/* ========================================
+   コメント入力エリア
+   ======================================== */
+
+/* コメント入力セクション */
+.comment-section {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+/* コメント入力欄 */
+.comment-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 20px;
+  font-size: 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: 24px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.comment-input:focus {
+  border-color: #a52a44;
+}
+
+/* 送信アイコンボタン */
+.submit-icon {
+  width: 48px;
+  height: 48px;
+  background-color: #a52a44;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.submit-icon:hover:not(.sent) {
+  background-color: #8b2339;
+  transform: scale(1.1);
+}
+
+.submit-icon.sent {
+  background-color: #4caf50;
+}
+
+/* 送信アイコンのSVG */
+.submit-icon-image {
+  width: 16px;
+  height: 16px;
+  fill: white;
+}
+
+/* チェックマーク */
+.checkmark {
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+}
+
+
+/* ========================================
+   送信ボタン（枠の外）
+   ======================================== */
+
+/* 送信ボタン */
+.submit-button-outer {
+  width: 100%;
+  max-width: 700px;
+  height: 64px;
+  background-color: #a52a44;
+  color: #ffffff;
+  font-size: 20px;
+  font-weight: 600;
+  border: none;
+  border-radius: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.submit-button-outer:hover:not(.sent) {
+  background-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+.submit-button-outer.sent {
+  background-color: #4caf50;
+}
+
+
+/* ========================================
+   最近の家族の様子
+   ======================================== */
+
+/* 家族の履歴エリア */
+.family-history {
+  width: 100%;
+  max-width: 700px;
+  padding: 30px;
+  border: 2px solid #a52a44;
+  border-radius: 16px;
+  background-color: #ffffff;
+  margin-bottom: 60px;
+}
+
+/* 履歴タイトル */
+.history-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #a52a44;
+  margin-bottom: 20px;
+}
+
+/* 履歴リスト */
+.history-list {
+  list-style: none;
+}
+
+/* 履歴アイテム */
+.history-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #424242;
+  line-height: 1.6;
+}
+
+/* 履歴の色付きドット */
+.history-dot {
+  width: 12px;
+  height: 12px;
+  min-width: 12px;
+  border-radius: 50%;
+  margin-top: 6px;
+}
+
+/* 履歴のテキスト */
+.history-text {
+  flex: 1;
+}
+
+/* 履歴の時間 */
+.history-time {
+  color: #9e9e9e;
+  font-size: 13px;
+}
+
+
+/* ========================================
+   会いたいボタン
+   ======================================== */
+
+/* 会いたいボタンの外側 */
+.meet-button {
+  position: relative;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* 画像をボタンの100%にフィットさせる */
+.meet-button img {
+  display: block;
+  width: 500px;   /* 好きなサイズに調整してOK */
+  height: 500px;  /* 好きなサイズに調整してOK */
+  object-fit: contain;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* テキストを真ん中に重ねる */
+.meet-button .meet-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  font-size: 36px;
+  font-weight: bold;
+  color: #ffffff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none; /* テキストはクリック判定に関係しない */
+}
+
+/* ホバー時の軽いアニメーション */
+.meet-button:hover {
+  transform: scale(1.05);
+}
+
+/* 輝きエフェクト（必要なら） */
+.meet-button::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  animation: shine 3s ease-in-out infinite;
+  z-index: -1;
+}
+
+/* 拍動アニメーション */
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  10%, 30% { transform: scale(1.05); }
+  20%, 40% { transform: scale(1); }
+}
+
+/* 輝きアニメーション */
+@keyframes shine {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.meet-button:focus {
+  outline: none;
+}
+
+.meet-button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
