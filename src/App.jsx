@@ -11,7 +11,8 @@ import HomePage from "./pages/HomePage.jsx"; // 認証済み（ログイン後�
 import AuthScreen from "./pages/AuthScreen.jsx"; // 未認証（ログイン前）の画面
 import LoginScreen from "./pages/LoginScreen.jsx"; // ログイン画面
 import RegisterScreen from "./pages/RegisterScreen.jsx"; // 新規登録画面
-import Meetup from "./pages/MeetupPage.jsx"; //スケジュール選択画面
+import MeetupPage from "./pages/MeetupPage.jsx"; // 会いたい画面
+import SchedulePage from "./pages/SchedulePage.jsx"; // 日程調整画面
 
 // === プライベートルート（認証必須のルート） ===
 /**
@@ -163,7 +164,7 @@ function AppContent() {
           <PublicRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
             <LoginScreen
               onLoginSuccess={handleLoginSuccess}
-              onBackToAuth={handleBackToAuth}
+              onGoToRegister={handleGoToRegister}
             />
           </PublicRoute>
         }
@@ -182,12 +183,22 @@ function AppContent() {
         }
       />
 
-      {/* 会いたい画面 */}
+      {/* 会いたい画面（認証必須） */}
       <Route
         path="/meetup"
         element={
           <PrivateRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
-            <Meetup />
+            <MeetupPage />
+          </PrivateRoute>
+        }
+      />
+
+      {/* 日程調整画面（認証必須） */}
+      <Route
+        path="/schedule"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
+            <SchedulePage />
           </PrivateRoute>
         }
       />
