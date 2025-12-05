@@ -268,11 +268,16 @@
   cursor: pointer;
   padding: 16px 0;
   margin-top: 16px;
+
 }
 
 /* 新規登録へのリンクのホバー */
 .login-register-link:hover {
   color: #8b2339;
+}
+
+.login-register-link:focus {
+  outline: none;
 }
 
 

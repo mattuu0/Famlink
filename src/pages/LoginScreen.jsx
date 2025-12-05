@@ -1,17 +1,21 @@
 import React, { useState } from 'react';
 import './LoginScreen.css';
 import LogoImage from '../assets/titleIcon.png';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * LoginScreen (ログイン画面) コンポーネント
  * 役割: ユーザーがメールアドレスとパスワードを入力してログインする画面
  */
-const LoginScreen = ({ onLoginSuccess, onBackToAuth }) => {
+const LoginScreen = ({ onLoginSuccess, onGoToRegister }) => {
   // メールアドレスの状態管理
   const [email, setEmail] = useState('');
   
   // パスワードの状態管理
   const [password, setPassword] = useState('');
+
+  // navigate 取得
+  const navigate = useNavigate();
 
   /**
    * ログインボタンがクリックされたときの処理
@@ -43,9 +47,11 @@ const LoginScreen = ({ onLoginSuccess, onBackToAuth }) => {
     console.log('新規登録画面へ遷移');
     // AuthScreenに戻ってから新規登録画面へ遷移
     // または直接新規登録画面へ遷移する処理を追加
-    if (onBackToAuth) {
-      onBackToAuth();
-    }
+    // if (onGoToRegister) {
+    //   onGotoRegister();
+    // }
+
+    navigate("/register");
   };
 
   return (
