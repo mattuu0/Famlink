@@ -439,6 +439,10 @@
   font-weight: 600;
 }
 
+.time-slot:focus {
+  outline: none;
+}
+
 /* ========================================
    送信ボタン
    ======================================== */
@@ -446,13 +450,13 @@
 .submit-button {
   width: 100%;
   max-width: 400px;
-  height: 56px;
+  height: 300px;
   background-color: #cccccc;
   color: #ffffff;
   font-size: 18px;
   font-weight: 600;
   border: none;
-  border-radius: 28px;
+  border-radius: 36px;
   cursor: not-allowed;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -467,6 +471,10 @@
   background-color: #8b2339;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+.submit-button:focus {
+  outline: none;
 }
 
 /* ========================================

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import "./SchedulePage.css";
 
 /**
@@ -8,6 +8,10 @@ import "./SchedulePage.css";
  */
 const SchedulePage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 前の画面から渡されたデータを取得
+  const { meetupType } = location.state || {};
 
   // 現在の日付を取得
   const today = new Date();
@@ -183,6 +187,7 @@ const SchedulePage = () => {
 
   /**
    * 選択された時間スロットを時間範囲にグループ化
+   * 連続する30分スロットを1つの時間範囲にまとめる
    * 例: [{date: "2025/12/1", ranges: [{start: "13:00", end: "16:30"}]}]
    */
   const getGroupedTimeRanges = () => {
@@ -223,9 +228,13 @@ const SchedulePage = () => {
           rangeEnd = curr;
         } else {
           // 連続していない：現在の範囲を確定して新しい範囲を開始
+          const endTime = rangeEnd.hour * 60 + rangeEnd.minute + 30;
+          const endHour = Math.floor(endTime / 60);
+          const endMinute = endTime % 60;
+          
           ranges.push({
             start: formatTime(rangeStart.hour, rangeStart.minute),
-            end: formatTime(rangeEnd.hour, rangeEnd.minute + 30), // 終了時刻は+30分
+            end: formatTime(endHour, endMinute),
           });
           rangeStart = curr;
           rangeEnd = curr;
@@ -233,15 +242,74 @@ const SchedulePage = () => {
       }
 
       // 最後の範囲を追加
+      const endTime = rangeEnd.hour * 60 + rangeEnd.minute + 30;
+      const endHour = Math.floor(endTime / 60);
+      const endMinute = endTime % 60;
+      
       ranges.push({
         start: formatTime(rangeStart.hour, rangeStart.minute),
-        end: formatTime(rangeEnd.hour, rangeEnd.minute + 30),
+        end: formatTime(endHour, endMinute),
       });
 
       result.push({ date: dateKey, ranges });
     });
 
     return result;
+  };
+
+  /**
+   * 直接指定の時間を取得
+   * 開始時間と終了時間（オプション）を含む時間範囲オブジェクトを返す
+   */
+  const getDirectTimeRange = () => {
+    // 開始時間が未選択の場合はnullを返す
+    if (selectedStartHour === "--" || selectedStartMinute === "--") {
+      return null;
+    }
+
+    const startTime = `${selectedStartHour.toString().padStart(2, "0")}:${selectedStartMinute.toString().padStart(2, "0")}`;
+    const endTime = selectedEndHour !== "--" && selectedEndMinute !== "--"
+      ? `${selectedEndHour.toString().padStart(2, "0")}:${selectedEndMinute.toString().padStart(2, "0")}`
+      : null;
+
+    return {
+      date: `${selectedYear}/${selectedMonth}/${selectedDay}`,
+      ranges: [{ start: startTime, end: endTime || "未指定" }]
+    };
+  };
+
+  /**
+   * 表示用の時間範囲を取得（カレンダー選択 + 直接指定）
+   * 両方の選択を統合して表示用の配列を返す
+   */
+  const getDisplayTimeRanges = () => {
+    const result = [];
+    
+    // カレンダー選択を追加
+    if (selectedTimeSlots.length > 0) {
+      result.push(...getGroupedTimeRanges());
+    }
+    
+    // 直接指定を追加
+    const directRange = getDirectTimeRange();
+    if (directRange) {
+      // 同じ日付があるかチェック
+      const existingDates = result.map(item => item.date);
+      if (!existingDates.includes(directRange.date)) {
+        result.push(directRange);
+      }
+    }
+    
+    return result;
+  };
+
+  /**
+   * 選択が完了しているか確認
+   */
+  const isSelectionComplete = () => {
+    // カレンダー選択があるか、または直接指定が完了しているか
+    return selectedTimeSlots.length > 0 || 
+           (selectedStartHour !== "--" && selectedStartMinute !== "--");
   };
 
   /**
@@ -277,13 +345,6 @@ const SchedulePage = () => {
   };
 
   /**
-   * 選択が完了しているか確認
-   */
-  const isSelectionComplete = () => {
-    return selectedTimeSlots.length > 0;
-  };
-
-  /**
    * 戻るボタンがクリックされたときの処理
    */
   const handleBack = () => {
@@ -292,22 +353,30 @@ const SchedulePage = () => {
 
   /**
    * 送信ボタンがクリックされたときの処理
+   * カレンダー選択と直接指定の両方のデータを確認画面に送信
    */
   const handleSubmit = () => {
     if (isSelectionComplete()) {
-      const groupedRanges = getGroupedTimeRanges();
-      console.log("選択された日時:", groupedRanges);
+      const timeRangesToSend = getDisplayTimeRanges();
       
-      // 次の画面に遷移（確認画面などに遷移する想定）
-      navigate("/confirmation", { state: { timeRanges: groupedRanges } });
+      console.log("選択された日時:", timeRangesToSend);
+      
+      // 確認画面に遷移（選択内容を渡す）
+      navigate("/confirmation", { 
+        state: { 
+          timeRanges: timeRangesToSend,
+          meetupType: meetupType 
+        } 
+      });
     }
   };
 
   return (
     <div className="schedule-container">
       {/* 戻るボタン */}
+      {/* 戻るボタン */}
       <button className="back-button" onClick={handleBack}>
-        ←
+        <span style={{ fontSize: '48px' }}>←</span>
       </button>
 
       {/* インフォメーション */}
@@ -319,10 +388,10 @@ const SchedulePage = () => {
       </div>
 
       {/* 選択された時間範囲の表示 */}
-      {selectedTimeSlots.length > 0 && (
+      {getDisplayTimeRanges().length > 0 && (
         <div className="selected-ranges-display">
           <h4>選択中の日時：</h4>
-          {getGroupedTimeRanges().map((item, index) => (
+          {getDisplayTimeRanges().map((item, index) => (
             <div key={index} className="range-item">
               <strong>{item.date}</strong>
               {item.ranges.map((range, idx) => (
@@ -420,6 +489,7 @@ const SchedulePage = () => {
           <div className="selection-box">
             <h3 className="selection-title">⏰ 時間を直接選択</h3>
             <div className="time-selectors">
+              {/* 開始時間の時 */}
               <div className="selector-group">
                 <select
                   className="time-select"
@@ -436,6 +506,7 @@ const SchedulePage = () => {
                 <span className="selector-label">時</span>
               </div>
 
+              {/* 開始時間の分 */}
               <div className="selector-group">
                 <select
                   className="time-select"
@@ -454,6 +525,7 @@ const SchedulePage = () => {
 
               <span className="time-separator">〜</span>
 
+              {/* 終了時間の時 */}
               <div className="selector-group">
                 <select
                   className="time-select"
@@ -470,6 +542,7 @@ const SchedulePage = () => {
                 <span className="selector-label">時</span>
               </div>
 
+              {/* 終了時間の分 */}
               <div className="selector-group">
                 <select
                   className="time-select"
