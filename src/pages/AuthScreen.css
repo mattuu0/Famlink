@@ -2,42 +2,36 @@
    認証画面全体のスタイル
    ======================================== */
 
-/* 画面全体のコンテナ
-   - 画面全体を覆うサイズ
-   - 縦方向に要素を配置（ロゴ→ボタン）
-   - 中央配置
-   - スクロール防止 */
+/* 画面全体のコンテナ */
 .auth-container {
-  width: 100vw; /* ビューポートの幅いっぱい */
-  height: 100vh; /* ビューポートの高さいっぱい */
-  background-color: #ffffff; /* 白背景 */
-  display: flex; /* flexboxで配置 */
-  flex-direction: column; /* 縦方向に配置 */
-  justify-content: center; /* 縦方向の中央配置 */
-  align-items: center; /* 横方向の中央配置 */
-  padding: 0; /* 余白をなくしてスクロール防止 */
-  margin: 0; /* マージンもなくす */
-  overflow: hidden; /* スクロールバーを非表示 */
-  position: fixed; /* 固定配置でスクロール完全防止 */
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
   top: 0;
   left: 0;
 }
 
 
 /* ========================================
-   PC版の装飾用の丸（静止）
-   - 768px以上の画面で表示（タブレット・PC）
+   装飾用の丸（タブレット・PC版のみ）
    ======================================== */
 
-/* 装飾用の丸を配置するエリア
-   - タブレット・PC版で表示される静止した丸 */
+/* 装飾用の丸を配置するエリア */
 .auth-decoration {
-  display: none; /* デフォルトでは非表示（スマホのみ） */
-  position: absolute; /* 絶対配置 */
-  pointer-events: none; /* クリックイベントを無視 */
+  display: none;
+  position: absolute;
+  pointer-events: none;
 }
 
-/* 左上の装飾丸エリア - タブレット・PC版 */
+/* 左上の装飾丸エリア */
 .auth-decoration-top-left {
   top: -150px;
   left: -150px;
@@ -45,7 +39,7 @@
   height: 500px;
 }
 
-/* 右下の装飾丸エリア - タブレット・PC版 */
+/* 右下の装飾丸エリア */
 .auth-decoration-bottom-right {
   bottom: -150px;
   right: -150px;
@@ -56,47 +50,47 @@
 /* 静止した丸の基本スタイル */
 .auth-blob {
   position: absolute;
-  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%; /* 不規則な丸の形 */
+  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
 }
 
 /* 左上の丸1：濃い赤色 */
 .auth-blob-1 {
   width: 380px;
   height: 380px;
-  background-color: #a52a44; /* 濃い赤色 */
+  background-color: #a52a44;
   top: 0;
   left: 0;
-  opacity: 0.5; /* かなり薄く表示 */
+  opacity: 0.5;
 }
 
 /* 左上の丸2：薄いピンク色 */
 .auth-blob-2 {
   width: 280px;
   height: 280px;
-  background-color: #e8a5b5; /* 薄いピンク色 */
+  background-color: #e8a5b5;
   top: 120px;
   left: 150px;
-  opacity: 0.4; /* 薄く表示 */
+  opacity: 0.4;
 }
 
 /* 右下の丸3：薄いピンク色 */
 .auth-blob-3 {
   width: 350px;
   height: 350px;
-  background-color: #f5c2d0; /* 一番薄いピンク色 */
+  background-color: #f5c2d0;
   bottom: 0;
   right: 100px;
-  opacity: 0.7; /* 少し濃いめに表示 */
+  opacity: 0.7;
 }
 
 /* 右下の丸4：少し濃い赤色 */
 .auth-blob-4 {
   width: 350px;
   height: 350px;
-  background-color: #a01e3a; /* 濃い赤色 */
+  background-color: #a01e3a;
   bottom: 200px;
   right: 70px;
-  opacity: 0.4; /* 少し濃いめに表示 */
+  opacity: 0.4;
 }
 
 
@@ -104,46 +98,40 @@
    ロゴエリアのスタイル
    ======================================== */
 
-/* ロゴエリア全体
-   - ロゴ画像とテキストを縦に配置
-   - スマホ用デフォルト設定 */
+/* ロゴエリア全体 */
 .logo-section {
-  display: flex; /* flexboxで配置 */
-  flex-direction: column; /* 縦方向に配置 */
-  align-items: center; /* 横方向の中央配置 */
-  margin-bottom: 60px; /* ボタンエリアとの間隔 - スマホ用 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
 }
 
-/* ロゴ画像を配置する場所 - スマホ用デフォルトサイズ
-   - 画像を差し込むためのプレースホルダー */
+/* ロゴ画像を配置する場所 */
 .logo-placeholder {
-  width: 100px; /* プレースホルダーの幅 */
-  height: 100px; /* プレースホルダーの高さ */
-  display: flex; /* flexboxで中央配置 */
-  justify-content: center; /* 横方向の中央配置 */
-  align-items: center; /* 縦方向の中央配置 */
-  margin-bottom: 18px; /* テキストロゴとの間隔 */
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
 }
 
-/* ロゴ画像のスタイル（画像を追加したときに適用）
-   - 画像がプレースホルダーからはみ出さないように調整 */
+/* ロゴ画像のスタイル */
 .logo-placeholder img {
-  max-width: 100%; /* 最大幅を100%に制限 */
-  max-height: 100%; /* 最大高さを100%に制限 */
-  object-fit: contain; /* アスペクト比を保ちながら収める */
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
-/* FamLinkのテキストロゴ - スマホ用デフォルト
-   - ロゴ画像内にテキストがある場合は非表示にする
-   - 必要に応じてこの要素を削除してください */
+/* FamLinkのテキストロゴ */
 .app-title {
-  display: none; /* ロゴ画像にテキストが含まれる場合は非表示 */
-  font-size: 26px; /* フォントサイズ - スマホ用 */
-  font-weight: bold; /* 太字 */
-  color: #a52a44; /* 濃い赤色 */
-  margin: 0; /* デフォルトのマージンを削除 */
-  font-family: 'Serif', Georgia, 'Times New Roman', serif; /* セリフ体 */
-  letter-spacing: 1px; /* 文字間隔 */
+  display: none;
+  font-size: 26px;
+  font-weight: bold;
+  color: #a52a44;
+  margin: 0;
+  font-family: 'Serif', Georgia, 'Times New Roman', serif;
+  letter-spacing: 1px;
 }
 
 
@@ -151,201 +139,246 @@
    ボタンエリアのスタイル
    ======================================== */
 
-/* ボタンエリア全体 - スマホ用デフォルト
-   - ログインと新規登録のボタンを縦に配置 */
+/* ボタンエリア全体 */
 .button-section {
-  width: 100%; /* 親要素の幅いっぱい */
-  max-width: 280px; /* スマホでも最大幅を設定 */
-  padding: 0; /* 余白なし（中央配置のため） */
-  display: flex; /* flexboxで配置 */
-  flex-direction: column; /* 縦方向に配置 */
-  gap: 14px; /* ボタン間の間隔 */
+  width: 100%;
+  max-width: 280px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-/* ボタンの共通スタイル - スマホ用デフォルト
-   - ログインと新規登録の両方に適用される基本スタイル */
+/* ボタンの共通スタイル */
 .auth-button {
-  width: 100%; /* 親要素の幅いっぱい */
-  height: 48px; /* ボタンの高さ */
-  font-size: 15px; /* フォントサイズ */
-  font-weight: 600; /* 半太字 */
-  border-radius: 4px; /* 角の丸み */
-  border: none; /* デフォルトのボーダーを削除（個別に設定） */
-  cursor: pointer; /* マウスオーバー時にポインターに変更 */
-  transition: all 0.3s ease; /* すべてのプロパティを0.3秒かけて滑らかに変化 */
-  font-family: inherit; /* 親要素のフォントを継承 */
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
 }
 
 
 /* ========================================
-   ログインボタンのスタイル
-   - 枠線のみのデザイン
+   ログインボタンのスタイル（枠線のみ）
    ======================================== */
 
-/* ログインボタン：枠線のみのデザイン
-   - 背景透明、赤い枠線、赤いテキスト */
+/* ログインボタン */
 .login-button {
-  background-color: transparent; /* 背景を透明に */
-  border: 2px solid #a52a44; /* 濃い赤色の枠線（2px） */
-  color: #a52a44; /* 濃い赤色のテキスト */
-  outline: none; /* フォーカス時のアウトラインを削除 */
+  background-color: transparent;
+  border: 2px solid #a52a44;
+  color: #a52a44;
+  outline: none;
 }
 
-/* ログインボタンのホバー時（マウスを乗せたとき）
-   - 薄いピンクの背景
-   - 少し浮き上がる
-   - 影をつける
-   - 枠線の色は変えない */
+/* ログインボタンのホバー時 */
 .login-button:hover {
-  background-color: #f5e6e8; /* 薄いピンクの背景 */
-  border-color: #a52a44; /* 枠線の色を維持（赤のまま） */
-  transform: translateY(-2px); /* 2px上に移動（浮き上がる） */
-  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2); /* 影を追加 */
+  background-color: #f5e6e8;
+  border-color: #a52a44;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
 }
 
-/* ログインボタンのアクティブ時（クリック時）
-   - 浮き上がりを元に戻す
-   - 影を小さくする
-   - 枠線の色は変えない */
+/* ログインボタンのアクティブ時 */
 .login-button:active {
-  border-color: #a52a44; /* 枠線の色を維持（赤のまま） */
-  transform: translateY(0); /* 元の位置に戻す */
-  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2); /* 影を小さく */
+  border-color: #a52a44;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2);
 }
 
-/* ログインボタンのフォーカス時（キーボード操作時）
-   - 枠線の色を変えない */
+/* ログインボタンのフォーカス時 */
 .login-button:focus {
-  border-color: #a52a44; /* 枠線の色を維持（赤のまま） */
-  outline: none; /* デフォルトのアウトラインを削除 */
+  border-color: #a52a44;
+  outline: none;
 }
 
 
 /* ========================================
-   新規登録ボタンのスタイル
-   - 塗りつぶしのデザイン
+   新規登録ボタンのスタイル（塗りつぶし）
    ======================================== */
 
-/* 新規登録ボタン：塗りつぶしのデザイン
-   - 赤い背景、白いテキスト
-   - ログインボタンと同じ大きさを保つため、背景と同じ色の枠線 */
+/* 新規登録ボタン */
 .register-button {
-  background-color: #a52a44; /* 濃い赤色の背景 */
-  color: #ffffff; /* 白色のテキスト */
-  border: 2px solid #a52a44; /* 背景と同じ色の枠線（大きさを揃えるため） */
-  outline: none; /* フォーカス時のアウトラインを削除 */
+  background-color: #a52a44;
+  color: #ffffff;
+  border: 2px solid #a52a44;
+  outline: none;
 }
 
-/* 新規登録ボタンのホバー時（マウスを乗せたとき）
-   - より濃い赤色の背景
-   - 少し浮き上がる
-   - 影をつける
-   - 枠線も同じ色に */
+/* 新規登録ボタンのホバー時 */
 .register-button:hover {
-  background-color: #8b2339; /* より濃い赤色 */
-  border-color: #8b2339; /* 枠線も背景と同じ色に */
-  transform: translateY(-2px); /* 2px上に移動（浮き上がる） */
-  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3); /* 影を追加 */
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
 }
 
-/* 新規登録ボタンのアクティブ時（クリック時）
-   - 浮き上がりを元に戻す
-   - 影を小さくする
-   - 枠線の色を維持 */
+/* 新規登録ボタンのアクティブ時 */
 .register-button:active {
-  background-color: #8b2339; /* より濃い赤色を維持 */
-  border-color: #8b2339; /* 枠線の色を維持 */
-  transform: translateY(0); /* 元の位置に戻す */
-  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3); /* 影を小さく */
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
 }
 
-/* 新規登録ボタンのフォーカス時（キーボード操作時・クリック後）
-   - 枠線の色を維持 */
+/* 新規登録ボタンのフォーカス時 */
 .register-button:focus {
-  background-color: #a52a44; /* 背景色を元に戻す */
-  border-color: #a52a44; /* 枠線の色を維持（赤のまま） */
-  outline: none; /* デフォルトのアウトラインを削除 */
+  background-color: #a52a44;
+  border-color: #a52a44;
+  outline: none;
+}
+
+
+/* ========================================
+   LINEログインボタンのスタイル
+   ======================================== */
+
+/* LINEログインボタン：LINEの公式カラー */
+.line-login-button {
+  background-color: #00C300;
+  color: #ffffff;
+  border: 2px solid #00C300;
+  outline: none;
+}
+
+/* LINEアイコン画像のラッパー */
+.line-icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* LINEアイコン画像 */
+.line-icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* LINEログインボタンのホバー時 */
+.line-login-button:hover {
+  background-color: #00C300;
+  border-color: #00C300;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+}
+
+/* LINEログインボタンのアクティブ時 */
+.line-login-button:active {
+  background-color: #00C300;
+  border-color: #00C300;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(6, 199, 85, 0.3);
+}
+
+/* LINEログインボタンのフォーカス時 */
+.line-login-button:focus {
+  background-color: #00C300;
+  border-color: #00C300;
+  outline: none;
 }
 
 
 /* ========================================
    レスポンシブ対応：タブレット（768px以上）
-   - タブレットサイズ以上の画面用調整
-   - 装飾用の丸を表示
    ======================================== */
 @media (min-width: 768px) {
-  /* 装飾用の丸を表示 - タブレット・PC版 */
+  /* 装飾用の丸を表示 */
   .auth-decoration {
-    display: block; /* タブレット以上で丸を表示 */
+    display: block;
   }
 
-  /* ロゴエリア - タブレット用間隔 */
+  /* ロゴエリア */
   .logo-section {
-    margin-bottom: 80px; /* ボタンとの間隔を広く */
+    margin-bottom: 80px;
   }
 
-  /* ロゴ画像プレースホルダー - タブレット用サイズ */
+  /* ロゴ画像プレースホルダー */
   .logo-placeholder {
-    width: 130px; /* 幅を大きく */
-    height: 130px; /* 高さを大きく */
-    margin-bottom: 22px; /* テキストとの間隔を調整 */
+    width: 130px;
+    height: 130px;
+    margin-bottom: 22px;
   }
 
-  /* テキストロゴ - タブレット用サイズ（非表示の場合は影響なし） */
+  /* テキストロゴ */
   .app-title {
-    font-size: 34px; /* フォントサイズを大きく */
-    letter-spacing: 1.3px; /* 文字間隔を調整 */
+    font-size: 34px;
+    letter-spacing: 1.3px;
   }
 
-  /* ボタンエリア - タブレット用サイズ */
+  /* ボタンエリア */
   .button-section {
-    max-width: 320px; /* 最大幅を設定 */
-    padding: 0; /* 余白を削除 */
-    gap: 16px; /* ボタン間隔を広く */
+    max-width: 320px;
+    padding: 0;
+    gap: 16px;
   }
 
-  /* ボタン - タブレット用サイズ */
+  /* ボタン */
   .auth-button {
-    height: 52px; /* 高さを高く */
-    font-size: 16px; /* フォントサイズを大きく */
-    border-radius: 5px; /* 角の丸みを大きく */
+    height: 52px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
+  /* LINEアイコン */
+  .line-icon-wrapper {
+    width: 40px;
+    height: 40px;
   }
 }
 
 
 /* ========================================
    レスポンシブ対応：PC（1280px以上）
-   - PC・大画面用に要素を拡大
    ======================================== */
 @media (min-width: 1280px) {
-  /* ロゴエリア - PC用間隔 */
+  /* ロゴエリア */
   .logo-section {
-    margin-bottom: 100px; /* ボタンとの間隔をさらに広く */
+    margin-bottom: 100px;
   }
 
-  /* ロゴ画像プレースホルダー - PC用サイズ */
+  /* ロゴ画像プレースホルダー */
   .logo-placeholder {
-    width: 150px; /* 幅をさらに大きく */
-    height: 150px; /* 高さをさらに大きく */
-    margin-bottom: 24px; /* テキストとの間隔を調整 */
+    width: 150px;
+    height: 150px;
+    margin-bottom: 24px;
   }
 
-  /* テキストロゴ - PC用サイズ（非表示の場合は影響なし） */
+  /* テキストロゴ */
   .app-title {
-    font-size: 38px; /* フォントサイズをさらに大きく */
-    letter-spacing: 1.5px; /* 文字間隔を調整 */
+    font-size: 38px;
+    letter-spacing: 1.5px;
   }
 
-  /* ボタンエリア - PC用サイズ */
+  /* ボタンエリア */
   .button-section {
-    max-width: 420px; /* 最大幅をさらに広く */
-    gap: 20px; /* ボタン間隔をさらに広く */
+    max-width: 420px;
+    gap: 20px;
   }
 
-  /* ボタン - PC用サイズ */
+  /* ボタン */
   .auth-button {
-    height: 64px; /* 高さをさらに高く */
-    font-size: 18px; /* フォントサイズをさらに大きく */
-    border-radius: 8px; /* 角の丸みを大きく */
+    height: 64px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+
+  /* LINEアイコン */
+  .line-icon-wrapper {
+    width: 40px;
+    height: 40px;
   }
 }

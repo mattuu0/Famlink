@@ -1,6 +1,7 @@
 import React from 'react';
 import './AuthScreen.css';
 import LogoImage from '../assets/titleIcon.png';
+import LineIcon from '../assets/line-icon.png'; // LINEアイコン画像
 
 /**
  * AuthScreen (認証画面) コンポーネント
@@ -30,6 +31,35 @@ const AuthScreen = ({ onGoToLogin, onGoToRegister }) => {
     }
   };
 
+  /**
+   * LINEログインボタンがクリックされたときの処理
+   * LINE OAuth 2.0を使用したログイン処理
+   */
+  const handleLineLogin = () => {
+    console.log('LINEログインボタンがクリックされました');
+    
+    // LINE Login設定（実際の値に置き換えてください）
+    const LINE_CLIENT_ID = '2008651452'; // LINE Developersで取得したChannel ID
+    const REDIRECT_URI = encodeURIComponent(window.location.origin + '/line-callback'); // コールバックURL
+    const STATE = Math.random().toString(36).substring(7); // CSRF対策用のランダムな文字列
+    const NONCE = Math.random().toString(36).substring(7); // リプレイ攻撃対策用
+    
+    // stateをセッションストレージに保存（検証用）
+    sessionStorage.setItem('line_login_state', STATE);
+    
+    // LINE Login URL（Web Login）
+    const lineLoginUrl = `https://access.line.me/oauth2/v2.1/authorize?` +
+      `response_type=code&` +
+      `client_id=${LINE_CLIENT_ID}&` +
+      `redirect_uri=${REDIRECT_URI}&` +
+      `state=${STATE}&` +
+      `scope=profile%20openid%20email&` +
+      `nonce=${NONCE}`;
+    
+    // LINEログイン画面へリダイレクト
+    window.location.href = lineLoginUrl;
+  };
+
   return (
     // 画面全体のコンテナ
     <div className="auth-container">
@@ -50,14 +80,10 @@ const AuthScreen = ({ onGoToLogin, onGoToRegister }) => {
         {/* ロゴ画像のプレースホルダー */}
         <div className="logo-placeholder">
           {<img src={LogoImage} alt="FamLink Logo" />}
-          {/* 上のコメントを外して、srcにロゴ画像のパスを指定してください */}
         </div>
-        
-        {/* FamLinkのテキストロゴ（ロゴ画像にテキストが含まれる場合は削除可） */}
-        {/* <h1 className="app-title">FamLink</h1> */}
       </div>
 
-      {/* ボタンエリア：ログインと新規登録のボタンを配置 */}
+      {/* ボタンエリア：ログイン、新規登録、LINEログインのボタンを配置 */}
       <div className="button-section">
         {/* ログインボタン：枠線のみのデザイン */}
         <button 
@@ -73,6 +99,17 @@ const AuthScreen = ({ onGoToLogin, onGoToRegister }) => {
           onClick={handleRegister}
         >
           新規登録
+        </button>
+
+        {/* LINEログインボタン：LINEカラーの緑 */}
+        <button 
+          className="auth-button line-login-button"
+          onClick={handleLineLogin}
+        >
+          <span className="line-icon-wrapper">
+            <img src={LineIcon} alt="LINE" className="line-icon-image" />
+          </span>
+          LINEでログイン
         </button>
       </div>
     </div>
