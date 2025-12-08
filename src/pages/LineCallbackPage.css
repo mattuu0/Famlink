@@ -1,0 +1,145 @@
+/* ========================================
+   LINEコールバック画面全体のスタイル
+   ======================================== */
+
+/* 画面全体のコンテナ */
+.line-callback-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* コンテンツエリア */
+.line-callback-content {
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ========================================
+   ローディングスピナー
+   ======================================== */
+
+/* ローディングスピナー */
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #06C755;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* スピナーの回転アニメーション */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ========================================
+   テキストスタイル
+   ======================================== */
+
+/* タイトル */
+.callback-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #424242;
+  margin: 0;
+}
+
+/* エラー時のタイトル */
+.callback-title.error {
+  color: #f44336;
+}
+
+/* メッセージ */
+.callback-message {
+  font-size: 16px;
+  color: #757575;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* エラー時のメッセージ */
+.callback-message.error {
+  color: #424242;
+}
+
+/* ========================================
+   エラーアイコン
+   ======================================== */
+
+/* エラーアイコン */
+.error-icon {
+  font-size: 64px;
+}
+
+/* ========================================
+   ボタンスタイル
+   ======================================== */
+
+/* 戻るボタン */
+.back-button {
+  width: 100%;
+  max-width: 300px;
+  height: 52px;
+  background-color: #a52a44;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 26px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+/* ホバー時のスタイル */
+.back-button:hover {
+  background-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+/* フォーカス時の黒枠線を削除 */
+.back-button:focus {
+  outline: none;
+}
+
+/* ========================================
+   レスポンシブ対応
+   ======================================== */
+
+@media (max-width: 480px) {
+  .callback-title {
+    font-size: 20px;
+  }
+
+  .callback-message {
+    font-size: 14px;
+  }
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+  }
+
+  .error-icon {
+    font-size: 48px;
+  }
+
+  .back-button {
+    max-width: 100%;
+    height: 48px;
+    font-size: 15px;
+  }
+}
