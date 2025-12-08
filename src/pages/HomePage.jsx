@@ -24,11 +24,11 @@ const HomePage = () => {
     {id: "happy", name: "嬉しい", image: happyImage, color: "#ffc107"},
   ];
 
-  // 現在選択されている感情のインデックス（デフォルトは真ん中の happy）
+  // 現在選択されている感情のインデックス（デフォルトは真ん中の normal = 普通）
   const [selectedIndex, setSelectedIndex] = useState(2);
 
-  // コメント入力
-  const [comment, setComment] = useState("");
+  // コメント入力（デフォルトは「普通」）
+  const [comment, setComment] = useState("普通");
 
   // 送信完了状態
   const [isSent, setIsSent] = useState(false);
@@ -56,11 +56,16 @@ const HomePage = () => {
 
   /**
    * スライダーの値が変更されたときの処理
+   * 感情に応じてコメントを自動更新
    */
   const handleSliderChange = (e) => {
     const value = parseInt(e.target.value);
     setSelectedIndex(value);
     setIsSent(false);
+    
+    // 選択された感情に応じてコメントを自動設定
+    const selectedEmotion = emotions[value];
+    setComment(selectedEmotion.name);
   };
 
   /**
@@ -77,7 +82,7 @@ const HomePage = () => {
 
     setTimeout(() => {
       setIsSent(false);
-      setComment("");
+      setComment(emotions[selectedIndex].name);
     }, 3000);
   };
 
@@ -102,8 +107,7 @@ const HomePage = () => {
     <div className="home-container">
       {/* 通知ボタン */}
       <button className="notification-button" onClick={handleNotification}>
-        {/* 通知画像を使用する場合は下のコメントを外してください */}
-        {<img src={bellImage} alt="通知" className="notification-image" />}
+        <img src={bellImage} alt="通知" className="notification-image" />
         {hasNotification && <span className="notification-dot"></span>}
       </button>
 
@@ -123,14 +127,11 @@ const HomePage = () => {
                     index === selectedIndex ? "selected" : ""
                   }`}
                 >
-                  {/* 画像を使用する場合は下のコメントを外してください */}
-                  {
-                    <img
-                      src={emotion.image}
-                      alt={emotion.name}
-                      className="emotion-image"
-                    />
-                  }
+                  <img
+                    src={emotion.image}
+                    alt={emotion.name}
+                    className="emotion-image"
+                  />
                 </div>
               );
             })}
@@ -157,21 +158,11 @@ const HomePage = () => {
         <div className="comment-section">
           <input
             type="text"
-            placeholder="楽しい"
+            placeholder={emotions[selectedIndex].name}
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             className="comment-input"
           />
-          <button
-            className={`submit-icon ${isSent ? "sent" : ""}`}
-            onClick={handleSubmit}
-          >
-            {isSent ? (
-              <span className="checkmark">✓</span>
-            ) : (
-              <img src={sendImage} alt="送る" className="submit-icon-image" />
-            )}
-          </button>
         </div>
       </div>
 
@@ -186,7 +177,10 @@ const HomePage = () => {
             <span className="checkmark">✓</span>
           </>
         ) : (
-          "送信"
+          <>
+            送信
+            <img src={sendImage} alt="送る" className="send-button-icon" />
+          </>
         )}
       </button>
 

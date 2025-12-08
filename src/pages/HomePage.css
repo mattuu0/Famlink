@@ -43,8 +43,14 @@
   align-items: center;
 }
 
+/* ホバー時のスタイル */
 .notification-button:hover {
   transform: scale(1.1);
+}
+
+/* フォーカス時の黒枠線を削除 */
+.notification-button:focus {
+  outline: none;
 }
 
 /* 通知画像 */
@@ -146,16 +152,6 @@
   height: 72px;
 }
 
-/* 感情の絵文字 */
-.emotion-emoji {
-  font-size: 60px;
-  transition: all 0.3s ease;
-}
-
-.emotion-item.selected .emotion-emoji {
-  font-size: 72px;
-}
-
 /* スライダー */
 .slider-input {
   width: 100%;
@@ -165,6 +161,11 @@
   border-radius: 4px;
   outline: none;
   cursor: pointer;
+}
+
+/* フォーカス時の黒枠線を削除 */
+.slider-input:focus {
+  outline: none;
 }
 
 /* スライダーのつまみ（Webkit用） */
@@ -214,46 +215,10 @@
   transition: border-color 0.3s;
 }
 
+/* フォーカス時のスタイル */
 .comment-input:focus {
   border-color: #a52a44;
-}
-
-/* 送信アイコンボタン */
-.submit-icon {
-  width: 48px;
-  height: 48px;
-  background-color: #a52a44;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  flex-shrink: 0;
-}
-
-.submit-icon:hover:not(.sent) {
-  background-color: #8b2339;
-  transform: scale(1.1);
-}
-
-.submit-icon.sent {
-  background-color: #4caf50;
-}
-
-/* 送信アイコンのSVG */
-.submit-icon-image {
-  width: 16px;
-  height: 16px;
-  fill: white;
-}
-
-/* チェックマーク */
-.checkmark {
-  color: white;
-  font-size: 36px;
-  font-weight: bold;
+  outline: none;
 }
 
 
@@ -281,14 +246,40 @@
   gap: 12px;
 }
 
+/* ホバー時のスタイル（送信済みでない場合） */
 .submit-button-outer:hover:not(.sent) {
   background-color: #8b2339;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
 }
 
+/* 送信済み状態 */
 .submit-button-outer.sent {
   background-color: #4caf50;
+}
+
+/* フォーカス時の黒枠線を削除 */
+.submit-button-outer:focus {
+  outline: none;
+}
+
+/* 送信ボタンのアイコン画像 */
+.send-button-icon {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+/* チェックマーク（小さく修正） */
+.checkmark {
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 
@@ -369,8 +360,8 @@
 /* 画像をボタンの100%にフィットさせる */
 .meet-button img {
   display: block;
-  width: 500px;   /* 好きなサイズに調整してOK */
-  height: 500px;  /* 好きなサイズに調整してOK */
+  width: 500px;
+  height: 500px;
   object-fit: contain;
   animation: heartbeat 1.5s ease-in-out infinite;
 }
@@ -381,12 +372,11 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
   font-size: 36px;
   font-weight: bold;
   color: #ffffff;
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-  pointer-events: none; /* テキストはクリック判定に関係しない */
+  pointer-events: none;
 }
 
 /* ホバー時の軽いアニメーション */
@@ -394,7 +384,7 @@
   transform: scale(1.05);
 }
 
-/* 輝きエフェクト（必要なら） */
+/* 輝きエフェクト */
 .meet-button::before {
   content: '';
   position: absolute;
@@ -420,11 +410,11 @@
   100% { transform: rotate(360deg); }
 }
 
+/* フォーカス時の黒枠線を削除 */
 .meet-button:focus {
   outline: none;
 }
 
 .meet-button:focus-visible {
   outline: none;
-  box-shadow: none;
 }
