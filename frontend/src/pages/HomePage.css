@@ -161,6 +161,7 @@
   border-radius: 4px;
   outline: none;
   cursor: pointer;
+  position: relative;
 }
 
 /* フォーカス時の黒枠線を削除 */
@@ -168,27 +169,69 @@
   outline: none;
 }
 
+/* スライダーのトラック（Webkit用） */
+.slider-input::-webkit-slider-runnable-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+}
+
+/* スライダーのトラック（Firefox用） */
+.slider-input::-moz-range-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+}
+
 /* スライダーのつまみ（Webkit用） */
 .slider-input::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   background-color: #a52a44;
   border-radius: 50%;
-  cursor: pointer;
-  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+  cursor: grab;
+  box-shadow: 0 2px 10px rgba(165, 42, 68, 0.5);
+  border: 3px solid #ffffff;
+  margin-top: -10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* つまみをホバーしたとき */
+.slider-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 12px rgba(165, 42, 68, 0.6);
+}
+
+/* つまみをドラッグ中 */
+.slider-input:active::-webkit-slider-thumb {
+  cursor: grabbing;
+  transform: scale(1.1);
 }
 
 /* スライダーのつまみ（Firefox用） */
 .slider-input::-moz-range-thumb {
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   background-color: #a52a44;
   border-radius: 50%;
-  cursor: pointer;
-  border: none;
-  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+  cursor: grab;
+  border: 3px solid #ffffff;
+  box-shadow: 0 2px 10px rgba(165, 42, 68, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* つまみをホバーしたとき（Firefox） */
+.slider-input::-moz-range-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 3px 12px rgba(165, 42, 68, 0.6);
+}
+
+/* つまみをドラッグ中（Firefox） */
+.slider-input:active::-moz-range-thumb {
+  cursor: grabbing;
+  transform: scale(1.1);
 }
 
 
@@ -417,4 +460,154 @@
 
 .meet-button:focus-visible {
   outline: none;
+}
+
+
+/* ========================================
+   スマホ対応（レスポンシブデザイン）
+   ======================================== */
+
+@media (max-width: 768px) {
+  /* 全体のパディングを調整 */
+  .home-container {
+    padding: 20px 15px;
+  }
+
+  /* 通知ボタンをスマホサイズに調整 */
+  .notification-button {
+    width: 40px;
+    height: 40px;
+    top: 15px;
+    right: 15px;
+  }
+
+  /* 感情選択エリアのパディングを縮小 */
+  .emotion-container {
+    padding: 25px 20px;
+    margin-bottom: 25px;
+  }
+
+  /* タイトルのフォントサイズを調整 */
+  .emotion-title {
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  /* 感情表示エリアの高さを調整 */
+  .emotions-display {
+    height: 70px;
+    margin-bottom: 20px;
+  }
+
+  /* 感情画像のサイズを小さく */
+  .emotion-image {
+    width: 40px;
+    height: 40px;
+  }
+
+  .emotion-item.selected .emotion-image {
+    width: 50px;
+    height: 50px;
+  }
+
+  /* スライダーのつまみを調整 */
+  .slider-input::-webkit-slider-thumb {
+    width: 24px;
+    height: 24px;
+    margin-top: -8px;
+  }
+
+  .slider-input::-moz-range-thumb {
+    width: 24px;
+    height: 24px;
+  }
+
+  /* コメント入力欄を調整 */
+  .comment-input {
+    height: 44px;
+    font-size: 15px;
+    padding: 0 16px;
+  }
+
+  /* 送信ボタンのサイズ調整 */
+  .submit-button-outer {
+    height: 56px;
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
+
+  .send-button-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* 家族の履歴エリアを調整 */
+  .family-history {
+    padding: 20px;
+    margin-bottom: 40px;
+  }
+
+  .history-title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+
+  .history-item {
+    font-size: 14px;
+    padding: 8px 0;
+  }
+
+  .history-time {
+    font-size: 12px;
+  }
+
+  /* 会いたいボタンをスマホサイズに大幅縮小 */
+  .meet-button img {
+    width: 280px;
+    height: 280px;
+  }
+
+  .meet-button .meet-text {
+    font-size: 24px;
+  }
+}
+
+/* より小さい画面用（iPhone SE など） */
+@media (max-width: 400px) {
+  .home-container {
+    padding: 15px 10px;
+  }
+
+  .emotion-container {
+    padding: 20px 15px;
+  }
+
+  .emotion-title {
+    font-size: 16px;
+  }
+
+  .emotions-display {
+    height: 60px;
+  }
+
+  /* 感情画像をさらに小さく */
+  .emotion-image {
+    width: 35px;
+    height: 35px;
+  }
+
+  .emotion-item.selected .emotion-image {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* 会いたいボタンをさらに小さく */
+  .meet-button img {
+    width: 220px;
+    height: 220px;
+  }
+
+  .meet-button .meet-text {
+    font-size: 20px;
+  }
 }

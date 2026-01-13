@@ -36,6 +36,9 @@ const HomePage = () => {
   // 通知の有無
   const [hasNotification, setHasNotification] = useState(true);
 
+  // スライダーがドラッグ中かどうかの状態
+  const [isDragging, setIsDragging] = useState(false);
+
   // 最近の家族の様子（仮のデータ）
   const [familyHistory] = useState([
     {
@@ -62,8 +65,22 @@ const HomePage = () => {
     const value = parseInt(e.target.value);
     setSelectedIndex(value);
     setIsSent(false);
-    
-    // 選択された感情に応じてコメントを自動設定
+  };
+
+  /**
+   * スライダーのドラッグ開始（マウス・タッチ両対応）
+   */
+  const handleSliderStart = () => {
+    setIsDragging(true);
+  };
+
+  /**
+   * スライダーのドラッグ終了（マウス・タッチ両対応）
+   * ドラッグ終了時にコメントを更新
+   */
+  const handleSliderEnd = (e) => {
+    setIsDragging(false);
+    const value = parseInt(e.target.value);
     const selectedEmotion = emotions[value];
     setComment(selectedEmotion.name);
   };
@@ -116,9 +133,9 @@ const HomePage = () => {
         <h2 className="emotion-title">今どんな気持ち？</h2>
 
         <div className="slider-container">
-          {/* 感情の表示（3つのみ表示） */}
+          {/* 感情の表示（5つすべて表示） */}
           <div className="emotions-display">
-            {[1, 2, 4].map((index) => {
+            {[0, 1, 2, 3, 4].map((index) => {
               const emotion = emotions[index];
               return (
                 <div
@@ -137,7 +154,7 @@ const HomePage = () => {
             })}
           </div>
 
-          {/* スライダー */}
+          {/* スライダー - ドラッグ対応 */}
           <input
             type="range"
             min="0"
@@ -145,6 +162,10 @@ const HomePage = () => {
             step="1"
             value={selectedIndex}
             onChange={handleSliderChange}
+            onMouseDown={handleSliderStart}
+            onMouseUp={handleSliderEnd}
+            onTouchStart={handleSliderStart}
+            onTouchEnd={handleSliderEnd}
             className="slider-input"
             style={{
               background: `linear-gradient(to right, #a52a44 0%, #a52a44 ${
