@@ -395,9 +395,31 @@
   margin-bottom: 20px;
 }
 
-/* 履歴リスト */
+/* 履歴リスト（スクロール可能に修正） */
 .history-list {
   list-style: none;
+  max-height: 240px; /* 5件分が収まる程度の高さ */
+  overflow-y: auto;
+  padding-right: 10px; /* スクロールバーとの重なり防止 */
+}
+
+/* スクロールバーのカスタマイズ */
+.history-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.history-list::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb {
+  background: #ef9a9a; /* くすみパステルの赤 */
+  border-radius: 10px;
+}
+
+.history-list::-webkit-scrollbar-thumb:hover {
+  background: #a52a44; /* メインの赤 */
 }
 
 /* 履歴アイテム */
