@@ -22,67 +22,93 @@
 
 
 /* ========================================
-   通知ボタン
+   通知・設定エリア
    ======================================== */
 
-/* 通知ボタン */
-.notification-button {
+.top-right-controls {
   position: fixed;
   top: 20px;
   right: 20px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  z-index: 100;
+}
+
+/* 通知ボタン */
+.notification-button {
   width: 48px;
   height: 48px;
   background-color: transparent;
   border: none;
   cursor: pointer;
-  z-index: 100;
   padding: 0;
   transition: transform 0.3s ease;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 }
 
-/* ホバー時のスタイル */
-.notification-button:hover {
-  transform: scale(1.1);
-}
-
-/* フォーカス時の黒枠線を削除 */
-.notification-button:focus {
-  outline: none;
-}
-
-/* 通知画像 */
-.notification-image {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-}
-
-/* 通知ドット（新着通知があるとき） */
-.notification-dot {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 15px;
-  height: 15px;
-  background-color: #f44336;
+/* 設定ボタン */
+.settings-button {
+  width: 48px;
+  height: 48px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
   border-radius: 50%;
-  border: 2px solid #ffffff;
-  animation: pulse 2s ease-in-out infinite;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
 }
 
-/* 通知ドットの点滅アニメーション */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.6;
-    transform: scale(1.1);
-  }
+.settings-button:hover {
+  background-color: #e0e0e0;
+  transform: rotate(30deg);
+}
+
+.settings-menu-container {
+  position: relative;
+}
+
+.settings-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+  overflow: hidden;
+}
+
+.settings-dropdown button {
+  padding: 12px 20px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.settings-dropdown button:hover {
+  background-color: #f9f9f9;
+}
+
+.settings-dropdown .leave-button {
+  color: #f44336;
+  border-top: 1px solid #eee;
+}
+
+.settings-dropdown .leave-button:hover {
+  background-color: #fff1f0;
 }
 
 

@@ -14,7 +14,7 @@ import sendImage from "../assets/send.png";
  * HomePage (ホーム画面) PC版
  * 役割: ユーザーが今の感情を選択して家族に送信する画面
  */
-const HomePage = () => {
+const HomePage = ({ onLogout }) => {
   // 感情の定義（5つの感情）
   const emotions = [
     {id: "fun", name: "楽しい", image: funImage, color: "#9c27b0"},
@@ -35,6 +35,9 @@ const HomePage = () => {
 
   // 通知の有無
   const [hasNotification, setHasNotification] = useState(true);
+
+  // 設定メニューの表示状態
+  const [showMenu, setShowMenu] = useState(false);
 
   // スライダーがドラッグ中かどうかの状態
   const [isDragging, setIsDragging] = useState(false);
@@ -178,13 +181,58 @@ const HomePage = () => {
     setHasNotification(false);
   };
 
+  /**
+   * 家族から脱退する処理
+   */
+  const handleLeaveFamily = async () => {
+    if (!window.confirm("本当に家族グループから脱退しますか？")) {
+      return;
+    }
+
+    const email = localStorage.getItem('authToken');
+    try {
+      const response = await fetch("http://127.0.0.1:3001/api/families/leave", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        alert("家族グループから脱退しました。");
+        localStorage.removeItem("familyId");
+        navigate("/family-select");
+      } else {
+        alert("脱退に失敗しました。");
+      }
+    } catch (error) {
+      console.error("脱退エラー:", error);
+      alert("サーバーに接続できませんでした。");
+    }
+  };
+
   return (
     <div className="home-container">
-      {/* 通知ボタン */}
-      <button className="notification-button" onClick={handleNotification}>
-        <img src={bellImage} alt="通知" className="notification-image" />
-        {hasNotification && <span className="notification-dot"></span>}
-      </button>
+      {/* 右上ボタンエリア */}
+      <div className="top-right-controls">
+        {/* 通知ボタン */}
+        <button className="notification-button" onClick={handleNotification}>
+          <img src={bellImage} alt="通知" className="notification-image" />
+          {hasNotification && <span className="notification-dot"></span>}
+        </button>
+
+        {/* 設定ボタン */}
+        <div className="settings-menu-container">
+          <button className="settings-button" onClick={() => setShowMenu(!showMenu)}>
+            ⚙️
+          </button>
+          {showMenu && (
+            <div className="settings-dropdown">
+              <button onClick={onLogout}>ログアウト</button>
+              <button className="leave-button" onClick={handleLeaveFamily}>家族から脱退</button>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* 感情選択エリア */}
       <div className="emotion-container">
