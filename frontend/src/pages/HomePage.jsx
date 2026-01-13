@@ -54,8 +54,8 @@ const HomePage = ({ onLogout }) => {
       const response = await fetch(`http://127.0.0.1:3001/api/messages/${familyId}`);
       const data = await response.json();
       
-      // 感情パレットの色を取得
-      const emotionPalette = emotions.map(e => e.color);
+      // 感情パレットの色 + 元の赤色 (#a52a44) を追加
+      const emotionPalette = ["#a52a44", ...emotions.map(e => e.color)];
       const userColorMap = {};
 
       // バックエンドのデータ構造に合わせて整形
@@ -288,9 +288,9 @@ const HomePage = ({ onLogout }) => {
             onTouchEnd={handleSliderEnd}
             className="slider-input"
             style={{
-              background: `linear-gradient(to right, ${emotions[selectedIndex].color} 0%, ${emotions[selectedIndex].color} ${
+              background: `linear-gradient(to right, #a52a44 0%, #a52a44 ${
                 (selectedIndex / 4) * 100
-              }%, #f0f0f0 ${(selectedIndex / 4) * 100}%, #f0f0f0 100%)`,
+              }%, #e0e0e0 ${(selectedIndex / 4) * 100}%, #e0e0e0 100%)`,
             }}
           />
         </div>
