@@ -81,6 +81,10 @@ const initializeDatabase = async () => {
     const [tables] = await pool.query('SHOW TABLES');
     console.log('稼働中のテーブル:', tables.map(t => Object.values(t)[0]));
 
+    // 登録ユーザー数の確認（データ永続化の確認用）
+    const [userCount] = await pool.query('SELECT COUNT(*) as count FROM users');
+    console.log(`現在の登録ユーザー数: ${userCount[0].count}`);
+
     console.log('データベースの全ての初期化が完了しました。データは安全に保持されます。');
   } catch (err) {
     console.error('データベース初期化中に致命的なエラーが発生しました:', err.message);

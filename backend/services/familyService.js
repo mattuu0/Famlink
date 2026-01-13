@@ -1,5 +1,6 @@
 const Family = require('../models/familyModel');
 const User = require('../models/userModel');
+const db = require('../config/db');
 
 /**
  * 家族管理関連のビジネスロジックを担当するサービス
@@ -32,9 +33,22 @@ const familyService = {
 
     // 2. 招待コードとしてユーザーを検索
     console.log(`招待コードとして検索中...`);
-    const targetUser = await User.findByInviteCode(trimmedCode);
+    
+    // 入力されたコードを大文字に変換し、ハイフンを除去して検索しやすくする
+    const normalizedCode = trimmedCode.toUpperCase().replace(/-/g, '');
+    
+    // DB内の全てのユーザーを取得して、正規化したコードで比較（インデックスが効かないが、小規模なら確実）
+    // 本来はDB側で正規化カラムを持つべきだが、一旦ここで対応
+    const [allUsers] = await db.query('SELECT email, invite_code, family_id FROM users');
+    console.log('現在登録されている全招待コード:', allUsers.map(u => u.invite_code));
+
+    const targetUser = allUsers.find(u => {
+      if (!u.invite_code) return false;
+      return u.invite_code.toUpperCase().replace(/-/g, '') === normalizedCode;
+    });
+
     if (!targetUser) {
-      console.log('エラー: 該当する招待コードを持つユーザーが見つかりません');
+      console.log(`エラー: 招待コード "${trimmedCode}" (正規化: ${normalizedCode}) に一致するユーザーが見つかりません`);
       throw new Error('招待コードが正しくないか、家族グループが見つかりません');
     }
 
