@@ -56,26 +56,26 @@ const HomePage = ({ onLogout }) => {
       
       // 固定カラーパレット（元の赤色を先頭に、あとの5色はくすみパステル）
       const colorPalette = [
-        "#a52a44", // メインの赤色
-        "#B39DDB", // くすみパステル紫
-        "#90CAF9", // くすみパステル青
-        "#A5D6A7", // くすみパステル緑
-        "#EF9A9A", // くすみパステル赤
-        "#FFF59D"  // くすみパステル黄
+        "#a52a44", // 1番目：メインの赤色
+        "#B39DDB", // 2番目：くすみパステル紫
+        "#90CAF9", // 3番目：くすみパステル青
+        "#A5D6A7", // 4番目：くすみパステル緑
+        "#EF9A9A", // 5番目：くすみパステル赤
+        "#FFF59D"  // 6番目：くすみパステル黄
       ];
       
+      // 1. 全データからユニークなユーザー名を抽出
+      const uniqueNames = [...new Set(data.map(msg => msg.user_name || "不明"))].sort();
+      
+      // 2. 名前ごとにパレットから色を固定割り当て（名前順）
       const userColorMap = {};
+      uniqueNames.forEach((name, index) => {
+        userColorMap[name] = colorPalette[index % colorPalette.length];
+      });
 
-      // バックエンドのデータ構造に合わせて整形
+      // 3. バックエンドのデータ構造に合わせて整形
       const formattedData = data.map((msg) => {
         const name = msg.user_name || "不明";
-        
-        // ユーザー名ごとに色を固定（誰がログインしていても結果は同じ）
-        if (!userColorMap[name]) {
-          const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-          userColorMap[name] = colorPalette[hash % colorPalette.length];
-        }
-
         return {
           name: name,
           emotion: msg.emotion,
