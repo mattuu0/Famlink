@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./MeetupPage.css";
-// アイコン画像のインポート（実際のパスに合わせて変更してください）
 import mealIcon from "../assets/meal.png";
 import teaIcon from "../assets/tea.png";
 import houseIcon from "../assets/house.png";

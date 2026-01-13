@@ -1,0 +1,346 @@
+/* ========================================
+   家族招待画面全体のスタイル
+   ======================================== */
+
+/* 画面全体のコンテナ */
+.invite-family-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+/* ========================================
+   装飾用の丸（タブレット・PC版のみ）
+   ======================================== */
+
+.invite-family-decoration {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+}
+
+.invite-family-decoration-top-left {
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+.invite-family-decoration-bottom-right {
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+.invite-family-blob {
+  position: absolute;
+  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+}
+
+.invite-family-blob-1 {
+  width: 380px;
+  height: 380px;
+  background-color: #a52a44;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+.invite-family-blob-2 {
+  width: 280px;
+  height: 280px;
+  background-color: #e8a5b5;
+  top: 120px;
+  left: 150px;
+  opacity: 0.4;
+}
+
+.invite-family-blob-3 {
+  width: 350px;
+  height: 350px;
+  background-color: #f5c2d0;
+  bottom: 0;
+  right: 100px;
+  opacity: 0.7;
+}
+
+.invite-family-blob-4 {
+  width: 350px;
+  height: 350px;
+  background-color: #a01e3a;
+  bottom: 200px;
+  right: 70px;
+  opacity: 0.4;
+}
+
+
+/* ========================================
+   コンテンツエリア
+   ======================================== */
+
+.invite-family-content {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.invite-family-logo-section {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.invite-family-logo-placeholder {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.invite-family-logo-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+
+/* ========================================
+   説明エリア
+   ======================================== */
+
+.invite-family-description {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.invite-family-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #a52a44;
+  margin: 0 0 20px 0;
+}
+
+.invite-family-description-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #424242;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* ========================================
+   招待コードエリア
+   ======================================== */
+
+.invite-code-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.invite-code-display {
+  width: 100%;
+  padding: 20px;
+  background-color: #f5f5f5;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.invite-code-text {
+  font-size: 24px;
+  font-weight: 700;
+  color: #a52a44;
+  letter-spacing: 2px;
+  font-family: 'Courier New', monospace;
+}
+
+.copy-button {
+  width: 100%;
+  height: 48px;
+  background-color: transparent;
+  color: #a52a44;
+  font-size: 15px;
+  font-weight: 600;
+  border: 2px solid #a52a44;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.copy-button:hover {
+  background-color: #f5e6e8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
+}
+
+.copy-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2);
+}
+
+.copy-button.copied {
+  background-color: #4caf50;
+  color: #ffffff;
+  border-color: #4caf50;
+}
+
+.copy-button:focus {
+  outline: none;
+}
+
+
+/* ========================================
+   ボタンエリア
+   ======================================== */
+
+.invite-family-complete-button {
+  width: 100%;
+  height: 52px;
+  background-color: #a52a44;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid #a52a44;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.invite-family-complete-button:hover {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+.invite-family-complete-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+.invite-family-complete-button:focus {
+  outline: none;
+}
+
+.invite-family-back-link {
+  font-size: 14px;
+  color: #a52a44;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 16px 0;
+  margin-top: 16px;
+}
+
+.invite-family-back-link:hover {
+  color: #8b2339;
+  text-decoration: underline;
+}
+
+.invite-family-back-link:focus {
+  outline: none;
+}
+
+
+/* ========================================
+   レスポンシブ対応
+   ======================================== */
+
+@media (min-width: 768px) {
+  .invite-family-decoration {
+    display: block;
+  }
+
+  .invite-family-content {
+    max-width: 360px;
+  }
+
+  .invite-family-logo-section {
+    margin-bottom: 40px;
+  }
+
+  .invite-family-logo-placeholder {
+    width: 130px;
+    height: 130px;
+  }
+
+  .invite-family-title {
+    font-size: 24px;
+  }
+
+  .invite-family-description-text {
+    font-size: 16px;
+  }
+
+  .invite-code-text {
+    font-size: 26px;
+  }
+
+  .copy-button {
+    height: 52px;
+    font-size: 16px;
+  }
+
+  .invite-family-complete-button {
+    height: 56px;
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .invite-family-content {
+    max-width: 400px;
+  }
+
+  .invite-family-logo-placeholder {
+    width: 150px;
+    height: 150px;
+  }
+
+  .invite-family-title {
+    font-size: 26px;
+  }
+
+  .invite-family-description-text {
+    font-size: 18px;
+  }
+
+  .invite-code-text {
+    font-size: 28px;
+  }
+
+  .copy-button {
+    height: 56px;
+    font-size: 17px;
+  }
+
+  .invite-family-complete-button {
+    height: 60px;
+    font-size: 18px;
+  }
+}

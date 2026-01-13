@@ -45,7 +45,7 @@ const HomePage = () => {
   // バックエンドからデータを取ってくる関数
   const fetchFamilyHistory = async () => {
     try {
-      const response = await fetch("http://localhost:3001/api/messages");
+      const response = await fetch("http://localhost:3001/api/messages/my_family_001");
       const data = await response.json();
       // バックエンドのデータ構造に合わせて整形
       const formattedData = data.map((msg) => ({
@@ -109,6 +109,7 @@ const HomePage = () => {
       user_name: "自分（テスト）", // 本来はログインユーザー名
       emotion: selectedEmotion.name,
       comment: comment,
+      family_id: "my_family_001",
     };
 
     try {

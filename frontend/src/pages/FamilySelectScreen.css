@@ -1,9 +1,9 @@
 /* ========================================
-   新規登録画面全体のスタイル
+   家族選択画面全体のスタイル
    ======================================== */
 
 /* 画面全体のコンテナ */
-.register-container {
+.family-select-container {
   width: 100vw;
   height: 100vh;
   background-color: #ffffff;
@@ -25,14 +25,14 @@
    ======================================== */
 
 /* 装飾用の丸を配置するエリア */
-.register-decoration {
+.family-select-decoration {
   display: none;
   position: absolute;
   pointer-events: none;
 }
 
 /* 左上の装飾丸エリア */
-.register-decoration-top-left {
+.family-select-decoration-top-left {
   top: -150px;
   left: -150px;
   width: 500px;
@@ -40,7 +40,7 @@
 }
 
 /* 右下の装飾丸エリア */
-.register-decoration-bottom-right {
+.family-select-decoration-bottom-right {
   bottom: -150px;
   right: -150px;
   width: 500px;
@@ -48,13 +48,13 @@
 }
 
 /* 静止した丸の基本スタイル */
-.register-blob {
+.family-select-blob {
   position: absolute;
   border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
 }
 
 /* 左上の丸1：濃い赤色 */
-.register-blob-1 {
+.family-select-blob-1 {
   width: 380px;
   height: 380px;
   background-color: #a52a44;
@@ -64,7 +64,7 @@
 }
 
 /* 左上の丸2：薄いピンク色 */
-.register-blob-2 {
+.family-select-blob-2 {
   width: 280px;
   height: 280px;
   background-color: #e8a5b5;
@@ -74,7 +74,7 @@
 }
 
 /* 右下の丸3：薄いピンク色 */
-.register-blob-3 {
+.family-select-blob-3 {
   width: 350px;
   height: 350px;
   background-color: #f5c2d0;
@@ -84,7 +84,7 @@
 }
 
 /* 右下の丸4：少し濃い赤色 */
-.register-blob-4 {
+.family-select-blob-4 {
   width: 350px;
   height: 350px;
   background-color: #a01e3a;
@@ -98,8 +98,8 @@
    コンテンツエリア
    ======================================== */
 
-/* 新規登録フォーム全体のコンテンツ */
-.register-content {
+/* コンテンツ全体 */
+.family-select-content {
   width: 100%;
   max-width: 320px;
   padding: 20px;
@@ -110,23 +110,23 @@
 }
 
 /* ロゴエリア */
-.register-logo-section {
-  margin-bottom: 40px;
+.family-select-logo-section {
+  margin-bottom: 30px;
   display: flex;
   justify-content: center;
 }
 
 /* ロゴ画像のプレースホルダー */
-.register-logo-placeholder {
-  width: 120px;
-  height: 120px;
+.family-select-logo-placeholder {
+  width: 100px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
 /* ロゴ画像のスタイル */
-.register-logo-placeholder img {
+.family-select-logo-placeholder img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
@@ -134,130 +134,120 @@
 
 
 /* ========================================
-   フォームのスタイル
+   説明テキスト
    ======================================== */
 
-/* フォーム全体 */
-.register-form {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+/* 説明テキストエリア */
+.family-select-description {
+  margin-bottom: 40px;
+  text-align: center;
 }
 
-/* フォームグループ（各入力欄のまとまり） */
-.register-form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-/* ラベルと注意書きの行 */
-.register-label-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-}
-
-/* ラベル */
-.register-label {
-  font-size: 14px;
-  font-weight: 600;
-  color: #a52a44;
-}
-
-/* パスワードの注意書き */
-.register-password-hint {
-  font-size: 11px;
-  color: #d32f2f;
+/* 説明テキスト */
+.family-select-description-text {
+  font-size: 16px;
   font-weight: 500;
-}
-
-/* 入力欄 */
-.register-input {
-  width: 100%;
-  height: 48px;
-  padding: 0 16px;
-  font-size: 14px;
-  border: 2px solid #a52a44;
-  border-radius: 4px;
-  outline: none;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
-}
-
-/* 入力欄のフォーカス時 */
-.register-input:focus {
-  border-color: #8b2339;
-}
-
-/* プレースホルダーのスタイル */
-.register-input::placeholder {
-  color: #bdbdbd;
+  color: #424242;
+  line-height: 1.6;
+  margin: 0;
 }
 
 
 /* ========================================
-   ボタンのスタイル
+   ボタンエリア
    ======================================== */
 
-/* 新規登録ボタン */
-.register-submit-button {
+/* ボタンエリア全体 */
+.family-select-button-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ボタンの共通スタイル */
+.family-select-button {
   width: 100%;
   height: 52px;
-  background-color: #a52a44;
-  color: #ffffff;
   font-size: 16px;
   font-weight: 600;
-  border: 2px solid #a52a44;
   border-radius: 4px;
+  border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 8px;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* ========================================
+   家族に入るボタン（枠線のみ）
+   ======================================== */
+
+/* 家族に入るボタン */
+.join-button {
+  background-color: transparent;
+  border: 2px solid #a52a44;
+  color: #a52a44;
   outline: none;
 }
 
-/* 新規登録ボタンのホバー */
-.register-submit-button:hover {
+/* ホバー時 */
+.join-button:hover {
+  background-color: #f5e6e8;
+  border-color: #a52a44;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
+}
+
+/* アクティブ時 */
+.join-button:active {
+  border-color: #a52a44;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2);
+}
+
+/* フォーカス時 */
+.join-button:focus {
+  border-color: #a52a44;
+  outline: none;
+}
+
+
+/* ========================================
+   家族を招待するボタン（塗りつぶし）
+   ======================================== */
+
+/* 家族を招待するボタン */
+.invite-button {
+  background-color: #a52a44;
+  color: #ffffff;
+  border: 2px solid #a52a44;
+  outline: none;
+}
+
+/* ホバー時 */
+.invite-button:hover {
   background-color: #8b2339;
   border-color: #8b2339;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
 }
 
-/* 新規登録ボタンのアクティブ */
-.register-submit-button:active {
+/* アクティブ時 */
+.invite-button:active {
   background-color: #8b2339;
   border-color: #8b2339;
   transform: translateY(0);
   box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
 }
 
-/* 新規登録ボタンのフォーカス */
-.register-submit-button:focus {
+/* フォーカス時 */
+.invite-button:focus {
   background-color: #a52a44;
   border-color: #a52a44;
-  outline: none;
-}
-
-/* ログインへのリンク */
-.register-login-link {
-  font-size: 14px;
-  color: #a52a44;
-  text-decoration: underline;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 16px 0;
-  margin-top: 16px;
-}
-
-/* ログインへのリンクのホバー */
-.register-login-link:hover {
-  color: #8b2339;
-}
-
-.register-login-link:focus {
   outline: none;
 }
 
@@ -267,34 +257,37 @@
    ======================================== */
 @media (min-width: 768px) {
   /* 装飾用の丸を表示 */
-  .register-decoration {
+  .family-select-decoration {
     display: block;
   }
 
   /* コンテンツエリア */
-  .register-content {
+  .family-select-content {
     max-width: 360px;
   }
 
   /* ロゴエリア */
-  .register-logo-section {
+  .family-select-logo-section {
+    margin-bottom: 40px;
+  }
+
+  /* ロゴ画像 */
+  .family-select-logo-placeholder {
+    width: 130px;
+    height: 130px;
+  }
+
+  /* 説明テキスト */
+  .family-select-description {
     margin-bottom: 50px;
   }
 
-  /* ロゴ画像のプレースホルダー */
-  .register-logo-placeholder {
-    width: 140px;
-    height: 140px;
+  .family-select-description-text {
+    font-size: 18px;
   }
 
-  /* 入力欄 */
-  .register-input {
-    height: 52px;
-    font-size: 15px;
-  }
-
-  /* 新規登録ボタン */
-  .register-submit-button {
+  /* ボタン */
+  .family-select-button {
     height: 56px;
     font-size: 17px;
   }
@@ -306,29 +299,32 @@
    ======================================== */
 @media (min-width: 1280px) {
   /* コンテンツエリア */
-  .register-content {
+  .family-select-content {
     max-width: 400px;
   }
 
   /* ロゴエリア */
-  .register-logo-section {
+  .family-select-logo-section {
+    margin-bottom: 50px;
+  }
+
+  /* ロゴ画像 */
+  .family-select-logo-placeholder {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* 説明テキスト */
+  .family-select-description {
     margin-bottom: 60px;
   }
 
-  /* ロゴ画像のプレースホルダー */
-  .register-logo-placeholder {
-    width: 160px;
-    height: 160px;
+  .family-select-description-text {
+    font-size: 20px;
   }
 
-  /* 入力欄 */
-  .register-input {
-    height: 56px;
-    font-size: 16px;
-  }
-
-  /* 新規登録ボタン */
-  .register-submit-button {
+  /* ボタン */
+  .family-select-button {
     height: 60px;
     font-size: 18px;
   }

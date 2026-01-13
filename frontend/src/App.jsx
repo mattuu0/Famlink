@@ -11,6 +11,9 @@ import HomePage from "./pages/HomePage.jsx"; // 認証済み（ログイン後�
 import AuthScreen from "./pages/AuthScreen.jsx"; // 未認証（ログイン前）の画面
 import LoginScreen from "./pages/LoginScreen.jsx"; // ログイン画面
 import RegisterScreen from "./pages/RegisterScreen.jsx"; // 新規登録画面
+import FamilySelectScreen from "./pages/FamilyselectScreen.jsx"; // 家族選択画面（修正）
+import JoinFamilyScreen from "./pages/JoinFamilyScreen.jsx"; // 家族参加画面
+import InviteFamilyScreen from "./pages/InviteFamilyScreen.jsx"; // 家族招待画面
 import MeetupPage from "./pages/MeetupPage.jsx"; // 会いたい画面
 import SchedulePage from "./pages/SchedulePage.jsx"; // 日程調整画面
 import ConfirmationPage from "./pages/ConfirmationPage.jsx"; // 確認画面
@@ -100,12 +103,14 @@ function AppContent() {
    * @param {string} token - 認証トークン
    */
   const handleLoginSuccess = (token) => {
+    console.log('handleLoginSuccess called with token:', token);
     // トークンをローカルストレージに保存
     localStorage.setItem("authToken", token);
     // 認証済み状態に変更
     setIsAuthenticated(true);
-    // ホーム画面に遷移
-    navigate("/home");
+    // 家族選択画面に遷移
+    console.log('Navigating to /family-select');
+    navigate("/family-select");
   };
 
   /**
@@ -164,12 +169,10 @@ function AppContent() {
       <Route
         path="/login"
         element={
-          <PublicRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
-            <LoginScreen
-              onLoginSuccess={handleLoginSuccess}
-              onGoToRegister={handleGoToRegister}
-            />
-          </PublicRoute>
+          <LoginScreen
+            onLoginSuccess={handleLoginSuccess}
+            onGoToRegister={handleGoToRegister}
+          />
         }
       />
 
@@ -177,12 +180,40 @@ function AppContent() {
       <Route
         path="/register"
         element={
-          <PublicRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
-            <RegisterScreen
-              onRegisterSuccess={handleLoginSuccess}
-              onBackToAuth={handleBackToAuth}
-            />
-          </PublicRoute>
+          <RegisterScreen
+            onRegisterSuccess={handleLoginSuccess}
+            onBackToAuth={handleBackToAuth}
+          />
+        }
+      />
+
+      {/* 家族選択画面（ログイン/新規登録後）★新規追加★ */}
+      <Route
+        path="/family-select"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
+            <FamilySelectScreen />
+          </PrivateRoute>
+        }
+      />
+
+      {/* 既存の家族に参加する画面★新規追加★ */}
+      <Route
+        path="/join-family"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
+            <JoinFamilyScreen />
+          </PrivateRoute>
+        }
+      />
+
+      {/* 家族を招待する画面★新規追加★ */}
+      <Route
+        path="/invite-family"
+        element={
+          <PrivateRoute isAuthenticated={isAuthenticated} isLoading={isLoading}>
+            <InviteFamilyScreen />
+          </PrivateRoute>
         }
       />
 

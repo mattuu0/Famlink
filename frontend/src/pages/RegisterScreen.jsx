@@ -1,35 +1,47 @@
 import React, { useState } from 'react';
 import './RegisterScreen.css';
 import LogoImage from '../assets/titleIcon.png';
+import { useNavigate } from 'react-router-dom';
 
 /**
  * RegisterScreen (新規登録画面) コンポーネント
- * 役割: ユーザーがメールアドレスとパスワードを入力して新規登録する画面
+ * 役割: ユーザーが新規アカウントを作成する画面
  */
-const RegisterScreen = () => {
+const RegisterScreen = ({ onRegisterSuccess, onBackToAuth }) => {
   // メールアドレスの状態管理
   const [email, setEmail] = useState('');
   
   // パスワードの状態管理
   const [password, setPassword] = useState('');
   
-  // 利用規約とプライバシーポリシーへの同意状態
-  const [isAgreed, setIsAgreed] = useState(false);
+  // パスワード確認の状態管理
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  // navigate 取得
+  const navigate = useNavigate();
 
   /**
    * 新規登録ボタンがクリックされたときの処理
-   * TODO: 実際の新規登録処理を実装
    */
   const handleRegister = (e) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
     
-    if (!isAgreed) {
-      alert('利用規約とプライバシーポリシーに同意してください');
+    // パスワードの一致チェック
+    if (password !== confirmPassword) {
+      alert('パスワードが一致しません');
       return;
     }
     
-    console.log('新規登録:', { email, password, isAgreed });
-    // ここに実際の新規登録処理を追加
+    console.log('新規登録:', { email, password });
+    
+    // 仮のトークンを生成（実際はAPIレスポンスのトークンを使用）
+    const dummyToken = 'dummy-auth-token-' + Date.now();
+    
+    // App.jsxから渡されたonRegisterSuccessを呼ぶ
+    // これによりhandleLoginSuccessが実行され、/family-selectに遷移
+    if (onRegisterSuccess) {
+      onRegisterSuccess(dummyToken);
+    }
   };
 
   /**
@@ -37,7 +49,7 @@ const RegisterScreen = () => {
    */
   const handleGoToLogin = () => {
     console.log('ログイン画面へ遷移');
-    // ログイン画面への遷移処理を追加
+    navigate("/login");
   };
 
   return (
@@ -60,8 +72,7 @@ const RegisterScreen = () => {
         {/* ロゴエリア */}
         <div className="register-logo-section">
           <div className="register-logo-placeholder">
-            {<img src={LogoImage} alt="FamLink Logo" />}
-            {/* 上のコメントを外して、srcにロゴ画像のパスを指定してください */}
+            <img src={LogoImage} alt="FamLink Logo" />
           </div>
         </div>
 
@@ -100,37 +111,28 @@ const RegisterScreen = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={6}
             />
           </div>
 
-          {/* 利用規約とプライバシーポリシーへの同意チェックボックス */}
-          <div className="register-checkbox-group">
-            <label className="register-checkbox-label">
-              <input
-                type="checkbox"
-                className="register-checkbox-input"
-                checked={isAgreed}
-                onChange={(e) => setIsAgreed(e.target.checked)}
-              />
-              <span className={`register-checkbox-custom ${isAgreed ? 'checked' : ''}`}>
-                {isAgreed && (
-                  <svg className="register-checkbox-icon" viewBox="0 0 24 24">
-                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="white"/>
-                  </svg>
-                )}
-              </span>
-              <span className="register-checkbox-text">
-                利用規約とプライバシーポリシーに同意します
-              </span>
+          {/* パスワード確認入力欄 */}
+          <div className="register-form-group">
+            <label htmlFor="confirmPassword" className="register-label">
+              パスワード（確認）
             </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              className="register-input"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+              minLength={6}
+            />
           </div>
 
-          {/* 新規登録ボタン（同意していない場合は無効化） */}
-          <button
-            type="submit"
-            className={`register-submit-button ${isAgreed ? 'active' : 'disabled'}`}
-            disabled={!isAgreed}
-          >
+          {/* 新規登録ボタン */}
+          <button type="submit" className="register-submit-button">
             新規登録
           </button>
         </form>

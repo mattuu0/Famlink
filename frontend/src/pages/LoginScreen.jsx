@@ -30,6 +30,9 @@ const LoginScreen = ({ onLoginSuccess, onGoToRegister }) => {
     if (onLoginSuccess) {
       onLoginSuccess(dummyToken);
     }
+    
+    // ログイン成功の通知はApp.jsxのhandleLoginSuccessが処理
+    // App.jsxで家族選択画面に遷移される
   };
 
   /**
@@ -45,12 +48,6 @@ const LoginScreen = ({ onLoginSuccess, onGoToRegister }) => {
    */
   const handleGoToRegister = () => {
     console.log('新規登録画面へ遷移');
-    // AuthScreenに戻ってから新規登録画面へ遷移
-    // または直接新規登録画面へ遷移する処理を追加
-    // if (onGoToRegister) {
-    //   onGotoRegister();
-    // }
-
     navigate("/register");
   };
 
