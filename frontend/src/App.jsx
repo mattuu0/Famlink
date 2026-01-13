@@ -58,11 +58,11 @@ function AppContent() {
   // アプリ起動時に一度だけ実行される初期化処理
   useEffect(() => {
     // 1. 認証トークンの確認
-    // ※ 開発中は毎回AuthScreenから開始するため、トークンチェックをスキップ
-    // const userToken = localStorage.getItem('authToken');
-    // if (userToken) {
-    //     setIsAuthenticated(true);
-    // }
+    // ローカルストレージにトークンがあればログイン済みとする
+    const userToken = localStorage.getItem('authToken');
+    if (userToken) {
+        setIsAuthenticated(true);
+    }
 
     // 2. ローディング完了タイマー
     // スプラッシュ/タイトル画面を3秒間表示するための時間差処理
