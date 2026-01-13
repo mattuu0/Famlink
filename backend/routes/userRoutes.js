@@ -5,6 +5,8 @@ const userController = require('../controllers/userController');
 // ユーザー認証・登録
 router.post('/register', userController.register);
 router.post('/login', userController.login);
-router.get('/:email', userController.getUserInfo);
+
+// ユーザー情報取得 ( /api/users/:email )
+router.get('/users/:email', userController.getUserInfo);
 
 module.exports = router;

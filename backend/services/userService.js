@@ -14,11 +14,20 @@ const userService = {
 
   // ログイン処理
   loginUser: async (email, password) => {
+    console.log(`ログイン試行: ${email}`);
     const user = await User.findByEmail(email);
     
-    if (!user || user.password !== password) {
+    if (!user) {
+      console.log('ユーザーが見つかりません');
       throw new Error('メールアドレスまたはパスワードが正しくありません');
     }
+
+    if (user.password.trim() !== password.trim()) {
+      console.log('パスワードが一致しません');
+      throw new Error('メールアドレスまたはパスワードが正しくありません');
+    }
+
+    console.log('ログイン成功');
 
     // 招待コードがない既存ユーザーへの補完処理
     if (!user.invite_code) {
