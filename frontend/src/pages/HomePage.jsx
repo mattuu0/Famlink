@@ -49,30 +49,36 @@ const HomePage = ({ onLogout }) => {
   const [userData, setUserData] = useState(null);
 
   // バックエンドからデータを取ってくる関数
-  const fetchFamilyHistory = async (familyId) => {
+  const fetchFamilyHistory = async (familyId, currentUserName) => {
     try {
       const response = await fetch(`http://127.0.0.1:3001/api/messages/${familyId}`);
       const data = await response.json();
       
-      // 感情パレットの色 + 元の赤色 (#a52a44) を追加
-      const emotionPalette = ["#a52a44", ...emotions.map(e => e.color)];
+      // 他の家族用のパステルパレット（感情パレットから取得）
+      const pastelPalette = emotions.map(e => e.color);
       const userColorMap = {};
 
       // バックエンドのデータ構造に合わせて整形
       const formattedData = data.map((msg) => {
-        // ユーザー名ごとに色を固定するためのロジック
-        // 名前からハッシュ値を計算して、パレットから色を選択する
-        if (!userColorMap[msg.user_name]) {
-          const hash = msg.user_name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-          userColorMap[msg.user_name] = emotionPalette[hash % emotionPalette.length];
+        const name = msg.user_name || "不明";
+        
+        if (!userColorMap[name]) {
+          // 自分の名前、または "自分" という表示名なら元の赤色を割り当てる
+          if (name === currentUserName || name === "自分") {
+            userColorMap[name] = "#a52a44"; 
+          } else {
+            // 他のユーザーは名前のハッシュ値でパステルカラーを固定
+            const hash = name.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+            userColorMap[name] = pastelPalette[hash % pastelPalette.length];
+          }
         }
 
         return {
-          name: msg.user_name,
+          name: name,
           emotion: msg.emotion,
           comment: msg.comment,
           time: new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-          color: userColorMap[msg.user_name], // ユーザーごとに割り当てられた色
+          color: userColorMap[name],
         };
       });
       setFamilyHistory(formattedData);
@@ -93,7 +99,8 @@ const HomePage = ({ onLogout }) => {
           const data = await response.json();
           setUserData(data);
           if (data.family_id) {
-            fetchFamilyHistory(data.family_id);
+            // ステートの更新を待たずに、取得した直後のデータを渡す
+            fetchFamilyHistory(data.family_id, data.user_name || "自分");
           }
         }
       } catch (error) {
@@ -165,7 +172,7 @@ const HomePage = ({ onLogout }) => {
       if (response.ok) {
         setIsSent(true);
         // ★送信に成功したら、リストを再読み込みする
-        fetchFamilyHistory(userData.family_id);
+        fetchFamilyHistory(userData.family_id, userData.user_name || "自分");
 
         setTimeout(() => {
           setIsSent(false);
