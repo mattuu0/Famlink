@@ -19,7 +19,7 @@
     - `LineCallbackPage.jsx`: LINEログインのコールバック処理。
 - **家族管理**:
     - `FamilySelectScreen.jsx`, `JoinFamilyScreen.jsx`, `InviteFamilyScreen.jsx`: 家族の選択、参加、招待機能。
-    - **`InviteFamilyScreen.jsx`**: **1アカウント1つの固定招待コードを表示するように修正。**
+    - **`InviteFamilyScreen.jsx`**: **1カウント1つの固定招待コードを表示するように修正。**
 - **メイン機能**:
     - `HomePage.jsx`: 
         - 5段階の感情選択とコメント送信。

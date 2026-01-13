@@ -7,9 +7,19 @@ const { generateInviteCode } = require('../utils/inviteCode');
 const userService = {
   // ユーザー登録処理
   registerUser: async (email, password, user_name) => {
+    console.log(`新規ユーザー登録試行: ${email}`);
     const invite_code = generateInviteCode();
-    const userId = await User.create(email, password, user_name, invite_code);
-    return { userId, invite_code };
+    try {
+      const userId = await User.create(email, password, user_name, invite_code);
+      console.log(`User.create から返ってきたID: ${userId}`);
+      if (!userId) {
+        console.warn('警告: User.create が有効な ID を返しませんでした。');
+      }
+      return { userId, invite_code };
+    } catch (err) {
+      console.error('User.create 実行中にエラー:', err.message);
+      throw err;
+    }
   },
 
   // ログイン処理

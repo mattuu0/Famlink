@@ -12,7 +12,8 @@ const User = {
 
   // 新規ユーザー登録
   create: async (email, password, user_name, invite_code) => {
-    const [result] = await db.query(
+    console.log(`SQL実行: INSERT INTO users (email, password, user_name, invite_code) VALUES ('${email}', '...', '${user_name}', '${invite_code}')`);
+    const [result] = await db.execute(
       'INSERT INTO users (email, password, user_name, invite_code) VALUES (?, ?, ?, ?)',
       [email, password, user_name, invite_code]
     );

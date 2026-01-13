@@ -6,14 +6,19 @@ const userService = require('../services/userService');
 const userController = {
   // 新規登録
   register: async (req, res) => {
-    console.log('API Request: POST /api/register');
+    console.log('API Request: POST /api/register', req.body);
     try {
       const { email, password, user_name } = req.body;
+      
+      if (!email || !password) {
+        return res.status(400).json({ message: 'メールアドレスとパスワードは必須です' });
+      }
+
       const result = await userService.registerUser(email, password, user_name);
       res.send({ message: '登録完了！', ...result });
     } catch (err) {
       console.error('登録エラー:', err);
-      res.status(500).send(err.message);
+      res.status(500).json({ message: err.message });
     }
   },
 

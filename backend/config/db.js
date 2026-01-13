@@ -1,9 +1,9 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 
 /**
  * データベース接続プールの設定
- * createPool を使用することで、複数の同時接続を効率的に管理し、
- * 切断時の自動再接続も行われます。
  */
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -15,32 +15,33 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-// Promiseベースの操作用
-const db = pool.promise();
-
 /**
  * サーバー起動時の初期化処理
  */
 const initializeDatabase = async () => {
   try {
     // 接続テスト
-    await db.query('SELECT 1');
-    console.log('MySQLに接続成功（Pool経由）');
+    const [rows] = await pool.query('SELECT 1');
+    console.log(`MySQLに接続成功（Pool経由）: DB=${process.env.DB_NAME}`);
 
     // 招待コードカラムの存在確認
-    const [columns] = await db.query("SHOW COLUMNS FROM users LIKE 'invite_code'");
+    const [columns] = await pool.query("SHOW COLUMNS FROM users LIKE 'invite_code'");
     
     if (columns.length === 0) {
-      await db.query("ALTER TABLE users ADD COLUMN invite_code VARCHAR(20) UNIQUE");
+      await pool.query("ALTER TABLE users ADD COLUMN invite_code VARCHAR(20) UNIQUE");
       console.log('invite_code カラムを新しく追加しました');
     }
+
+    // テーブル一覧の表示（デバッグ用）
+    const [tables] = await pool.query('SHOW TABLES');
+    console.log('存在するテーブル:', tables.map(t => Object.values(t)[0]));
+
     console.log('データベースの初期化が完了しました');
   } catch (err) {
     console.error('データベース初期化エラー:', err.message);
-    // 致命的なエラー（DB接続不可など）の場合はプロセスを終了せず、ログを残す
   }
 };
 
 initializeDatabase();
 
-module.exports = db;
+module.exports = pool;
