@@ -1,5 +1,5 @@
-import React, {useState} from "react";
-import { useNavigate } from "react-router-dom";
+import React, {useState, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 import "./HomePage.css";
 import happyImage from "../assets/happy.png";
 import sadImage from "../assets/sad.png";
@@ -39,23 +39,32 @@ const HomePage = () => {
   // スライダーがドラッグ中かどうかの状態
   const [isDragging, setIsDragging] = useState(false);
 
-  // 最近の家族の様子（仮のデータ）
-  const [familyHistory] = useState([
-    {
-      name: "お母さん",
-      age: 74,
-      emotion: "楽しい",
-      time: "2時間前",
-      color: "#4caf50",
-    },
-    {
-      name: "お父さん",
-      emotion: "sad bottom。",
-      comment: "さみしい...",
-      time: "2時間前",
-      color: "#f44336",
-    },
-  ]);
+  // 最近の家族の様子
+  const [familyHistory, setFamilyHistory] = useState([]);
+
+  // バックエンドからデータを取ってくる関数
+  const fetchFamilyHistory = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/messages");
+      const data = await response.json();
+      // バックエンドのデータ構造に合わせて整形
+      const formattedData = data.map((msg) => ({
+        name: msg.user_name,
+        emotion: msg.emotion,
+        comment: msg.comment,
+        time: new Date(msg.created_at).toLocaleTimeString(), // 時間を読みやすく
+        color: "#a52a44", // 好きな色に
+      }));
+      setFamilyHistory(formattedData);
+    } catch (error) {
+      console.error("データ取得失敗:", error);
+    }
+  };
+
+  // 画面が開いた時に一回だけ実行
+  useEffect(() => {
+    fetchFamilyHistory();
+  }, []);
 
   /**
    * スライダーの値が変更されたときの処理
@@ -88,26 +97,49 @@ const HomePage = () => {
   /**
    * 送信ボタンがクリックされたときの処理
    */
-  const handleSubmit = () => {
+  /**
+   * 送信ボタンがクリックされたときの処理
+   */
+  const handleSubmit = async () => {
+    // asyncを追加
     const selectedEmotion = emotions[selectedIndex];
-    console.log("送信:", {
+
+    // 送信するデータ
+    const postData = {
+      user_name: "自分（テスト）", // 本来はログインユーザー名
       emotion: selectedEmotion.name,
       comment: comment,
-    });
+    };
 
-    setIsSent(true);
+    try {
+      // ★バックエンドにデータを送る
+      const response = await fetch("http://localhost:3001/api/messages", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(postData),
+      });
 
-    setTimeout(() => {
-      setIsSent(false);
-      setComment(emotions[selectedIndex].name);
-    }, 3000);
+      if (response.ok) {
+        setIsSent(true);
+        // ★送信に成功したら、リストを再読み込みする
+        fetchFamilyHistory();
+
+        setTimeout(() => {
+          setIsSent(false);
+          setComment(emotions[selectedIndex].name);
+        }, 3000);
+      }
+    } catch (error) {
+      console.error("送信エラー:", error);
+      alert("送信に失敗しました。サーバーが動いているか確認してね！");
+    }
   };
 
   /**
    * 会いたいボタンがクリックされたときの処理
    */
   const navigate = useNavigate();
-  
+
   const handleMeetRequest = () => {
     navigate("/meetup");
   };
@@ -219,7 +251,9 @@ const HomePage = () => {
                 <strong>{entry.name}</strong>
                 {entry.age && `: ${entry.age}`}
                 {entry.emotion}
-                {entry.comment && `${entry.comment}`}
+                {entry.comment &&
+                  entry.comment !== entry.emotion &&
+                  ` : ${entry.comment}`}
                 <span className="history-time">（{entry.time}）</span>
               </span>
             </li>

@@ -1,11 +1,11 @@
 require('dotenv').config();
 const express = require('express');
 const mysql = require('mysql2');
-const cors = require('cors'); // 追加: フロントからのアクセスを許可するため
+const cors = require('cors');
 
 const app = express();
-app.use(express.json()); // JSON形式のデータを受け取れるようにする
-app.use(cors());         // 違うポートからのアクセスを許可する
+app.use(express.json());
+app.use(cors());
 
 // MySQL接続設定
 const db = mysql.createConnection({
@@ -23,24 +23,25 @@ db.connect((err) => {
   console.log('MySQLに接続成功！');
 });
 
-// --- API（データの通り道）の作成 ---
-
-// 1. 感情データを保存する (POST)
+// 1. メッセージ保存 API (POST)
+// フロントから送られてきた family_id も一緒に保存します
 app.post('/api/messages', (req, res) => {
-  const { user_name, emotion, comment } = req.body;
-  const sql = 'INSERT INTO messages (user_name, emotion, comment) VALUES (?, ?, ?)';
+  const { user_name, emotion, comment, family_id } = req.body;
+  const sql = 'INSERT INTO messages (user_name, emotion, comment, family_id) VALUES (?, ?, ?, ?)';
   
-  db.query(sql, [user_name, emotion, comment], (err, result) => {
+  db.query(sql, [user_name, emotion, comment, family_id], (err, result) => {
     if (err) return res.status(500).send(err);
     res.send({ message: '保存完了！', id: result.insertId });
   });
 });
 
-// 2. 家族の様子を取得する (GET)
-app.get('/api/messages', (req, res) => {
-  const sql = 'SELECT * FROM messages ORDER BY created_at DESC';
+// 2. メッセージ取得 API (GET)
+// URLの最後につけた family_id を元に、その家族の分だけを取得します
+app.get('/api/messages/:family_id', (req, res) => {
+  const { family_id } = req.params;
+  const sql = 'SELECT * FROM messages WHERE family_id = ? ORDER BY created_at DESC';
   
-  db.query(sql, (err, results) => {
+  db.query(sql, [family_id], (err, results) => {
     if (err) return res.status(500).send(err);
     res.json(results);
   });
