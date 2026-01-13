@@ -20,19 +20,32 @@ const LoginScreen = ({ onLoginSuccess, onGoToRegister }) => {
   /**
    * ログインボタンがクリックされたときの処理
    */
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
-    console.log('ログイン:', { email, password });
     
-    // 仮のトークンでログイン成功を通知（実際はAPIレスポンスのトークンを使用）
-    const dummyToken = 'dummy-auth-token-' + Date.now();
-    
-    if (onLoginSuccess) {
-      onLoginSuccess(dummyToken);
+    try {
+      const response = await fetch('http://127.0.0.1:3001/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('ログイン成功:', data);
+        
+        if (onLoginSuccess) {
+          // トークン（email）、招待コード、家族IDを渡す
+          onLoginSuccess(email, data.user.invite_code, data.user.family_id);
+        }
+      } else {
+        const errorData = await response.json();
+        alert('ログイン失敗: ' + (errorData.message || '認証エラー'));
+      }
+    } catch (error) {
+      console.error('ログインエラー:', error);
+      alert('サーバーに接続できませんでした');
     }
-    
-    // ログイン成功の通知はApp.jsxのhandleLoginSuccessが処理
-    // App.jsxで家族選択画面に遷移される
   };
 
   /**

@@ -23,7 +23,7 @@ const RegisterScreen = ({ onRegisterSuccess, onBackToAuth }) => {
   /**
    * 新規登録ボタンがクリックされたときの処理
    */
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
     
     // パスワードの一致チェック
@@ -32,15 +32,29 @@ const RegisterScreen = ({ onRegisterSuccess, onBackToAuth }) => {
       return;
     }
     
-    console.log('新規登録:', { email, password });
-    
-    // 仮のトークンを生成（実際はAPIレスポンスのトークンを使用）
-    const dummyToken = 'dummy-auth-token-' + Date.now();
-    
-    // App.jsxから渡されたonRegisterSuccessを呼ぶ
-    // これによりhandleLoginSuccessが実行され、/family-selectに遷移
-    if (onRegisterSuccess) {
-      onRegisterSuccess(dummyToken);
+    try {
+      const response = await fetch('http://127.0.0.1:3001/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password, user_name: email.split('@')[0] }) // ユーザー名は一旦メールの一部に
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log('新規登録成功:', data);
+        
+        // App.jsxから渡されたonRegisterSuccessを呼ぶ
+        // トークンとしてemail、そして招待コードを渡す
+        if (onRegisterSuccess) {
+          onRegisterSuccess(email, data.invite_code, null);
+        }
+      } else {
+        const errorData = await response.json();
+        alert('登録失敗: ' + (errorData.message || 'サーバーエラー'));
+      }
+    } catch (error) {
+      console.error('登録エラー:', error);
+      alert('サーバーに接続できませんでした');
     }
   };
 

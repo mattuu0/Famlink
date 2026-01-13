@@ -11,33 +11,24 @@ import { useNavigate } from 'react-router-dom';
 const InviteFamilyScreen = () => {
   const navigate = useNavigate();
   
-  // 招待コードの状態管理（自動生成）
+  // 招待コードの状態管理
   const [inviteCode, setInviteCode] = useState('');
   
   // コピー完了の状態
   const [copied, setCopied] = useState(false);
 
   /**
-   * 招待コードを生成する関数
-   */
-  const generateInviteCode = () => {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let code = '';
-    for (let i = 0; i < 9; i++) {
-      if (i > 0 && i % 3 === 0) {
-        code += '-';
-      }
-      code += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
-    return code;
-  };
-
-  /**
-   * コンポーネントがマウントされたときに招待コードを生成
+   * コンポーネントがマウントされたときに招待コードを読み込む
    */
   useEffect(() => {
-    const code = generateInviteCode();
-    setInviteCode(code);
+    // localStorage から保存済みの招待コードを取得
+    const savedCode = localStorage.getItem('inviteCode');
+    if (savedCode) {
+      setInviteCode(savedCode);
+    } else {
+      // 招待コードがない場合はユーザー情報を再取得するなどの対応が可能
+      console.warn('招待コードが見つかりません');
+    }
   }, []);
 
   /**
@@ -56,10 +47,32 @@ const InviteFamilyScreen = () => {
   /**
    * 完了ボタンがクリックされたときの処理
    */
-  const handleComplete = () => {
-    console.log('家族グループ作成完了');
-    // ホーム画面に遷移
-    navigate('/home');
+  const handleComplete = async () => {
+    const email = localStorage.getItem('authToken'); // トークン（email）を取得
+    
+    try {
+      const response = await fetch('http://127.0.0.1:3001/api/families/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          family_id: inviteCode, 
+          family_name: '我が家', 
+          email: email 
+        })
+      });
+
+      if (response.ok) {
+        console.log('家族グループ作成完了');
+        // ホーム画面に遷移
+        navigate('/home');
+      } else {
+        const errorData = await response.json();
+        alert('作成失敗: ' + (errorData.message || 'サーバーエラー'));
+      }
+    } catch (error) {
+      console.error('通信エラー:', error);
+      alert('サーバーに接続できませんでした');
+    }
   };
 
   /**

@@ -16,13 +16,32 @@ const JoinFamilyScreen = () => {
   /**
    * 参加ボタンがクリックされたときの処理
    */
-  const handleJoin = (e) => {
+  const handleJoin = async (e) => {
     e.preventDefault();
-    console.log('家族に参加:', { inviteCode });
+    const email = localStorage.getItem('authToken'); // トークン（email）を取得
     
-    // 実際はAPIで招待コードを検証してから遷移
-    // 仮でホーム画面に遷移
-    navigate('/home');
+    try {
+      const response = await fetch('http://127.0.0.1:3001/api/families/join', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          family_id: inviteCode.trim(), 
+          email: email 
+        })
+      });
+
+      if (response.ok) {
+        console.log('家族に参加成功');
+        // ホーム画面に遷移
+        navigate('/home');
+      } else {
+        const errorData = await response.json();
+        alert('参加失敗: ' + (errorData.message || 'コードが正しくありません'));
+      }
+    } catch (error) {
+      console.error('通信エラー:', error);
+      alert('サーバーに接続できませんでした');
+    }
   };
 
   /**

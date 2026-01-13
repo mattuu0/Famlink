@@ -42,10 +42,13 @@ const HomePage = () => {
   // 最近の家族の様子
   const [familyHistory, setFamilyHistory] = useState([]);
 
+  // ユーザー情報の状態
+  const [userData, setUserData] = useState(null);
+
   // バックエンドからデータを取ってくる関数
-  const fetchFamilyHistory = async () => {
+  const fetchFamilyHistory = async (familyId) => {
     try {
-      const response = await fetch("http://localhost:3001/api/messages/my_family_001");
+      const response = await fetch(`http://127.0.0.1:3001/api/messages/${familyId}`);
       const data = await response.json();
       // バックエンドのデータ構造に合わせて整形
       const formattedData = data.map((msg) => ({
@@ -63,7 +66,25 @@ const HomePage = () => {
 
   // 画面が開いた時に一回だけ実行
   useEffect(() => {
-    fetchFamilyHistory();
+    const fetchUserData = async () => {
+      const email = localStorage.getItem('authToken');
+      if (!email) return;
+
+      try {
+        const response = await fetch(`http://127.0.0.1:3001/api/users/${email}`);
+        if (response.ok) {
+          const data = await response.json();
+          setUserData(data);
+          if (data.family_id) {
+            fetchFamilyHistory(data.family_id);
+          }
+        }
+      } catch (error) {
+        console.error("ユーザー情報取得失敗:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   /**
@@ -101,20 +122,24 @@ const HomePage = () => {
    * 送信ボタンがクリックされたときの処理
    */
   const handleSubmit = async () => {
-    // asyncを追加
+    if (!userData || !userData.family_id) {
+      alert("家族グループに参加していません");
+      return;
+    }
+
     const selectedEmotion = emotions[selectedIndex];
 
     // 送信するデータ
     const postData = {
-      user_name: "自分（テスト）", // 本来はログインユーザー名
+      user_name: userData.user_name || "自分",
       emotion: selectedEmotion.name,
       comment: comment,
-      family_id: "my_family_001",
+      family_id: userData.family_id,
     };
 
     try {
       // ★バックエンドにデータを送る
-      const response = await fetch("http://localhost:3001/api/messages", {
+      const response = await fetch("http://127.0.0.1:3001/api/messages", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(postData),
@@ -123,7 +148,7 @@ const HomePage = () => {
       if (response.ok) {
         setIsSent(true);
         // ★送信に成功したら、リストを再読み込みする
-        fetchFamilyHistory();
+        fetchFamilyHistory(userData.family_id);
 
         setTimeout(() => {
           setIsSent(false);

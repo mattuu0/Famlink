@@ -67,10 +67,16 @@ const LineCallbackPage = ({ onLoginSuccess }) => {
 
         // ログイン成功をApp.jsxに通知
         if (onLoginSuccess) {
-          onLoginSuccess(token);
+          onLoginSuccess(token, user.invite_code, user.family_id);
         } else {
           // onLoginSuccessが渡されていない場合は直接トークンを保存
           localStorage.setItem('authToken', token);
+          if (user.invite_code) {
+            localStorage.setItem('inviteCode', user.invite_code);
+          }
+          if (user.family_id) {
+            localStorage.setItem('familyId', user.family_id);
+          }
           navigate('/home');
         }
       } catch (err) {

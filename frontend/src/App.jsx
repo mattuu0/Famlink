@@ -101,16 +101,30 @@ function AppContent() {
   /**
    * ログイン成功時の処理
    * @param {string} token - 認証トークン
+   * @param {string} inviteCode - 招待コード
+   * @param {string} familyId - 家族ID
    */
-  const handleLoginSuccess = (token) => {
-    console.log('handleLoginSuccess called with token:', token);
-    // トークンをローカルストレージに保存
+  const handleLoginSuccess = (token, inviteCode, familyId) => {
+    console.log('handleLoginSuccess called with token:', token, 'inviteCode:', inviteCode, 'familyId:', familyId);
+    // トークンと招待コード、家族IDをローカルストレージに保存
     localStorage.setItem("authToken", token);
+    if (inviteCode) {
+      localStorage.setItem("inviteCode", inviteCode);
+    }
+    if (familyId) {
+      localStorage.setItem("familyId", familyId);
+    }
     // 認証済み状態に変更
     setIsAuthenticated(true);
-    // 家族選択画面に遷移
-    console.log('Navigating to /family-select');
-    navigate("/family-select");
+    
+    // すでに家族に所属している場合はホームへ、そうでない場合は家族選択画面へ
+    if (familyId) {
+      console.log('Navigating to /home');
+      navigate("/home");
+    } else {
+      console.log('Navigating to /family-select');
+      navigate("/family-select");
+    }
   };
 
   /**
