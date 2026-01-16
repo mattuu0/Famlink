@@ -21,7 +21,7 @@ const familyService = {
   // 家族グループ参加
   joinFamily: async (code, email) => {
     const trimmedCode = code.trim();
-    console.log(`家族参加試行: User=${email}, Code=${trimmedCode}`);
+    console.log(`家族参加試行: User=${email}, Code='${trimmedCode}'`);
 
     // 1. 直接家族IDとして存在するか確認
     const existingFamily = await Family.findById(trimmedCode);
@@ -34,18 +34,19 @@ const familyService = {
     // 2. 招待コードとしてユーザーを検索
     console.log(`招待コードとして検索中...`);
     
-    // 入力されたコードを大文字に変換し、ハイフンを除去して検索しやすくする
-    const normalizedCode = trimmedCode.toUpperCase().replace(/-/g, '');
+    // 正規化: 英数字以外を全て削除 (ハイフンやスペースも削除)
+    const normalizedCode = trimmedCode.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    console.log(`正規化された入力コード: '${normalizedCode}'`);
     
-    // DB内の全てのユーザーを取得して、正規化したコードで比較（インデックスが効かないが、小規模なら確実）
-    // 本来はDB側で正規化カラムを持つべきだが、一旦ここで対応
-    const [allUsers] = await db.query('SELECT email, invite_code, family_id FROM users');
-    console.log('現在登録されている全招待コード:', allUsers.map(u => u.invite_code));
-
-    const targetUser = allUsers.find(u => {
-      if (!u.invite_code) return false;
-      return u.invite_code.toUpperCase().replace(/-/g, '') === normalizedCode;
-    });
+    // 招待コードとしてユーザーを検索（DB直接クエリ）
+    const [usersWithCode] = await db.query(
+      `SELECT email, invite_code, family_id
+       FROM users
+       WHERE REPLACE(REPLACE(UPPER(invite_code), '-', ''), ' ', '') = ?`,
+      [normalizedCode]
+    );
+    console.log(`DBクエリ結果 (usersWithCode):`, usersWithCode);
+    const targetUser = usersWithCode[0];
 
     if (!targetUser) {
       console.log(`エラー: 招待コード "${trimmedCode}" (正規化: ${normalizedCode}) に一致するユーザーが見つかりません`);

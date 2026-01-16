@@ -257,32 +257,32 @@ const HomePage = ({ onLogout }) => {
   };
 
   /**
-   * 家族から脱退する処理
+   * ログアウトと同時に家族から脱退する処理
    */
-  const handleLeaveFamily = async () => {
-    if (!window.confirm("本当に家族グループから脱退しますか？")) {
+  const handleLogoutAndLeave = async () => {
+    // ユーザーへの確認
+    if (!window.confirm("ログアウトすると家族グループからも脱退します。\nよろしいですか？")) {
       return;
     }
 
     const email = localStorage.getItem('authToken');
-    try {
-      const response = await fetch("http://127.0.0.1:3001/api/families/leave", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-
-      if (response.ok) {
-        alert("家族グループから脱退しました。");
+    if (email) {
+      try {
+        // 家族から脱退するAPIコール
+        await fetch("http://127.0.0.1:3001/api/families/leave", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
+        });
+        // 成功しても失敗しても、ローカルの家族IDは消しておく
         localStorage.removeItem("familyId");
-        navigate("/family-select");
-      } else {
-        alert("脱退に失敗しました。");
+      } catch (error) {
+        console.error("脱退処理中にエラーが発生しましたが、ログアウトを続行します:", error);
       }
-    } catch (error) {
-      console.error("脱退エラー:", error);
-      alert("サーバーに接続できませんでした。");
     }
+    
+    // 通常のログアウト処理（ローカルストレージのクリアと画面遷移）
+    onLogout();
   };
 
   return (
@@ -302,8 +302,7 @@ const HomePage = ({ onLogout }) => {
           </button>
           {showMenu && (
             <div className="settings-dropdown">
-              <button onClick={onLogout}>ログアウト</button>
-              <button className="leave-button" onClick={handleLeaveFamily}>家族から脱退</button>
+              <button onClick={handleLogoutAndLeave}>ログアウト（家族脱退）</button>
             </div>
           )}
         </div>
@@ -403,7 +402,6 @@ const HomePage = ({ onLogout }) => {
           </div>
         </div>
       )}
-
       {/* 最近の家族の様子 */}
       <div className="family-history">
         <h2 className="history-title">最近の家族の様子</h2>

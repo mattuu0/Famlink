@@ -149,7 +149,12 @@ function AppContent() {
           isLoading ? (
             <Title />
           ) : isAuthenticated ? (
-            <Navigate to="/home" replace />
+            // 認証済みの場合、localStorage の familyId をチェック
+            localStorage.getItem('familyId') ? (
+              <Navigate to="/home" replace />
+            ) : (
+              <Navigate to="/family-select" replace />
+            )
           ) : (
             <Navigate to="/auth" replace />
           )

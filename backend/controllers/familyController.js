@@ -37,8 +37,8 @@ const familyController = {
       await familyService.leaveFamily(email);
       res.send({ message: '家族グループから脱退しました。' });
     } catch (err) {
-      console.error('脱退エラー:', err);
-      res.status(500).send(err.message);
+      console.error('脱退エラー:', err.message, err.stack);
+      res.status(500).json({ message: 'サーバーエラーが発生しました', error: err.message });
     }
   }
 };

@@ -49,7 +49,8 @@ const RegisterScreen = ({ onRegisterSuccess, onBackToAuth }) => {
           onRegisterSuccess(email, data.invite_code, null);
         }
       } else {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({ message: 'レスポンスがJSON形式ではありませんでした' }));
+        console.error('登録APIエラー:', response.status, errorData.message || '不明なエラー');
         alert('登録失敗: ' + (errorData.message || 'サーバーエラー'));
       }
     } catch (error) {

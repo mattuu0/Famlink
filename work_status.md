@@ -33,6 +33,7 @@
 - Expressサーバーの構築。
 - MySQLデータベースへの接続設定。
 - **DBの自動更新**: 起動時に `users` テーブルへのカラム追加、および `schedules` テーブルの自動作成機能を実装。
+- **サーバー起動**: `node index.js` コマンドで起動可能。
 - **APIエンドポイント**:
     - `POST /api/register`: ユーザー登録。
     - `POST /api/login`: ユーザー認証。
