@@ -28,8 +28,13 @@ const SchedulePage = () => {
   const [selectedEndMinute, setSelectedEndMinute] = useState("--");
 
   // カレンダー表示用の状態
-  const [calendarYear, setCalendarYear] = useState(today.getFullYear());
-  const [calendarMonth, setCalendarMonth] = useState(today.getMonth() + 1);
+  const getStartOfWeek = (date) => {
+    const newDate = new Date(date);
+    const day = newDate.getDay(); // 0 (Sun) - 6 (Sat)
+    const diff = newDate.getDate() - day;
+    return new Date(newDate.setDate(diff));
+  };
+  const [calendarStartDate, setCalendarStartDate] = useState(getStartOfWeek(today));
   
   // カレンダーから選択された時間スロットの配列
   // 形式: [{ year, month, day, hour, minute }, ...]
@@ -76,28 +81,21 @@ const SchedulePage = () => {
   };
 
   /**
-   * カレンダーの日付セルを生成
+   * カレンダーの日付セルを生成（1週間分）
    */
   const generateCalendarDays = () => {
-    const firstDay = new Date(calendarYear, calendarMonth - 1, 1).getDay();
-    const daysInMonth = new Date(calendarYear, calendarMonth, 0).getDate();
     const days = [];
-
-    // 空白セル
-    for (let i = 0; i < firstDay; i++) {
-      days.push(null);
+    const startDate = new Date(calendarStartDate);
+    for (let i = 0; i < 7; i++) {
+      const currentDate = new Date(startDate);
+      currentDate.setDate(startDate.getDate() + i);
+      days.push(currentDate);
     }
-
-    // 日付セル
-    for (let i = 1; i <= daysInMonth; i++) {
-      days.push(i);
-    }
-
     return days;
   };
 
   /**
-   * カレンダーの時間スロットを生成（9:00-23:00、30分刻み）
+   * 時間スロットを生成（9:00-23:00、30分刻み）
    */
   const generateTimeSlots = () => {
     const slots = [];
@@ -120,8 +118,7 @@ const SchedulePage = () => {
   /**
    * 曜日を取得
    */
-  const getDayOfWeek = (year, month, day) => {
-    const date = new Date(year, month - 1, day);
+  const getDayOfWeek = (date) => {
     const days = ["日", "月", "火", "水", "木", "金", "土"];
     return days[date.getDay()];
   };
@@ -129,12 +126,12 @@ const SchedulePage = () => {
   /**
    * 時間スロットが選択されているか確認
    */
-  const isTimeSlotSelected = (year, month, day, hour, minute) => {
+  const isTimeSlotSelected = (date, hour, minute) => {
     return selectedTimeSlots.some(
       slot =>
-        slot.year === year &&
-        slot.month === month &&
-        slot.day === day &&
+        slot.year === date.getFullYear() &&
+        slot.month === date.getMonth() + 1 &&
+        slot.day === date.getDate() &&
         slot.hour === hour &&
         slot.minute === minute
     );
@@ -143,19 +140,19 @@ const SchedulePage = () => {
   /**
    * カレンダーから時間スロットを選択/解除
    */
-  const handleTimeSlotClick = (day, hour, minute) => {
-    if (!day) return;
+  const handleTimeSlotClick = (date, hour, minute) => {
+    if (!date) return;
 
     const slot = {
-      year: calendarYear,
-      month: calendarMonth,
-      day: day,
+      year: date.getFullYear(),
+      month: date.getMonth() + 1,
+      day: date.getDate(),
       hour: hour,
       minute: minute,
     };
 
     // 既に選択されている場合は解除
-    const isSelected = isTimeSlotSelected(calendarYear, calendarMonth, day, hour, minute);
+    const isSelected = isTimeSlotSelected(date, hour, minute);
     
     if (isSelected) {
       setSelectedTimeSlots(prev =>
@@ -177,9 +174,9 @@ const SchedulePage = () => {
 
     // 直接指定も更新（最初の選択のみ）
     if (selectedTimeSlots.length === 0 && !isSelected) {
-      setSelectedYear(calendarYear);
-      setSelectedMonth(calendarMonth);
-      setSelectedDay(day);
+      setSelectedYear(date.getFullYear());
+      setSelectedMonth(date.getMonth() + 1);
+      setSelectedDay(date.getDate());
       setSelectedStartHour(hour.toString());
       setSelectedStartMinute(minute.toString());
     }
@@ -321,27 +318,17 @@ const SchedulePage = () => {
     setSelectedDay(day);
     
     // カレンダー表示も同期
-    setCalendarYear(year);
-    setCalendarMonth(month);
+    const newDate = new Date(year, month - 1, day);
+    setCalendarStartDate(getStartOfWeek(newDate));
   };
 
   /**
-   * カレンダーの月を変更
+   * カレンダーの週を変更
    */
-  const changeCalendarMonth = (direction) => {
-    let newMonth = calendarMonth + direction;
-    let newYear = calendarYear;
-
-    if (newMonth > 12) {
-      newMonth = 1;
-      newYear++;
-    } else if (newMonth < 1) {
-      newMonth = 12;
-      newYear--;
-    }
-
-    setCalendarMonth(newMonth);
-    setCalendarYear(newYear);
+  const changeCalendarWeek = (direction) => {
+    const newStartDate = new Date(calendarStartDate);
+    newStartDate.setDate(newStartDate.getDate() + 7 * direction);
+    setCalendarStartDate(newStartDate);
   };
 
   /**
@@ -476,7 +463,7 @@ const SchedulePage = () => {
               </div>
 
               <div className="day-of-week">
-                {getDayOfWeek(selectedYear, selectedMonth, selectedDay)}曜日
+                {getDayOfWeek(new Date(selectedYear, selectedMonth - 1, selectedDay))}曜日
               </div>
             </div>
             <p className="note-text">日付の入力は必須です</p>
@@ -574,16 +561,16 @@ const SchedulePage = () => {
               <div className="calendar-navigation">
                 <button
                   className="nav-button"
-                  onClick={() => changeCalendarMonth(-1)}
+                  onClick={() => changeCalendarWeek(-1)}
                 >
                   前の週
                 </button>
                 <span className="current-period">
-                  {calendarYear}年{calendarMonth}月
+                  {`${calendarStartDate.getFullYear()}年${calendarStartDate.getMonth() + 1}月${calendarStartDate.getDate()}日～${new Date(new Date(calendarStartDate).setDate(calendarStartDate.getDate() + 6)).getFullYear()}年${new Date(new Date(calendarStartDate).setDate(calendarStartDate.getDate() + 6)).getMonth() + 1}月${new Date(new Date(calendarStartDate).setDate(calendarStartDate.getDate() + 6)).getDate()}日`}
                 </span>
                 <button
                   className="nav-button"
-                  onClick={() => changeCalendarMonth(1)}
+                  onClick={() => changeCalendarWeek(1)}
                 >
                   次の週
                 </button>
@@ -600,15 +587,12 @@ const SchedulePage = () => {
               {/* 曜日ヘッダー */}
               <div className="calendar-row header-row">
                 <div className="time-header"></div>
-                {generateCalendarDays()
-                  .filter((day) => day !== null)
-                  .slice(0, 7)
-                  .map((day, index) => (
+                {generateCalendarDays().map((date, index) => (
                     <div key={index} className="day-header">
                       <div className="day-date">
-                        {calendarMonth}/{day}
+                        {date.getMonth() + 1}/{date.getDate()}
                         <span className="day-name">
-                          ({getDayOfWeek(calendarYear, calendarMonth, day)})
+                          ({getDayOfWeek(date)})
                         </span>
                       </div>
                     </div>
@@ -621,20 +605,17 @@ const SchedulePage = () => {
                   <div className="time-label">
                     {formatTime(slot.hour, slot.minute)}
                   </div>
-                  {generateCalendarDays()
-                    .filter((day) => day !== null)
-                    .slice(0, 7)
-                    .map((day, dayIndex) => (
+                  {generateCalendarDays().map((date, dayIndex) => (
                       <button
                         key={dayIndex}
                         className={`time-slot ${
-                          isTimeSlotSelected(calendarYear, calendarMonth, day, slot.hour, slot.minute)
+                          isTimeSlotSelected(date, slot.hour, slot.minute)
                             ? "selected"
                             : ""
                         }`}
-                        onClick={() => handleTimeSlotClick(day, slot.hour, slot.minute)}
+                        onClick={() => handleTimeSlotClick(date, slot.hour, slot.minute)}
                       >
-                        {isTimeSlotSelected(calendarYear, calendarMonth, day, slot.hour, slot.minute)
+                        {isTimeSlotSelected(date, slot.hour, slot.minute)
                           ? "選択中"
                           : "選択"}
                       </button>
@@ -648,7 +629,7 @@ const SchedulePage = () => {
 
       {/* 送信ボタン */}
       <button
-        className={`submit-button ${isSelectionComplete() ? "active" : ""}`}
+        className={`schedule-submit-button ${isSelectionComplete() ? "active" : ""}`}
         onClick={handleSubmit}
         disabled={!isSelectionComplete()}
       >

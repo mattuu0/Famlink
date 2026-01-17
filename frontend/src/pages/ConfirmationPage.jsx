@@ -152,10 +152,10 @@ const ConfirmationPage = () => {
 
       {/* ボタンエリア */}
       <div className="button-area">
-        <button className="edit-button" onClick={handleBack}>
+        <button className="confirmation-edit-button" onClick={handleBack}>
           内容を修正する
         </button>
-        <button className="submit-button" onClick={handleSubmit}>
+        <button className="confirmation-submit-button" onClick={handleSubmit}>
           この内容で送信
         </button>
       </div>

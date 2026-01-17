@@ -257,11 +257,11 @@
   align-items: center;
 }
 
-.edit-button,
-.submit-button {
+.confirmation-edit-button,
+.confirmation-submit-button {
   flex: 1;
   max-width: 350px;
-  height: 56px;
+  height: 60px;
   font-size: 18px;
   font-weight: 600;
   border: none;
@@ -271,34 +271,34 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.edit-button {
+.confirmation-edit-button {
   background-color: #ffffff;
   color: #A52A44;
   border: 2px solid #A52A44;
 }
 
-.edit-button:hover {
+.confirmation-edit-button:hover {
   background-color: #fef5f7;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
 }
 
-.edit-button:focus {
+.confirmation-edit-button:focus {
   outline: none;
 }
 
-.submit-button {
+.confirmation-submit-button {
   background-color: #A52A44;
   color: #ffffff;
 }
 
-.submit-button:hover {
+.confirmation-submit-button:hover {
   background-color: #8b2339;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(165, 42, 68, 0.4);
 }
 
-.submit-button:focus {
+.confirmation-submit-button:focus {
   outline: none;
 }
 
@@ -344,8 +344,8 @@
     gap: 12px;
   }
 
-  .edit-button,
-  .submit-button {
+  .confirmation-edit-button,
+  .confirmation-submit-button {
     max-width: 50%;
   }
 }
@@ -430,8 +430,8 @@
     font-size: 13px;
   }
 
-  .edit-button,
-  .submit-button {
+  .confirmation-edit-button,
+  .confirmation-submit-button {
     height: 52px;
     font-size: 16px;
     max-width: 48%;

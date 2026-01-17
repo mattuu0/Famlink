@@ -447,10 +447,10 @@
    送信ボタン
    ======================================== */
 
-.submit-button {
+.schedule-submit-button {
   width: 100%;
-  max-width: 400px;
-  height: 300px;
+  max-width: 600px;
+  height: 60px;
   background-color: #cccccc;
   color: #ffffff;
   font-size: 18px;
@@ -462,18 +462,18 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.submit-button.active {
+.schedule-submit-button.active {
   background-color: #A52A44;
   cursor: pointer;
 }
 
-.submit-button.active:hover {
+.schedule-submit-button.active:hover {
   background-color: #8b2339;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
 }
 
-.submit-button:focus {
+.schedule-submit-button:focus {
   outline: none;
 }
 
@@ -563,10 +563,10 @@
     min-width: 600px;
   }
 
-  .submit-button {
+  .schedule-submit-button {
     max-width: 100%;
-    height: 52px;
-    font-size: 16px;
+    height: 48px;
+    font-size: 18px;
   }
 }
 
