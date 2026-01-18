@@ -17,10 +17,13 @@ const Message = {
 
   // 家族ごとのメッセージ履歴を取得
   findByFamilyId: async (family_id) => {
-    // 検索時も正規化して比較
-    const normalizedId = family_id ? family_id.toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
+    // 渡されたfamily_idを正規化してから検索する
+    const normalizedId = family_id ? family_id.toUpperCase().replace(/[^A-Z0-9]/g, '') : null;
+    if (!normalizedId) {
+      return []; // 無効なIDの場合は空の結果を返す
+    }
     const [rows] = await db.query(
-      'SELECT * FROM messages WHERE REPLACE(REPLACE(UPPER(family_id), "-", ""), " ", "") = ? ORDER BY created_at DESC',
+      'SELECT * FROM messages WHERE family_id = ? ORDER BY created_at DESC',
       [normalizedId]
     );
     return rows;

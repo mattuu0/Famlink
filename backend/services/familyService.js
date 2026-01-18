@@ -8,18 +8,48 @@ const db = require('../config/db');
 const familyService = {
   // 家族グループ作成
   createFamily: async (family_id, family_name, email) => {
-    // 家族IDを正規化（大文字、記号なし）して統一
-    const normalizedFamilyId = family_id.toUpperCase().replace(/[^A-Z0-9]/g, '');
-    console.log(`家族作成: Original=${family_id}, Normalized=${normalizedFamilyId}`);
-
-    const existingFamily = await Family.findById(normalizedFamilyId);
-    
-    if (!existingFamily) {
-      await Family.create(normalizedFamilyId, family_name || '家族');
+    if (!family_id || typeof family_id !== 'string' || family_id.trim() === '') {
+      throw new Error('家族IDが無効です。');
     }
     
-    await User.updateFamilyId(email, normalizedFamilyId);
-    return normalizedFamilyId;
+    const normalizedId = family_id.toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (!normalizedId) {
+      throw new Error('招待コードから有効な家族IDを生成できません。');
+    }
+
+    try {
+      let finalFamilyId;
+
+      // 1. まず正規化されたIDで家族を探す
+      let family = await Family.findById(normalizedId);
+      if (family) {
+        finalFamilyId = normalizedId;
+        console.log(`正規化IDで見つかりました: ${finalFamilyId}`);
+      } else {
+        // 2. 見つからなければ、元のIDでも探す（過去データ救済）
+        family = await Family.findById(family_id);
+        if (family) {
+          finalFamilyId = family_id;
+          console.log(`元のIDで見つかりました: ${finalFamilyId}`);
+        }
+      }
+      
+      // 3. どちらも見つからなければ、正規化IDで新規作成
+      if (!finalFamilyId) {
+        await Family.create(normalizedId, family_name || '家族');
+        finalFamilyId = normalizedId;
+        console.log(`新規家族を作成しました: ${finalFamilyId}`);
+      }
+      
+      // 4. ユーザーのfamily_idを最終的なIDで更新
+      await User.updateFamilyId(email, finalFamilyId);
+      
+      return finalFamilyId;
+
+    } catch (error) {
+      console.error('createFamilyで予期せぬエラー:', error);
+      throw error;
+    }
   },
 
   // 家族グループ参加
@@ -61,18 +91,29 @@ const familyService = {
     let targetFamilyId = targetUser.family_id;
 
     if (!targetFamilyId) {
-      // 招待した側がまだ家族を作っていない場合、招待コードをそのまま家族IDとして新規作成
+      // 招待した側がまだ家族を作っていない場合、招待コードを正規化して家族IDとして新規作成
       console.log('招待者が家族未作成のため、新規作成します');
-      targetFamilyId = targetUser.invite_code;
+      
+      const normalizedFamilyId = targetUser.invite_code.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      if (!normalizedFamilyId) {
+        throw new Error('招待コードから有効な家族IDを生成できませんでした。');
+      }
+      
+      targetFamilyId = normalizedFamilyId;
+
       try {
-        await Family.create(targetFamilyId, '家族');
-        console.log(`家族グループを新規作成しました: ${targetFamilyId}`);
-      } catch (err) {
-        if (err.errno !== 1062) {
-          console.error('家族作成中にエラー:', err);
-          throw err;
+        // 既存の家族がいないか正規化IDで確認
+        const existingFamily = await Family.findById(targetFamilyId);
+        if (!existingFamily) {
+          await Family.create(targetFamilyId, '家族');
+          console.log(`家族グループを新規作成しました: ${targetFamilyId}`);
+        } else {
+          console.log(`家族は既に作成されていました: ${targetFamilyId}`);
         }
-        console.log('家族は既に作成されていました(同時実行等)');
+      } catch (err) {
+        // 念のためのエラーハンドリング
+        console.error('家族作成中に予期せぬエラー:', err);
+        throw err;
       }
       // 招待した側のユーザーもその家族に所属させる
       await User.updateFamilyId(targetUser.email, targetFamilyId);

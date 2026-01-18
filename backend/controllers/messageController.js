@@ -7,8 +7,8 @@ const messageController = {
   // メッセージ保存
   postMessage: async (req, res) => {
     try {
-      const { user_name, emotion, comment, family_id } = req.body;
-      const id = await messageService.postMessage(user_name, emotion, comment, family_id);
+      const { user_name, mood, comment, family_id } = req.body;
+      const id = await messageService.postMessage(user_name, mood, comment, family_id);
       res.send({ message: '保存完了！', id });
     } catch (err) {
       res.status(500).send(err.message);
