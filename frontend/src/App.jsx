@@ -11,7 +11,7 @@ import HomePage from "./pages/HomePage.jsx"; // 認証済み（ログイン後�
 import AuthScreen from "./pages/AuthScreen.jsx"; // 未認証（ログイン前）の画面
 import LoginScreen from "./pages/LoginScreen.jsx"; // ログイン画面
 import RegisterScreen from "./pages/RegisterScreen.jsx"; // 新規登録画面
-import FamilySelectScreen from "./pages/FamilyselectScreen.jsx"; // 家族選択画面（修正）
+import FamilySelectScreen from "./pages/FamilySelectScreen.jsx"; // 家族選択画面（修正）
 import JoinFamilyScreen from "./pages/JoinFamilyScreen.jsx"; // 家族参加画面
 import InviteFamilyScreen from "./pages/InviteFamilyScreen.jsx"; // 家族招待画面
 import MeetupPage from "./pages/MeetupPage.jsx"; // 会いたい画面
