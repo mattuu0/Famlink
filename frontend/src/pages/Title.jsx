@@ -1,5 +1,5 @@
 import React from 'react';
-import './title.css';
+import './Title.css';
 import LogoImage from '../assets/titleIcon.png';
 
 /**
