@@ -8,8 +8,8 @@ const scheduleController = {
   create: async (req, res) => {
     console.log('API Request: POST /api/schedules', req.body);
     try {
-      const { family_id, sender_name, meetup_type, time_ranges } = req.body;
-      const id = await scheduleService.createSchedule(family_id, sender_name, meetup_type, time_ranges);
+      const { family_id, sender_name, meetup_type, time_ranges, sender_id } = req.body;
+      const id = await scheduleService.createSchedule(family_id, sender_name, meetup_type, time_ranges, sender_id);
       res.status(201).json({ message: 'スケジュールを保存しました', id });
     } catch (err) {
       console.error('スケジュール保存エラー:', err.message);

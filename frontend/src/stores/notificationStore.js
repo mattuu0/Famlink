@@ -46,54 +46,97 @@ const useNotificationStore = create((set, get) => ({
 
       console.log(schedules);
 
-      const scheduleNotifications = schedules.map((schedule) => {
-        // time_rangesをパース（JSON文字列の場合）
-        let timeRanges = schedule.time_ranges;
-        if (typeof timeRanges === "string") {
-          try {
-            timeRanges = JSON.parse(timeRanges);
-          } catch (e) {
-            console.error("JSON parse error:", e);
-            timeRanges = [];
+      // 現在のユーザーIDを取得
+      const currentUserId = localStorage.getItem('userId');
+
+      // スケジュール通知を作成
+      const scheduleNotifications = schedules
+        .filter((schedule) => {
+          // 完了したスケジュールは送信者にも表示、それ以外は自分が送ったものを除外
+          if (schedule.status === 'completed' && String(schedule.sender_id) === String(currentUserId)) {
+            return true; // 完了した自分のスケジュールは表示
           }
-        }
+          return String(schedule.sender_id) !== String(currentUserId); // 他人のスケジュールは表示
+        })
+        .map((schedule) => {
+          // time_rangesをパース（JSON文字列の場合）
+          let timeRanges = schedule.time_ranges;
+          if (typeof timeRanges === "string") {
+            try {
+              timeRanges = JSON.parse(timeRanges);
+            } catch (e) {
+              console.error("JSON parse error:", e);
+              timeRanges = [];
+            }
+          }
 
-        return {
-          id: `schedule-${schedule.id}`,
-          type: "meetingRequest",
-          title: `${schedule.sender_name}さんから会う提案`,
-          data: {
-            purpose: getMeetupTypeText(schedule.meetup_type), // 日本語に変換
-            preferredDates: timeRanges.map((timeRange) => ({
-              date: timeRange.date,
-              timeSlots: timeRange.ranges.map((range) => ({
-                startTime: range.start,
-                endTime: range.end,
+          // 完了したスケジュールの場合
+          if (schedule.status === 'completed' && String(schedule.sender_id) === String(currentUserId)) {
+            let finalSchedule = schedule.final_schedule;
+            if (typeof finalSchedule === "string") {
+              try {
+                finalSchedule = JSON.parse(finalSchedule);
+              } catch (e) {
+                console.error("JSON parse error:", e);
+                finalSchedule = [];
+              }
+            }
+
+            return {
+              id: `schedule-final-${schedule.id}`,
+              type: "scheduleFinal",
+              title: `日程が決まりました！`,
+              data: {
+                purpose: getMeetupTypeText(schedule.meetup_type),
+                finalSchedule: finalSchedule,
+                requesterName: schedule.sender_name,
+              },
+              createdAt: new Date(schedule.created_at),
+              isRead: schedule.is_read || false,
+              sender: schedule.sender_name,
+            };
+          }
+
+          // 通常のスケジュール（回答待ち）
+          return {
+            id: `schedule-${schedule.id}`,
+            type: "meetingRequest",
+            title: `${schedule.sender_name}さんから会う提案`,
+            data: {
+              purpose: getMeetupTypeText(schedule.meetup_type),
+              preferredDates: timeRanges.map((timeRange) => ({
+                date: timeRange.date,
+                timeSlots: timeRange.ranges.map((range) => ({
+                  startTime: range.start,
+                  endTime: range.end,
+                })),
               })),
-            })),
-            requesterName: schedule.sender_name,
-          },
-          createdAt: new Date(schedule.created_at),
-          isRead: schedule.is_read || false,
-          sender: schedule.sender_name,
-        };
-      });
+              requesterName: schedule.sender_name,
+            },
+            createdAt: new Date(schedule.created_at),
+            isRead: schedule.is_read || false,
+            sender: schedule.sender_name,
+          };
+        });
 
-      const messageNotifications = messages.map((message) => ({
-        id: `message-${message.id}`,
-        type: "emotion",
-        title: `${message.user_name}さんの今の気持ち`,
-        content: `「${message.emotion}」`,
-        createdAt: new Date(message.created_at),
-        isRead: message.is_read || false,
-        data: {
-          user_id: message.user_id,
-          user_name: message.user_name,
-          mood: message.emotion,
-          emotion: message.emotion,
-          comment: message.comment,
-        },
-      }));
+      // 自分が送ったメッセージを除外
+      const messageNotifications = messages
+        .filter((message) => String(message.user_id) !== String(currentUserId))
+        .map((message) => ({
+          id: `message-${message.id}`,
+          type: "emotion",
+          title: `${message.user_name}さんの今の気持ち`,
+          content: `「${message.emotion}」`,
+          createdAt: new Date(message.created_at),
+          isRead: message.is_read || false,
+          data: {
+            user_id: message.user_id,
+            user_name: message.user_name,
+            mood: message.emotion,
+            emotion: message.emotion,
+            comment: message.comment,
+          },
+        }));
 
       const allNotifications = [
         ...scheduleNotifications,

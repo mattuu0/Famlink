@@ -5,11 +5,11 @@ const Schedule = require('../models/scheduleModel');
  */
 const scheduleService = {
   // 要望の保存
-  createSchedule: async (family_id, sender_name, meetup_type, time_ranges) => {
+  createSchedule: async (family_id, sender_name, meetup_type, time_ranges, sender_id) => {
     if (!family_id || !sender_name || !meetup_type || !time_ranges) {
       throw new Error('必須項目が不足しています');
     }
-    return await Schedule.create(family_id, sender_name, meetup_type, time_ranges);
+    return await Schedule.create(family_id, sender_name, meetup_type, time_ranges, sender_id);
   },
 
   // 家族の要望一覧取得

@@ -42,7 +42,12 @@ const RegisterScreen = ({ onRegisterSuccess, onBackToAuth }) => {
       if (response.ok) {
         const data = await response.json();
         console.log('新規登録成功:', data);
-        
+
+        // user_idをlocalStorageに保存
+        if (data.userId) {
+          localStorage.setItem('userId', data.userId);
+        }
+
         // App.jsxから渡されたonRegisterSuccessを呼ぶ
         // トークンとしてemail、そして招待コードを渡す
         if (onRegisterSuccess) {

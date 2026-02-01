@@ -39,6 +39,7 @@ const ConfirmationPage = () => {
       const userResponse = await fetch(`http://127.0.0.1:3001/api/users/${email}`);
       const userData = await userResponse.json();
       const senderName = userData.user_name || email.split('@')[0];
+      const senderId = userData.id;
 
       // スケジュールを保存
       const response = await fetch('http://127.0.0.1:3001/api/schedules', {
@@ -48,7 +49,8 @@ const ConfirmationPage = () => {
           family_id: familyId,
           sender_name: senderName,
           meetup_type: meetupType,
-          time_ranges: timeRanges
+          time_ranges: timeRanges,
+          sender_id: senderId
         })
       });
 

@@ -49,6 +49,10 @@ const HomePage = ({onLogout}) => {
         if (response.ok) {
           const data = await response.json();
           setUserData(data);
+          // user_idをlocalStorageに保存
+          if (data.id) {
+            localStorage.setItem('userId', data.id);
+          }
           if (data.family_id) {
             fetchNotifications();
             intervalId = setInterval(fetchNotifications, 5000);

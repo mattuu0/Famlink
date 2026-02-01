@@ -74,7 +74,20 @@ const initializeDatabase = async () => {
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     `);
 
-    // 5. 既存の users テーブルに invite_code カラムがない場合の補完 (互換性のため)
+    // 5. schedule_responses テーブルの作成
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS schedule_responses (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        schedule_id INT NOT NULL,
+        user_id INT NOT NULL,
+        user_name VARCHAR(50),
+        selected_time_slots JSON,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE KEY unique_response (schedule_id, user_id)
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    `);
+
+    // 6. 既存の users テーブルに invite_code カラムがない場合の補完 (互換性のため)
     const [columns] = await pool.query("SHOW COLUMNS FROM users LIKE 'invite_code'");
     if (columns.length === 0) {
       await pool.query("ALTER TABLE users ADD COLUMN invite_code VARCHAR(20) UNIQUE");
@@ -85,6 +98,18 @@ const initializeDatabase = async () => {
     if (messages_user_id.length === 0) {
       await pool.query("ALTER TABLE messages ADD COLUMN user_id INT");
       console.log('messages テーブルに user_id カラムを追加しました');
+    }
+
+    const [schedules_sender_id] = await pool.query("SHOW COLUMNS FROM schedules LIKE 'sender_id'");
+    if (schedules_sender_id.length === 0) {
+      await pool.query("ALTER TABLE schedules ADD COLUMN sender_id INT");
+      console.log('schedules テーブルに sender_id カラムを追加しました');
+    }
+
+    const [schedules_final_schedule] = await pool.query("SHOW COLUMNS FROM schedules LIKE 'final_schedule'");
+    if (schedules_final_schedule.length === 0) {
+      await pool.query("ALTER TABLE schedules ADD COLUMN final_schedule JSON");
+      console.log('schedules テーブルに final_schedule カラムを追加しました');
     }
 
     // テーブル一覧の表示（デバッグ用）

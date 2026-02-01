@@ -24,7 +24,7 @@ const LoginScreen = ({ onLoginSuccess, onGoToRegister }) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
     
     try {
-      const response = await fetch('https://famlink-api.railway.app/api/login', {
+      const response = await fetch('http://127.0.0.1:3001/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
@@ -33,7 +33,12 @@ const LoginScreen = ({ onLoginSuccess, onGoToRegister }) => {
       if (response.ok) {
         const data = await response.json();
         console.log('ログイン成功:', data);
-        
+
+        // user_idをlocalStorageに保存
+        if (data.user.id) {
+          localStorage.setItem('userId', data.user.id);
+        }
+
         if (onLoginSuccess) {
           // トークン（email）、招待コード、家族IDを渡す
           onLoginSuccess(email, data.user.invite_code, data.user.family_id);
