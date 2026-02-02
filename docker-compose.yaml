@@ -13,7 +13,9 @@ services:
       - db-data:/var/lib/mysql
 
   backend:
-    build: ./backend
+    build:
+      context: ./backend
+      target: development
     ports:
       - "3001:3001"
     volumes:
@@ -29,9 +31,11 @@ services:
       - db
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      target: development
     ports:
-      - "5173:5173"
+      - "8822:5173"
     volumes:
       - ./frontend:/usr/src/app
       - /usr/src/app/node_modules
