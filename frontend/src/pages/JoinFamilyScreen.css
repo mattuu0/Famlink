@@ -1,0 +1,316 @@
+/* ========================================
+   家族参加画面全体のスタイル
+   ======================================== */
+
+/* 画面全体のコンテナ */
+.join-family-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+/* ========================================
+   装飾用の丸（タブレット・PC版のみ）
+   ======================================== */
+
+.join-family-decoration {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+}
+
+.join-family-decoration-top-left {
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+.join-family-decoration-bottom-right {
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+.join-family-blob {
+  position: absolute;
+  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+}
+
+.join-family-blob-1 {
+  width: 380px;
+  height: 380px;
+  background-color: #a52a44;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+.join-family-blob-2 {
+  width: 280px;
+  height: 280px;
+  background-color: #e8a5b5;
+  top: 120px;
+  left: 150px;
+  opacity: 0.4;
+}
+
+.join-family-blob-3 {
+  width: 350px;
+  height: 350px;
+  background-color: #f5c2d0;
+  bottom: 0;
+  right: 100px;
+  opacity: 0.7;
+}
+
+.join-family-blob-4 {
+  width: 350px;
+  height: 350px;
+  background-color: #a01e3a;
+  bottom: 200px;
+  right: 70px;
+  opacity: 0.4;
+}
+
+
+/* ========================================
+   コンテンツエリア
+   ======================================== */
+
+.join-family-content {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.join-family-logo-section {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.join-family-logo-placeholder {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.join-family-logo-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+
+/* ========================================
+   説明エリア
+   ======================================== */
+
+.join-family-description {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.join-family-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #a52a44;
+  margin: 0 0 20px 0;
+}
+
+.join-family-description-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: #424242;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* ========================================
+   フォームエリア
+   ======================================== */
+
+.join-family-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.join-family-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.join-family-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #a52a44;
+}
+
+.join-family-input {
+  width: 100%;
+  height: 48px;
+  padding: 0 16px;
+  font-size: 14px;
+  border: 2px solid #a52a44;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s;
+  box-sizing: border-box;
+}
+
+.join-family-input:focus {
+  border-color: #8b2339;
+}
+
+.join-family-input::placeholder {
+  color: #bdbdbd;
+}
+
+
+/* ========================================
+   ボタンエリア
+   ======================================== */
+
+.join-family-submit-button {
+  width: 100%;
+  height: 52px;
+  background-color: #a52a44;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  border: 2px solid #a52a44;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 8px;
+  outline: none;
+}
+
+.join-family-submit-button:hover {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+.join-family-submit-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+.join-family-submit-button:focus {
+  outline: none;
+}
+
+.join-family-back-link {
+  font-size: 14px;
+  color: #a52a44;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 16px 0;
+  margin-top: 16px;
+}
+
+.join-family-back-link:hover {
+  color: #8b2339;
+  text-decoration: underline;
+}
+
+.join-family-back-link:focus {
+  outline: none;
+}
+
+
+/* ========================================
+   レスポンシブ対応
+   ======================================== */
+
+@media (min-width: 768px) {
+  .join-family-decoration {
+    display: block;
+  }
+
+  .join-family-content {
+    max-width: 360px;
+  }
+
+  .join-family-logo-section {
+    margin-bottom: 40px;
+  }
+
+  .join-family-logo-placeholder {
+    width: 130px;
+    height: 130px;
+  }
+
+  .join-family-title {
+    font-size: 24px;
+  }
+
+  .join-family-description-text {
+    font-size: 16px;
+  }
+
+  .join-family-input {
+    height: 52px;
+    font-size: 15px;
+  }
+
+  .join-family-submit-button {
+    height: 56px;
+    font-size: 17px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .join-family-content {
+    max-width: 400px;
+  }
+
+  .join-family-logo-placeholder {
+    width: 150px;
+    height: 150px;
+  }
+
+  .join-family-title {
+    font-size: 26px;
+  }
+
+  .join-family-description-text {
+    font-size: 18px;
+  }
+
+  .join-family-input {
+    height: 56px;
+    font-size: 16px;
+  }
+
+  .join-family-submit-button {
+    height: 60px;
+    font-size: 18px;
+  }
+}

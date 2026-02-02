@@ -1,0 +1,384 @@
+/* ========================================
+   認証画面全体のスタイル
+   ======================================== */
+
+/* 画面全体のコンテナ */
+.auth-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+/* ========================================
+   装飾用の丸（タブレット・PC版のみ）
+   ======================================== */
+
+/* 装飾用の丸を配置するエリア */
+.auth-decoration {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* 左上の装飾丸エリア */
+.auth-decoration-top-left {
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 右下の装飾丸エリア */
+.auth-decoration-bottom-right {
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 静止した丸の基本スタイル */
+.auth-blob {
+  position: absolute;
+  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+}
+
+/* 左上の丸1：濃い赤色 */
+.auth-blob-1 {
+  width: 380px;
+  height: 380px;
+  background-color: #a52a44;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+/* 左上の丸2：薄いピンク色 */
+.auth-blob-2 {
+  width: 280px;
+  height: 280px;
+  background-color: #e8a5b5;
+  top: 120px;
+  left: 150px;
+  opacity: 0.4;
+}
+
+/* 右下の丸3：薄いピンク色 */
+.auth-blob-3 {
+  width: 350px;
+  height: 350px;
+  background-color: #f5c2d0;
+  bottom: 0;
+  right: 100px;
+  opacity: 0.7;
+}
+
+/* 右下の丸4：少し濃い赤色 */
+.auth-blob-4 {
+  width: 350px;
+  height: 350px;
+  background-color: #a01e3a;
+  bottom: 200px;
+  right: 70px;
+  opacity: 0.4;
+}
+
+
+/* ========================================
+   ロゴエリアのスタイル
+   ======================================== */
+
+/* ロゴエリア全体 */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+/* ロゴ画像を配置する場所 */
+.logo-placeholder {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+/* ロゴ画像のスタイル */
+.logo-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* FamLinkのテキストロゴ */
+.app-title {
+  display: none;
+  font-size: 26px;
+  font-weight: bold;
+  color: #a52a44;
+  margin: 0;
+  font-family: 'Serif', Georgia, 'Times New Roman', serif;
+  letter-spacing: 1px;
+}
+
+
+/* ========================================
+   ボタンエリアのスタイル
+   ======================================== */
+
+/* ボタンエリア全体 */
+.button-section {
+  width: 100%;
+  max-width: 280px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ボタンの共通スタイル */
+.auth-button {
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* ========================================
+   ログインボタンのスタイル（枠線のみ）
+   ======================================== */
+
+/* ログインボタン */
+.login-button {
+  background-color: transparent;
+  border: 2px solid #a52a44;
+  color: #a52a44;
+  outline: none;
+}
+
+/* ログインボタンのホバー時 */
+.login-button:hover {
+  background-color: #f5e6e8;
+  border-color: #a52a44;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
+}
+
+/* ログインボタンのアクティブ時 */
+.login-button:active {
+  border-color: #a52a44;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2);
+}
+
+/* ログインボタンのフォーカス時 */
+.login-button:focus {
+  border-color: #a52a44;
+  outline: none;
+}
+
+
+/* ========================================
+   新規登録ボタンのスタイル（塗りつぶし）
+   ======================================== */
+
+/* 新規登録ボタン */
+.register-button {
+  background-color: #a52a44;
+  color: #ffffff;
+  border: 2px solid #a52a44;
+  outline: none;
+}
+
+/* 新規登録ボタンのホバー時 */
+.register-button:hover {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+/* 新規登録ボタンのアクティブ時 */
+.register-button:active {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+/* 新規登録ボタンのフォーカス時 */
+.register-button:focus {
+  background-color: #a52a44;
+  border-color: #a52a44;
+  outline: none;
+}
+
+
+/* ========================================
+   LINEログインボタンのスタイル
+   ======================================== */
+
+/* LINEログインボタン：LINEの公式カラー */
+.line-login-button {
+  background-color: #00C300;
+  color: #ffffff;
+  border: 2px solid #00C300;
+  outline: none;
+}
+
+/* LINEアイコン画像のラッパー */
+.line-icon-wrapper {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 24px;
+  height: 24px;
+  background-color: transparent;
+  border-radius: 0;
+  padding: 0;
+}
+
+/* LINEアイコン画像 */
+.line-icon-image {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* LINEログインボタンのホバー時 */
+.line-login-button:hover {
+  background-color: #00C300;
+  border-color: #00C300;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(6, 199, 85, 0.3);
+}
+
+/* LINEログインボタンのアクティブ時 */
+.line-login-button:active {
+  background-color: #00C300;
+  border-color: #00C300;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(6, 199, 85, 0.3);
+}
+
+/* LINEログインボタンのフォーカス時 */
+.line-login-button:focus {
+  background-color: #00C300;
+  border-color: #00C300;
+  outline: none;
+}
+
+
+/* ========================================
+   レスポンシブ対応：タブレット（768px以上）
+   ======================================== */
+@media (min-width: 768px) {
+  /* 装飾用の丸を表示 */
+  .auth-decoration {
+    display: block;
+  }
+
+  /* ロゴエリア */
+  .logo-section {
+    margin-bottom: 80px;
+  }
+
+  /* ロゴ画像プレースホルダー */
+  .logo-placeholder {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 22px;
+  }
+
+  /* テキストロゴ */
+  .app-title {
+    font-size: 34px;
+    letter-spacing: 1.3px;
+  }
+
+  /* ボタンエリア */
+  .button-section {
+    max-width: 320px;
+    padding: 0;
+    gap: 16px;
+  }
+
+  /* ボタン */
+  .auth-button {
+    height: 52px;
+    font-size: 16px;
+    border-radius: 5px;
+  }
+
+  /* LINEアイコン */
+  .line-icon-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+
+/* ========================================
+   レスポンシブ対応：PC（1280px以上）
+   ======================================== */
+@media (min-width: 1280px) {
+  /* ロゴエリア */
+  .logo-section {
+    margin-bottom: 100px;
+  }
+
+  /* ロゴ画像プレースホルダー */
+  .logo-placeholder {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 24px;
+  }
+
+  /* テキストロゴ */
+  .app-title {
+    font-size: 38px;
+    letter-spacing: 1.5px;
+  }
+
+  /* ボタンエリア */
+  .button-section {
+    max-width: 420px;
+    gap: 20px;
+  }
+
+  /* ボタン */
+  .auth-button {
+    height: 64px;
+    font-size: 18px;
+    border-radius: 8px;
+  }
+
+  /* LINEアイコン */
+  .line-icon-wrapper {
+    width: 40px;
+    height: 40px;
+  }
+}

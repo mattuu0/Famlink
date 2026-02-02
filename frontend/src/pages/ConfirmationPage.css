@@ -1,0 +1,507 @@
+/* ========================================
+   確認画面全体のスタイル
+   ======================================== */
+
+/* リセットスタイル */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 画面全体のコンテナ */
+.confirmation-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: #fafafa;
+}
+
+/* ========================================
+   戻るボタン
+   ======================================== */
+
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 48px;
+  height: 48px;
+  background-color: #ffffff;
+  border: 2px solid #e0e0e0;
+  border-radius: 50%;
+  font-size: 28px;
+  color: #5d4037;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-button:hover {
+  transform: scale(1.1);
+  border-color: #A52A44;
+  color: #A52A44;
+}
+
+.back-button:focus {
+  outline: none;
+}
+
+/* ========================================
+   ヘッダーエリア
+   ======================================== */
+
+.confirmation-header {
+  width: 100%;
+  max-width: 800px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.confirmation-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #A52A44;
+  margin-bottom: 12px;
+}
+
+.confirmation-subtitle {
+  font-size: 16px;
+  color: #757575;
+}
+
+/* ========================================
+   確認内容エリア
+   ======================================== */
+
+.confirmation-content {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.confirmation-section {
+  background-color: #ffffff;
+  padding: 28px;
+  border: 2px solid #A52A44;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.1);
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #A52A44;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ========================================
+   会いたい内容の表示
+   ======================================== */
+
+.meetup-type-display {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background-color: #fef5f7;
+  border-radius: 12px;
+}
+
+.meetup-emoji {
+  font-size: 48px;
+}
+
+.meetup-text {
+  font-size: 20px;
+  font-weight: 600;
+  color: #424242;
+}
+
+/* ========================================
+   希望日時の表示
+   ======================================== */
+
+.time-ranges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.time-range-item {
+  padding: 16px;
+  background-color: #fef5f7;
+  border-radius: 12px;
+}
+
+.date-label {
+  font-size: 18px;
+  font-weight: 600;
+  color: #A52A44;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #A52A44;
+}
+
+.ranges-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-range-display {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background-color: #ffffff;
+  border: 1px solid #A52A44;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.time-start,
+.time-end {
+  color: #A52A44;
+  font-weight: 600;
+}
+
+.time-separator {
+  color: #757575;
+}
+
+.no-data-message {
+  font-size: 15px;
+  color: #9e9e9e;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ========================================
+   注意事項エリア
+   ======================================== */
+
+.confirmation-notice {
+  display: flex;
+  gap: 16px;
+  padding: 20px;
+  background-color: #fff9e6;
+  border: 2px solid #ffc107;
+  border-radius: 12px;
+}
+
+.notice-icon {
+  font-size: 24px;
+  color: #ffc107;
+  flex-shrink: 0;
+}
+
+.notice-content {
+  flex: 1;
+}
+
+.notice-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #424242;
+  margin-bottom: 8px;
+}
+
+.notice-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.notice-list li {
+  font-size: 14px;
+  color: #616161;
+  line-height: 1.6;
+  margin-bottom: 4px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.notice-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #ffc107;
+  font-weight: bold;
+}
+
+/* ========================================
+   ボタンエリア
+   ======================================== */
+
+.button-area {
+  width: 100%;
+  max-width: 800px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirmation-edit-button,
+.confirmation-submit-button {
+  flex: 1;
+  max-width: 350px;
+  height: 60px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 28px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.confirmation-edit-button {
+  background-color: #ffffff;
+  color: #A52A44;
+  border: 2px solid #A52A44;
+}
+
+.confirmation-edit-button:hover {
+  background-color: #fef5f7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
+}
+
+.confirmation-edit-button:focus {
+  outline: none;
+}
+
+.confirmation-submit-button {
+  background-color: #A52A44;
+  color: #ffffff;
+}
+
+.confirmation-submit-button:hover {
+  background-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.4);
+}
+
+.confirmation-submit-button:focus {
+  outline: none;
+}
+
+/* ========================================
+   レスポンシブ対応（タブレット）
+   ======================================== */
+
+@media (max-width: 768px) {
+  .confirmation-container {
+    padding: 30px 30px; /* 16px → 30px */
+  }
+
+  .confirmation-header {
+    max-width: 85%; /* 新規追加 */
+  }
+
+  .confirmation-title {
+    font-size: 28px;
+  }
+
+  .confirmation-subtitle {
+    font-size: 15px;
+  }
+
+  .confirmation-content {
+    max-width: 85%; /* 新規追加 */
+  }
+
+  .confirmation-section {
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 16px;
+  }
+
+  .meetup-type-display {
+    padding: 16px;
+  }
+
+  .meetup-emoji {
+    font-size: 40px;
+  }
+
+  .meetup-text {
+    font-size: 18px;
+  }
+
+  .button-area {
+    flex-direction: row;
+    gap: 12px;
+    max-width: 85%; /* 新規追加 */
+  }
+
+  .confirmation-edit-button,
+  .confirmation-submit-button {
+    max-width: 50%;
+  }
+}
+
+/* ========================================
+   レスポンシブ対応（スマートフォン）
+   ======================================== */
+
+@media (max-width: 480px) {
+  .confirmation-container {
+    padding: 20px 25px; /* 12px → 25px に変更 */
+  }
+
+  .back-button {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    top: 16px;
+    left: 16px;
+  }
+
+  .confirmation-header {
+    margin-bottom: 30px;
+    max-width: 90%; /* 新規追加 */
+  }
+
+  .confirmation-title {
+    font-size: 24px;
+  }
+
+  .confirmation-subtitle {
+    font-size: 14px;
+  }
+
+  .confirmation-content {
+    max-width: 90%; /* 新規追加 */
+    gap: 20px; /* 24px → 20px */
+  }
+
+  .confirmation-section {
+    padding: 18px; /* 16px → 18px */
+  }
+
+  .section-title {
+    font-size: 15px;
+    margin-bottom: 16px; /* 20px → 16px */
+  }
+
+  .meetup-type-display {
+    padding: 14px; /* 12px → 14px */
+    gap: 14px; /* 12px → 14px */
+  }
+
+  .meetup-emoji {
+    font-size: 36px;
+  }
+
+  .meetup-text {
+    font-size: 16px;
+  }
+
+  .time-ranges-list {
+    gap: 14px; /* 16px → 14px */
+  }
+
+  .time-range-item {
+    padding: 14px; /* 12px → 14px */
+  }
+
+  .date-label {
+    font-size: 16px;
+    margin-bottom: 10px; /* 12px → 10px */
+    padding-bottom: 6px; /* 8px → 6px */
+  }
+
+  .ranges-wrapper {
+    gap: 6px; /* 8px → 6px */
+  }
+
+  .time-range-display {
+    padding: 10px 14px; /* 10px 12px → 10px 14px */
+    font-size: 14px;
+  }
+
+  .confirmation-notice {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .notice-icon {
+    font-size: 20px;
+  }
+
+  .notice-title {
+    font-size: 14px;
+  }
+
+  .notice-list li {
+    font-size: 13px;
+  }
+
+  .button-area {
+    max-width: 90%; /* 新規追加 */
+    gap: 10px; /* 16px → 10px */
+  }
+
+  .confirmation-edit-button,
+  .confirmation-submit-button {
+    height: 52px;
+    font-size: 16px;
+    max-width: 48%;
+  }
+}
+
+/* ========================================
+   アニメーション
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confirmation-section {
+  animation: fadeInUp 0.5s ease-out backwards;
+}
+
+.confirmation-section:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.confirmation-section:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.confirmation-notice {
+  animation: fadeInUp 0.5s ease-out backwards;
+  animation-delay: 0.3s;
+}
+
+.button-area {
+  animation: fadeInUp 0.5s ease-out backwards;
+  animation-delay: 0.4s;
+}

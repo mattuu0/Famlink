@@ -1,0 +1,393 @@
+/* ========================================
+   会いたい画面全体のスタイル
+   ======================================== */
+
+/* リセットスタイル */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 画面全体のコンテナ */
+.meetup-container {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  background-color: #fafafa;
+}
+
+/* ========================================
+   戻るボタン
+   ======================================== */
+
+button.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer !important;
+  font-size: 36px;
+  color: #5d4037 !important;
+  z-index: 100;
+  transition: transform 0.3s ease;
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1;
+  width: auto !important;
+  height: auto !important;
+}
+
+button.back-button:hover {
+  transform: scale(1.2);
+  background: none !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+  cursor: pointer !important;
+}
+
+button.back-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  background: none !important;
+  background-color: transparent !important;
+}
+
+button.back-button:active {
+  background: none !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+button.back-button:disabled {
+  background: none !important;
+  background-color: transparent !important;
+  cursor: pointer !important;
+}
+
+/* ========================================
+   ヘッダーエリア
+   ======================================== */
+
+.meetup-header {
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+  margin-bottom: 40px;
+  padding-top: 40px;
+}
+
+.meetup-title {
+  font-size: 32px;
+  font-weight: bold;
+  color: #5d4037;
+  margin-bottom: 8px;
+}
+
+.meetup-subtitle {
+  font-size: 16px;
+  color: #8d6e63;
+}
+
+/* ========================================
+   選択肢カードエリア
+   ======================================== */
+
+.options-grid {
+  width: 100%;
+  max-width: 700px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+/* 各カード */
+button.option-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  border: 3px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 200px;
+}
+
+/* ホバー時のスタイル */
+button.option-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* 選択された状態 */
+button.option-card.selected {
+  border-color: #5d4037;
+  box-shadow: 0 4px 12px rgba(93, 64, 55, 0.3);
+}
+
+/* フォーカス時の黒枠線を削除 */
+button.option-card:focus {
+  outline: none;
+}
+
+/* カード内のアイコンエリア */
+.option-icon {
+  margin-bottom: 20px;
+}
+
+.option-icon img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+/* カードのタイトル */
+.option-title {
+  font-size: 20px;
+  font-weight: bold;
+  color: #5d4037;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+/* カードのサブタイトル */
+.option-subtitle {
+  font-size: 14px;
+  color: #8d6e63;
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ========================================
+   日程を選ぶボタン
+   ======================================== */
+
+button.submit-button {
+  width: 100%;
+  max-width: 400px;
+  height: 48px;
+  background-color: #cccccc !important;
+  color: #ffffff !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  border: none !important;
+  border-radius: 24px !important;
+  cursor: not-allowed !important;
+  transition: all 0.3s ease;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 0 !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* アクティブ状態（選択された時） */
+button.submit-button.active {
+  background-color: #a52a44 !important;
+  cursor: pointer !important;
+}
+
+button.submit-button.active:hover {
+  background-color: #8b2339 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3) !important;
+  cursor: pointer !important;
+}
+
+button.submit-button:disabled {
+  background-color: #cccccc !important;
+  cursor: not-allowed !important;
+}
+
+button.submit-button:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+button.submit-button:active:not(.active) {
+  background-color: #cccccc !important;
+}
+
+/* カレンダーアイコン */
+.calendar-icon {
+  font-size: 20px;
+}
+
+/* ========================================
+   レスポンシブ対応（タブレット）
+   ======================================== */
+
+@media (max-width: 768px) {
+  .meetup-container {
+    padding: 30px 30px; /* 16px → 30px */
+  }
+
+  .meetup-header {
+    padding-top: 50px;
+    max-width: 85%; /* 新規追加 */
+  }
+
+  .meetup-title {
+    font-size: 28px;
+  }
+
+  .meetup-subtitle {
+    font-size: 15px;
+  }
+
+  .options-grid {
+    gap: 18px; /* 16px → 18px */
+    max-width: 85%; /* 新規追加 */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  button.option-card {
+    padding: 32px 18px; /* 30px 16px → 32px 18px */
+    min-height: 180px;
+  }
+
+  .option-icon img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .option-title {
+    font-size: 18px;
+  }
+
+  .option-subtitle {
+    font-size: 13px;
+  }
+
+  button.submit-button {
+    max-width: 85%; /* 新規追加 */
+  }
+}
+
+/* ========================================
+   レスポンシブ対応（スマートフォン）
+   ======================================== */
+
+@media (max-width: 480px) {
+  .meetup-container {
+    padding: 20px 25px; /* 12px → 25px に変更 */
+  }
+
+  button.back-button {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    top: 16px;
+    left: 16px;
+  }
+
+  .meetup-header {
+    margin-bottom: 35px; /* 30px → 35px */
+    max-width: 90%; /* 新規追加：横幅制限 */
+  }
+
+  .meetup-title {
+    font-size: 24px;
+    margin-bottom: 12px; /* 8px → 12px */
+  }
+
+  .meetup-subtitle {
+    font-size: 14px;
+    line-height: 1.6; /* 新規追加 */
+  }
+
+  .options-grid {
+    gap: 14px; /* 12px → 14px */
+    grid-template-columns: repeat(2, 1fr); /* 1列 → 2列に変更 */
+    max-width: 90%; /* 85% → 90% */
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  button.option-card {
+    padding: 28px 16px; /* 24px 16px → 28px 16px */
+    min-height: 160px; /* 160px → 160px */
+    border-width: 2px; /* 3px → 2px */
+  }
+
+  .option-icon {
+    margin-bottom: 12px; /* 20px → 12px */
+  }
+
+  .option-icon img {
+    width: 56px; /* 60px → 56px（2列なので少し小さく） */
+    height: 56px;
+  }
+
+  .option-title {
+    font-size: 16px; /* 16px → 16px */
+    margin-bottom: 8px; /* 8px → 8px */
+  }
+
+  .option-subtitle {
+    font-size: 12px; /* 12px → 12px */
+    line-height: 1.4; /* 新規追加 */
+  }
+
+  button.submit-button {
+    max-width: 90%; /* 100% → 90% */
+    height: 52px; /* 48px → 52px */
+    font-size: 17px; /* 16px → 17px */
+    margin-top: 25px; /* 20px → 25px */
+  }
+}
+
+/* ========================================
+   アニメーション
+   ======================================== */
+
+/* カードのフェードイン */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+button.option-card {
+  animation: fadeInUp 0.5s ease-out backwards;
+}
+
+button.option-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+button.option-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+button.option-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+button.option-card:nth-child(4) {
+  animation-delay: 0.4s;
+}

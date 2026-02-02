@@ -1,0 +1,600 @@
+/* ========================================
+   通知ドロワーのスタイル
+   ======================================== */
+
+/* ========================================
+   オーバーレイ
+   ======================================== */
+
+.notification-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+  z-index: 1000;
+}
+
+.notification-overlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ========================================
+   通知ドロワー
+   ======================================== */
+
+.notification-drawer {
+  position: fixed;
+  top: 0;
+  right: -80%;
+  width: 80%;
+  max-width: 350px;
+  height: 100%;
+  background-color: #f9f9f9;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+  transition: right 0.3s ease-in-out;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.notification-drawer.open {
+  right: 0;
+}
+
+.notification-drawer * {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* ========================================
+   ヘッダー
+   ======================================== */
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e0e0e0;
+  background-color: #ffffff;
+}
+
+.drawer-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #888;
+  padding: 0;
+  line-height: 1;
+}
+
+/* ========================================
+   通知リスト
+   ======================================== */
+
+.drawer-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px;
+  flex-grow: 1;
+  width: 100%;
+}
+
+.drawer-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.drawer-body::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 10px;
+}
+
+.drawer-body::-webkit-scrollbar-thumb {
+  background: #ef9a9a;
+  border-radius: 10px;
+}
+
+.drawer-body::-webkit-scrollbar-thumb:hover {
+  background: #a52a44;
+}
+
+/* ========================================
+   通知アイテム
+   ======================================== */
+
+.notification-item {
+  display: flex;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e9e9e9;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  word-wrap: break-word;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.notification-item:hover {
+  background-color: #f9f9f9;
+}
+
+.notification-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-right: 16px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 4px;
+}
+
+/* 絵文字アイコン（会いたいリクエスト用） */
+.notification-emoji-icon {
+  font-size: 32px;
+  margin-right: 16px;
+  flex-shrink: 0;
+  align-self: flex-start;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+.notification-content {
+  flex-grow: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.notification-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+  flex: 1;
+  min-width: 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.notification-time {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.notification-body {
+  font-size: 14px;
+  color: #555;
+  margin: 0 0 6px 0;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ========================================
+   会いたいリクエスト
+   ======================================== */
+
+.meeting-request {
+  flex-direction: column;
+  padding: 12px;
+}
+
+.meeting-request .notification-emoji-icon {
+  margin-right: 0;
+  margin-bottom: 8px;
+}
+
+.notification-section {
+  margin-top: 12px;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.notification-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #666;
+  margin: 0 0 8px 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* 会いたい内容のテキスト */
+.purpose-text {
+  padding: 8px 10px;
+  background-color: #fafafa;
+  border-radius: 6px;
+  font-size: 13px;
+  color: #424242;
+  border: 1px solid #e0e0e0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.date-slot-wrapper {
+  margin-bottom: 12px;
+  padding: 10px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.date-header {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  padding-bottom: 6px;
+  border-bottom: 2px solid #a52a44;
+  color: #a52a44;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.time-slot-button {
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-align: left;
+  word-wrap: break-word;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.time-slot-button:hover {
+  background-color: #f9f9f9;
+}
+
+.time-slot-button.selected {
+  font-weight: 600;
+}
+
+.time-slot-icon {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.respond-button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.respond-button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.respond-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.no-notifications {
+  text-align: center;
+  color: #888;
+  padding: 40px 20px;
+  font-size: 15px;
+}
+
+/* ========================================
+   レスポンシブ
+   ======================================== */
+
+@media (max-width: 768px) {
+  .notification-drawer {
+    width: 75%;
+    max-width: 320px;
+  }
+
+  .drawer-header {
+    padding: 14px;
+  }
+
+  .drawer-header h2 {
+    font-size: 17px;
+  }
+
+  .close-button {
+    font-size: 22px;
+  }
+
+  .drawer-body {
+    padding: 6px;
+  }
+
+  .notification-item {
+    padding: 9px 10px;
+  }
+
+  .notification-icon {
+    width: 34px;
+    height: 34px;
+    margin-right: 10px;
+  }
+
+  .notification-emoji-icon {
+    font-size: 26px;
+    margin-right: 10px;
+  }
+
+  .notification-title {
+    font-size: 13px;
+  }
+
+  .notification-body {
+    font-size: 12px;
+  }
+
+  .notification-time {
+    font-size: 10px;
+  }
+
+  .meeting-request {
+    padding: 10px;
+  }
+
+  .notification-section {
+    margin-top: 8px;
+  }
+
+  .notification-label {
+    font-size: 11px;
+    margin-bottom: 6px;
+  }
+
+  .purpose-text {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .date-slot-wrapper {
+    padding: 8px;
+    margin-bottom: 8px;
+  }
+
+  .date-header {
+    font-size: 12px;
+    margin-bottom: 6px;
+    padding-bottom: 4px;
+  }
+
+  .time-slot-button {
+    padding: 7px 8px;
+    font-size: 12px;
+    margin-bottom: 4px;
+    gap: 5px;
+  }
+
+  .time-slot-icon {
+    font-size: 14px;
+  }
+
+  .respond-button {
+    padding: 9px;
+    font-size: 13px;
+    margin-top: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .notification-drawer {
+    width: 78%;
+    max-width: none;
+  }
+
+  .drawer-header {
+    padding: 12px;
+  }
+
+  .drawer-header h2 {
+    font-size: 16px;
+  }
+
+  .close-button {
+    font-size: 20px;
+  }
+
+  .drawer-body {
+    padding: 5px;
+  }
+
+  .notification-item {
+    padding: 8px 9px;
+    margin-bottom: 6px;
+  }
+
+  .notification-icon {
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+    margin-top: 2px;
+  }
+
+  .notification-emoji-icon {
+    font-size: 24px;
+    margin-right: 8px;
+    margin-top: 0;
+  }
+
+  .notification-header {
+    gap: 5px;
+    margin-bottom: 3px;
+  }
+
+  .notification-title {
+    font-size: 12px;
+  }
+
+  .notification-body {
+    font-size: 11px;
+  }
+
+  .notification-time {
+    font-size: 9px;
+  }
+
+  .meeting-request {
+    padding: 9px;
+  }
+
+  .meeting-request .notification-emoji-icon {
+    margin-bottom: 5px;
+  }
+
+  .notification-section {
+    margin-top: 7px;
+  }
+
+  .notification-label {
+    font-size: 10px;
+    margin-bottom: 5px;
+  }
+
+  .purpose-text {
+    padding: 5px 7px;
+    font-size: 11px;
+  }
+
+  .date-slot-wrapper {
+    padding: 7px;
+    margin-bottom: 6px;
+  }
+
+  .date-header {
+    font-size: 11px;
+    margin-bottom: 5px;
+    padding-bottom: 3px;
+  }
+
+  .time-slot-button {
+    padding: 6px 7px;
+    font-size: 11px;
+    margin-bottom: 3px;
+    gap: 4px;
+  }
+
+  .time-slot-icon {
+    font-size: 13px;
+  }
+
+  .respond-button {
+    padding: 8px;
+    font-size: 12px;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 360px) {
+  .notification-drawer {
+    width: 80%;
+  }
+
+  .drawer-header {
+    padding: 10px;
+  }
+
+  .drawer-header h2 {
+    font-size: 15px;
+  }
+
+  .close-button {
+    font-size: 18px;
+  }
+
+  .drawer-body {
+    padding: 4px;
+  }
+
+  .notification-item {
+    padding: 7px 8px;
+  }
+
+  .notification-icon {
+    width: 28px;
+    height: 28px;
+    margin-right: 7px;
+  }
+
+  .notification-emoji-icon {
+    font-size: 22px;
+    margin-right: 7px;
+  }
+
+  .notification-title {
+    font-size: 11px;
+  }
+
+  .notification-body {
+    font-size: 10px;
+  }
+
+  .meeting-request {
+    padding: 8px;
+  }
+
+  .date-slot-wrapper {
+    padding: 6px;
+  }
+
+  .time-slot-button {
+    padding: 5px 6px;
+    font-size: 10px;
+  }
+
+  .respond-button {
+    padding: 7px;
+    font-size: 11px;
+  }
+}

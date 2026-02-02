@@ -1,0 +1,331 @@
+/* ========================================
+   家族選択画面全体のスタイル
+   ======================================== */
+
+/* 画面全体のコンテナ */
+.family-select-container {
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+
+/* ========================================
+   装飾用の丸（タブレット・PC版のみ）
+   ======================================== */
+
+/* 装飾用の丸を配置するエリア */
+.family-select-decoration {
+  display: none;
+  position: absolute;
+  pointer-events: none;
+}
+
+/* 左上の装飾丸エリア */
+.family-select-decoration-top-left {
+  top: -150px;
+  left: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 右下の装飾丸エリア */
+.family-select-decoration-bottom-right {
+  bottom: -150px;
+  right: -150px;
+  width: 500px;
+  height: 500px;
+}
+
+/* 静止した丸の基本スタイル */
+.family-select-blob {
+  position: absolute;
+  border-radius: 40% 60% 55% 45% / 50% 55% 45% 50%;
+}
+
+/* 左上の丸1：濃い赤色 */
+.family-select-blob-1 {
+  width: 380px;
+  height: 380px;
+  background-color: #a52a44;
+  top: 0;
+  left: 0;
+  opacity: 0.5;
+}
+
+/* 左上の丸2：薄いピンク色 */
+.family-select-blob-2 {
+  width: 280px;
+  height: 280px;
+  background-color: #e8a5b5;
+  top: 120px;
+  left: 150px;
+  opacity: 0.4;
+}
+
+/* 右下の丸3：薄いピンク色 */
+.family-select-blob-3 {
+  width: 350px;
+  height: 350px;
+  background-color: #f5c2d0;
+  bottom: 0;
+  right: 100px;
+  opacity: 0.7;
+}
+
+/* 右下の丸4：少し濃い赤色 */
+.family-select-blob-4 {
+  width: 350px;
+  height: 350px;
+  background-color: #a01e3a;
+  bottom: 200px;
+  right: 70px;
+  opacity: 0.4;
+}
+
+
+/* ========================================
+   コンテンツエリア
+   ======================================== */
+
+/* コンテンツ全体 */
+.family-select-content {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+/* ロゴエリア */
+.family-select-logo-section {
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+/* ロゴ画像のプレースホルダー */
+.family-select-logo-placeholder {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ロゴ画像のスタイル */
+.family-select-logo-placeholder img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+
+/* ========================================
+   説明テキスト
+   ======================================== */
+
+/* 説明テキストエリア */
+.family-select-description {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+/* 説明テキスト */
+.family-select-description-text {
+  font-size: 16px;
+  font-weight: 500;
+  color: #424242;
+  line-height: 1.6;
+  margin: 0;
+}
+
+
+/* ========================================
+   ボタンエリア
+   ======================================== */
+
+/* ボタンエリア全体 */
+.family-select-button-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ボタンの共通スタイル */
+.family-select-button {
+  width: 100%;
+  height: 52px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: inherit;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+/* ========================================
+   家族に入るボタン（枠線のみ）
+   ======================================== */
+
+/* 家族に入るボタン */
+.join-button {
+  background-color: transparent;
+  border: 2px solid #a52a44;
+  color: #a52a44;
+  outline: none;
+}
+
+/* ホバー時 */
+.join-button:hover {
+  background-color: #f5e6e8;
+  border-color: #a52a44;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.2);
+}
+
+/* アクティブ時 */
+.join-button:active {
+  border-color: #a52a44;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.2);
+}
+
+/* フォーカス時 */
+.join-button:focus {
+  border-color: #a52a44;
+  outline: none;
+}
+
+
+/* ========================================
+   家族を招待するボタン（塗りつぶし）
+   ======================================== */
+
+/* 家族を招待するボタン */
+.invite-button {
+  background-color: #a52a44;
+  color: #ffffff;
+  border: 2px solid #a52a44;
+  outline: none;
+}
+
+/* ホバー時 */
+.invite-button:hover {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(165, 42, 68, 0.3);
+}
+
+/* アクティブ時 */
+.invite-button:active {
+  background-color: #8b2339;
+  border-color: #8b2339;
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(165, 42, 68, 0.3);
+}
+
+/* フォーカス時 */
+.invite-button:focus {
+  background-color: #a52a44;
+  border-color: #a52a44;
+  outline: none;
+}
+
+
+/* ========================================
+   レスポンシブ対応：タブレット（768px以上）
+   ======================================== */
+@media (min-width: 768px) {
+  /* 装飾用の丸を表示 */
+  .family-select-decoration {
+    display: block;
+  }
+
+  /* コンテンツエリア */
+  .family-select-content {
+    max-width: 360px;
+  }
+
+  /* ロゴエリア */
+  .family-select-logo-section {
+    margin-bottom: 40px;
+  }
+
+  /* ロゴ画像 */
+  .family-select-logo-placeholder {
+    width: 130px;
+    height: 130px;
+  }
+
+  /* 説明テキスト */
+  .family-select-description {
+    margin-bottom: 50px;
+  }
+
+  .family-select-description-text {
+    font-size: 18px;
+  }
+
+  /* ボタン */
+  .family-select-button {
+    height: 56px;
+    font-size: 17px;
+  }
+}
+
+
+/* ========================================
+   レスポンシブ対応：PC（1280px以上）
+   ======================================== */
+@media (min-width: 1280px) {
+  /* コンテンツエリア */
+  .family-select-content {
+    max-width: 400px;
+  }
+
+  /* ロゴエリア */
+  .family-select-logo-section {
+    margin-bottom: 50px;
+  }
+
+  /* ロゴ画像 */
+  .family-select-logo-placeholder {
+    width: 150px;
+    height: 150px;
+  }
+
+  /* 説明テキスト */
+  .family-select-description {
+    margin-bottom: 60px;
+  }
+
+  .family-select-description-text {
+    font-size: 20px;
+  }
+
+  /* ボタン */
+  .family-select-button {
+    height: 60px;
+    font-size: 18px;
+  }
+}
