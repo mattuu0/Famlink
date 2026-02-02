@@ -12,7 +12,7 @@ CMD ["npm", "run", "dev"]
 
 # --- Production Stage ---
 FROM base AS production
-RUN npm ci --only=production
+RUN npm i --verbose
 COPY . .
 EXPOSE 3001
 CMD ["node", "index.js"]
