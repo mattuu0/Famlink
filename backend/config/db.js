@@ -19,14 +19,31 @@ const pool = mysql.createPool({
 });
 
 /**
- * サーバー起動時の初期化処理
+ * サーバー起動時の初期化処理（接続できるまでリトライ）
  */
 const initializeDatabase = async () => {
-  try {
-    // 接続テスト
-    await pool.query('SELECT 1');
-    console.log(`MySQLに接続成功: DB=${process.env.DB_NAME}`);
+  const maxRetries = 10;
+  let retryCount = 0;
 
+  while (retryCount < maxRetries) {
+    try {
+      // 接続テスト
+      await pool.query('SELECT 1');
+      console.log(`MySQLに接続成功: DB=${process.env.DB_NAME}`);
+      break; // 接続成功したらループを抜ける
+    } catch (err) {
+      retryCount++;
+      console.log(`MySQL接続待機中... (${retryCount}/${maxRetries}): ${err.message}`);
+      if (retryCount >= maxRetries) {
+        console.error('MySQLへの接続に失敗しました。リトライ回数の上限に達しました。');
+        process.exit(1);
+      }
+      // 5秒待機してからリトライ
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+  }
+
+  try {
     // 1. users テーブルの作成
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
