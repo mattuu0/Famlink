@@ -1,0 +1,46 @@
+services:
+  db:
+    image: mysql:8.4
+    restart: always
+    environment:
+      MYSQL_DATABASE: famlink_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: famlink_user
+      MYSQL_PASSWORD: password
+    # 本番ではポートを公開しないのが一般的ですが、接続確認用に残しています
+    ports:
+      - "3306:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+      target: production
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: famlink_db
+      PORT: 3001
+      NODE_ENV: production
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      target: production
+    restart: always
+    ports:
+      - "8822:80"
+    environment:
+      VITE_API_URL: http://localhost:3001
+    depends_on:
+      - backend
+
+volumes:
+  db-data:
