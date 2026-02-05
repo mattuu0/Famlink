@@ -1,10 +1,7 @@
 const mysql = require("mysql2/promise");
 const path = require("path");
-require("dotenv").config({path: path.join(__dirname, "../.env")});
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
 
-/**
- * データベース名（Railwayの場合はデフォルトで 'railway'）
- */
 const DB_NAME = process.env.DB_NAME || "railway";
 
 /**
@@ -13,15 +10,13 @@ const DB_NAME = process.env.DB_NAME || "railway";
 const createDatabaseIfNotExists = async () => {
   let connection;
   try {
-    // データベース名なしで接続
     connection = await mysql.createConnection({
       host: process.env.DB_HOST,
+      port: process.env.DB_PORT || 3306,
       user: process.env.DB_USER,
       password: process.env.DB_PASSWORD,
       multipleStatements: true,
     });
-
-    // データベースを作成（存在しない場合）
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\``);
     console.log(`✅ データベース '${DB_NAME}' を確認/作成しました`);
   } catch (err) {
@@ -35,23 +30,20 @@ const createDatabaseIfNotExists = async () => {
 };
 
 /**
- * データベース接続プールの設定
+ * 接続プールを先に作成
  */
-let pool;
-
-const createPool = () => {
-  return mysql.createPool({
-    host: process.env.DB_HOST,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 20,
-    queueLimit: 0,
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 0,
-  });
-};
+const pool = mysql.createPool({
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT || 3306,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 20,
+  queueLimit: 0,
+  enableKeepAlive: true,
+  keepAliveInitialDelay: 0,
+});
 
 /**
  * サーバー起動時の初期化処理
@@ -60,9 +52,6 @@ const initializeDatabase = async () => {
   try {
     // まずデータベースを作成
     await createDatabaseIfNotExists();
-
-    // 接続プールを作成
-    pool = createPool();
 
     // 接続テスト
     await pool.query("SELECT 1");
