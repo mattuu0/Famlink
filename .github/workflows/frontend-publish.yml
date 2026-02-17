@@ -39,7 +39,9 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ github.repository }}/frontend
           tags: |
-            type=ref,event=tag
+            # プッシュされたタグ名（例: v1.0.0）をそのままイメージタグに使用
+            type=raw,value=${{ github.ref_name }}
+            # セマンティックバージョニングに基づいたタグも生成
             type=semver,pattern={{version}}
 
       # Dockerイメージをビルドしてプッシュ
