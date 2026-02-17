@@ -9,6 +9,11 @@ services:
       - "3306:3306"
     volumes:
       - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysql", "-u", "root","--password=root", "-e", "SELECT 1"]
+      interval: 6s
+      timeout: 1s
+      retries: 100
 
   frontend:
     build: 
@@ -21,7 +26,7 @@ services:
       - front_node_modules:/app/src/node_modules
       - ./frontend:/app/src
     depends_on:
-      - db
+      - backend
     env_file:
       - ./config/frontend.env
   
@@ -38,7 +43,8 @@ services:
     env_file:
       - ./config/backend.env
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
 volumes:
   dbdata:
