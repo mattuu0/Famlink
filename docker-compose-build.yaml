@@ -6,8 +6,6 @@ services:
     restart: always
     ports:
       - "5173:80"
-    depends_on:
-      - db
     env_file:
       - ./config/frontend.env
   
@@ -20,13 +18,3 @@ services:
       - "3001:3001"
     env_file:
       - ./config/backend.env
-    depends_on:
-      - db
-
-volumes:
-  dbdata:
-    name: famlink_db_volume
-  back_node_modules:
-    name: famlink_back_node_modules
-  front_node_modules:
-    name: famlink_front_node_modules
