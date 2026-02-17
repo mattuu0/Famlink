@@ -12,6 +12,8 @@ CMD [ "/bin/sh","./run.sh" ]
 # https://github.com/GoogleContainerTools/distroless/blob/main/examples/nodejs/Dockerfile を参考に 作成する
 # ビルドようの環境
 FROM node:24-alpine3.22 AS build-env
+ARG VITE_API_URL
+ENV VITE_API_URL=$VITE_API_URL
 COPY . /app/src
 WORKDIR /app/src
 
