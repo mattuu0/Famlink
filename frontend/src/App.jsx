@@ -293,7 +293,7 @@ function AppContent() {
 // === Appコンポーネント（Routerでラップ） ===
 function App() {
   return (
-    <Router>
+    <Router basename="/ui/">
       <AppContent />
     </Router>
   );

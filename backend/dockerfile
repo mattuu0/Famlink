@@ -8,3 +8,18 @@ COPY ./run.sh /app/src
 
 # 起動する
 CMD [ "/bin/sh","./run.sh" ]
+
+# https://github.com/GoogleContainerTools/distroless/blob/main/examples/nodejs/Dockerfile を参考に 作成する
+# ビルドようの環境
+FROM node:24 AS build-env
+COPY . /app/src
+WORKDIR /app/src
+
+# 必要なものだけインストール
+RUN npm ci --omit=dev
+
+# デプロイようの環境
+FROM gcr.io/distroless/nodejs24-debian12 as product
+COPY --from=build-env /app/src /app/src
+WORKDIR /app/src
+CMD ["index.js"]

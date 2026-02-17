@@ -1,4 +1,4 @@
-FROM node:24-alpine3.22 as Develop
+FROM node:24-alpine3.22 as develop
 
 # 作業ディレクトリを設定する
 WORKDIR /app/src
@@ -8,3 +8,31 @@ COPY ./run.sh /app/src
 
 # 起動する
 CMD [ "/bin/sh","./run.sh" ]
+
+# https://github.com/GoogleContainerTools/distroless/blob/main/examples/nodejs/Dockerfile を参考に 作成する
+# ビルドようの環境
+FROM node:24-alpine3.22 AS build-env
+COPY . /app/src
+WORKDIR /app/src
+
+# 必要なものだけインストール
+RUN npm i --verbose
+
+# ビルドを実行
+RUN npm run build
+
+# コピーするために dist を /ui にいどう
+RUN mv ./dist ./ui
+
+# web サーバーようのコンテナに配置する
+FROM joseluisq/static-web-server:2 as product
+
+# コピーする
+COPY --from=build-env /app/src/ui ./public/ui/
+
+# react 用のenv を設定する
+ENV SERVER_LOG_LEVEL=info
+ENV SERVER_LOG_REMOTE_ADDRESS=true
+ENV SERVER_LOG_X_REAL_IP=true
+ENV SERVER_LOG_FORWARDED_FOR=true
+ENV SERVER_FALLBACK_PAGE=/public/ui/index.html

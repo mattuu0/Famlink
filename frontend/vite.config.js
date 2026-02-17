@@ -14,5 +14,6 @@ export default defineConfig({
       usePolling: true,  //windows用にポーリングを使用
       interval: 1000,    //ポーリングの負荷対策用
     }
-  }
+  },
+  base: "/ui/"
 })
