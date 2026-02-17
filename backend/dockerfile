@@ -1,0 +1,10 @@
+FROM node:24-alpine3.22 as Develop
+
+# 作業ディレクトリを設定する
+WORKDIR /app/src
+
+# 実行ファイルをコピーする
+COPY ./run.sh /app/src
+
+# 起動する
+CMD [ "/bin/sh","./run.sh" ]

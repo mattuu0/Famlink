@@ -1,0 +1,45 @@
+services:
+  db:
+    image: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: famlink_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - dbdata:/var/lib/mysql
+
+  frontend:
+    build: ./frontend
+    restart: always
+    ports:
+      - "5173:5173"
+    volumes:
+      - front_node_modules:/app/src/node_modules
+      - ./frontend:/app/src
+    depends_on:
+      - db
+    env_file:
+      - ./config/frontend.env
+  
+  backend:
+    build: ./backend
+    restart: always
+    ports:
+      - "3001:3001"
+    volumes:
+      - back_node_modules:/app/src/node_modules
+      - ./backend:/app/src
+    env_file:
+      - ./config/backend.env
+    depends_on:
+      - db
+
+volumes:
+  dbdata:
+    name: famlink_db_volume
+  back_node_modules:
+    name: famlink_back_node_modules
+  front_node_modules:
+    name: famlink_front_node_modules
