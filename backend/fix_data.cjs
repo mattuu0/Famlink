@@ -1,4 +1,4 @@
-const db = require('./backend/config/db');
+const db = require('./config/db');
 
 const fixData = async () => {
   try {
