@@ -1,0 +1,56 @@
+name: フロントエンドのビルドとプッシュ
+
+on:
+  push:
+    # 'v1.0' や 'v2.1.3' のようなバージョンタグがプッシュされた時に実行
+    tags:
+      - 'v*'
+  # GitHubのUIから手動で実行することも可能にする
+  workflow_dispatch:
+
+env:
+  # GitHub Container Registry を使用
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      # リポジトリのコードをチェックアウト
+      - name: リポジトリをチェックアウト
+        uses: actions/checkout@v4
+
+      # ghcr.io にログイン
+      - name: コンテナレジストリにログイン
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # Dockerイメージ用のメタデータ（タグ、ラベル）を抽出
+      - name: フロントエンド用のメタデータを抽出
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ github.repository }}/frontend
+          tags: |
+            type=ref,event=tag
+            type=semver,pattern={{version}}
+
+      # Dockerイメージをビルドしてプッシュ
+      - name: フロントエンドイメージをビルド＆プッシュ
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          # Dockerfile内の 'product' ステージをターゲットにする
+          target: product
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            VITE_API_URL=https://famlink-api.aoioq.com
