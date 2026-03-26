@@ -15,12 +15,23 @@ const SchedulePage = () => {
 
   // 現在の日付を取得
   const today = new Date();
-  
+
+  // スマホでは3日表示、PCでは7日表示
+  const [daysToShow, setDaysToShow] = useState(window.innerWidth <= 768 ? 3 : 7);
+
+  React.useEffect(() => {
+    const handleResize = () => {
+      setDaysToShow(window.innerWidth <= 768 ? 3 : 7);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   // 日付直接指定の状態
   const [selectedYear, setSelectedYear] = useState(today.getFullYear());
   const [selectedMonth, setSelectedMonth] = useState(today.getMonth() + 1);
   const [selectedDay, setSelectedDay] = useState(today.getDate());
-  
+
   // 時間直接指定の状態
   const [selectedStartHour, setSelectedStartHour] = useState("--");
   const [selectedStartMinute, setSelectedStartMinute] = useState("--");
@@ -29,7 +40,7 @@ const SchedulePage = () => {
 
   // 直接入力で保存された日程リスト
   const [savedDirectRanges, setSavedDirectRanges] = useState([]);
-  
+
   // 編集中のインデックス（-1なら新規作成）
   const [editingIndex, setEditingIndex] = useState(-1);
 
@@ -41,7 +52,7 @@ const SchedulePage = () => {
     return new Date(newDate.setDate(diff));
   };
   const [calendarStartDate, setCalendarStartDate] = useState(getStartOfWeek(today));
-  
+
   // カレンダーから選択された時間スロットの配列
   // 形式: [{ year, month, day, hour, minute }, ...]
   const [selectedTimeSlots, setSelectedTimeSlots] = useState([]);
@@ -92,7 +103,7 @@ const SchedulePage = () => {
   const generateCalendarDays = () => {
     const days = [];
     const startDate = new Date(calendarStartDate);
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < daysToShow; i++) {
       const currentDate = new Date(startDate);
       currentDate.setDate(startDate.getDate() + i);
       days.push(currentDate);
@@ -133,14 +144,7 @@ const SchedulePage = () => {
    * 時間スロットが選択されているか確認
    */
   const isTimeSlotSelected = (date, hour, minute) => {
-    return selectedTimeSlots.some(
-      slot =>
-        slot.year === date.getFullYear() &&
-        slot.month === date.getMonth() + 1 &&
-        slot.day === date.getDate() &&
-        slot.hour === hour &&
-        slot.minute === minute
-    );
+    return selectedTimeSlots.some((slot) => slot.year === date.getFullYear() && slot.month === date.getMonth() + 1 && slot.day === date.getDate() && slot.hour === hour && slot.minute === minute);
   };
 
   /**
@@ -159,23 +163,12 @@ const SchedulePage = () => {
 
     // 既に選択されている場合は解除
     const isSelected = isTimeSlotSelected(date, hour, minute);
-    
+
     if (isSelected) {
-      setSelectedTimeSlots(prev =>
-        prev.filter(
-          s =>
-            !(
-              s.year === slot.year &&
-              s.month === slot.month &&
-              s.day === slot.day &&
-              s.hour === slot.hour &&
-              s.minute === slot.minute
-            )
-        )
-      );
+      setSelectedTimeSlots((prev) => prev.filter((s) => !(s.year === slot.year && s.month === slot.month && s.day === slot.day && s.hour === slot.hour && s.minute === slot.minute)));
     } else {
       // 新規選択
-      setSelectedTimeSlots(prev => [...prev, slot]);
+      setSelectedTimeSlots((prev) => [...prev, slot]);
     }
   };
 
@@ -187,7 +180,7 @@ const SchedulePage = () => {
 
     // 日付でグループ化
     const grouped = {};
-    selectedTimeSlots.forEach(slot => {
+    selectedTimeSlots.forEach((slot) => {
       const dateKey = `${slot.year}/${slot.month}/${slot.day}`;
       if (!grouped[dateKey]) {
         grouped[dateKey] = [];
@@ -197,7 +190,7 @@ const SchedulePage = () => {
 
     // 各日付の時間をソートして連続する範囲にまとめる
     const result = [];
-    Object.keys(grouped).forEach(dateKey => {
+    Object.keys(grouped).forEach((dateKey) => {
       const slots = grouped[dateKey].sort((a, b) => {
         if (a.hour !== b.hour) return a.hour - b.hour;
         return a.minute - b.minute;
@@ -223,7 +216,7 @@ const SchedulePage = () => {
           const endTime = rangeEnd.hour * 60 + rangeEnd.minute + 30;
           const endHour = Math.floor(endTime / 60);
           const endMinute = endTime % 60;
-          
+
           ranges.push({
             start: formatTime(rangeStart.hour, rangeStart.minute),
             end: formatTime(endHour, endMinute),
@@ -237,7 +230,7 @@ const SchedulePage = () => {
       const endTime = rangeEnd.hour * 60 + rangeEnd.minute + 30;
       const endHour = Math.floor(endTime / 60);
       const endMinute = endTime % 60;
-      
+
       ranges.push({
         start: formatTime(rangeStart.hour, rangeStart.minute),
         end: formatTime(endHour, endMinute),
@@ -260,13 +253,11 @@ const SchedulePage = () => {
     }
 
     const startTime = `${selectedStartHour.toString().padStart(2, "0")}:${selectedStartMinute.toString().padStart(2, "0")}`;
-    const endTime = selectedEndHour !== "--" && selectedEndMinute !== "--"
-      ? `${selectedEndHour.toString().padStart(2, "0")}:${selectedEndMinute.toString().padStart(2, "0")}`
-      : "未指定";
+    const endTime = selectedEndHour !== "--" && selectedEndMinute !== "--" ? `${selectedEndHour.toString().padStart(2, "0")}:${selectedEndMinute.toString().padStart(2, "0")}` : "未指定";
 
     const newRange = {
       date: `${selectedYear}/${selectedMonth}/${selectedDay}`,
-      ranges: [{ start: startTime, end: endTime }]
+      ranges: [{ start: startTime, end: endTime }],
     };
 
     if (editingIndex >= 0) {
@@ -277,7 +268,7 @@ const SchedulePage = () => {
       setEditingIndex(-1);
     } else {
       // 新規追加
-      setSavedDirectRanges(prev => [...prev, newRange]);
+      setSavedDirectRanges((prev) => [...prev, newRange]);
     }
 
     // フォームをリセット
@@ -299,23 +290,23 @@ const SchedulePage = () => {
    */
   const handleEditDirectRange = (index) => {
     const range = savedDirectRanges[index];
-    const [year, month, day] = range.date.split('/').map(Number);
-    const [startHour, startMinute] = range.ranges[0].start.split(':').map(Number);
-    
+    const [year, month, day] = range.date.split("/").map(Number);
+    const [startHour, startMinute] = range.ranges[0].start.split(":").map(Number);
+
     setSelectedYear(year);
     setSelectedMonth(month);
     setSelectedDay(day);
     setSelectedStartHour(startHour.toString());
     setSelectedStartMinute(startMinute.toString());
-    
+
     if (range.ranges[0].end !== "未指定") {
-      const [endHour, endMinute] = range.ranges[0].end.split(':').map(Number);
+      const [endHour, endMinute] = range.ranges[0].end.split(":").map(Number);
       setSelectedEndHour(endHour.toString());
       setSelectedEndMinute(endMinute.toString());
     }
-    
+
     setEditingIndex(index);
-    
+
     // カレンダーも同期
     handleDirectDateChange(year, month, day);
   };
@@ -324,7 +315,7 @@ const SchedulePage = () => {
    * 保存された日程を削除
    */
   const handleDeleteDirectRange = (index) => {
-    setSavedDirectRanges(prev => prev.filter((_, i) => i !== index));
+    setSavedDirectRanges((prev) => prev.filter((_, i) => i !== index));
     if (editingIndex === index) {
       setEditingIndex(-1);
       resetDirectInputForm();
@@ -344,15 +335,15 @@ const SchedulePage = () => {
    */
   const getDisplayTimeRanges = () => {
     const result = [];
-    
+
     // カレンダー選択を追加
     if (selectedTimeSlots.length > 0) {
       result.push(...getGroupedTimeRanges());
     }
-    
+
     // 直接入力の保存済みを追加
     result.push(...savedDirectRanges);
-    
+
     return result;
   };
 
@@ -378,7 +369,7 @@ const SchedulePage = () => {
     setSelectedYear(year);
     setSelectedMonth(month);
     setSelectedDay(day);
-    
+
     // カレンダー表示も同期
     const newDate = new Date(year, month - 1, day);
     setCalendarStartDate(getStartOfWeek(newDate));
@@ -389,7 +380,7 @@ const SchedulePage = () => {
    */
   const changeCalendarWeek = (direction) => {
     const newStartDate = new Date(calendarStartDate);
-    newStartDate.setDate(newStartDate.getDate() + 7 * direction);
+    newStartDate.setDate(newStartDate.getDate() + daysToShow * direction);
     setCalendarStartDate(newStartDate);
   };
 
@@ -406,15 +397,13 @@ const SchedulePage = () => {
   const handleSubmit = () => {
     if (isSelectionComplete()) {
       const timeRangesToSend = getDisplayTimeRanges();
-      
-      console.log("選択された日時:", timeRangesToSend);
-      
+
       // 確認画面に遷移（選択内容を渡す）
-      navigate("/confirmation", { 
-        state: { 
+      navigate("/confirmation", {
+        state: {
           timeRanges: timeRangesToSend,
-          meetupType: meetupType 
-        } 
+          meetupType: meetupType,
+        },
       });
     }
   };
@@ -423,15 +412,13 @@ const SchedulePage = () => {
     <div className="schedule-container">
       {/* 戻るボタン */}
       <button className="back-button" onClick={handleBack}>
-        <span style={{ fontSize: '36px' }}>←</span>
+        <span style={{ fontSize: "36px" }}>←</span>
       </button>
 
       {/* インフォメーション */}
       <div className="schedule-info">
         <span className="info-icon">ⓘ</span>
-        <p className="info-text">
-          カレンダーを押して日付と時間の指定ができます。直接入力でも複数日程を選択できます。
-        </p>
+        <p className="info-text">カレンダーを押して日付と時間の指定ができます。直接入力でも複数日程を選択できます。</p>
       </div>
 
       {/* 選択された時間範囲の表示 */}
@@ -464,19 +451,15 @@ const SchedulePage = () => {
                   <div key={index} className="saved-range-item">
                     <div className="saved-range-info">
                       <strong>{range.date}</strong>
-                      <span>{range.ranges[0].start} ～ {range.ranges[0].end}</span>
+                      <span>
+                        {range.ranges[0].start} ～ {range.ranges[0].end}
+                      </span>
                     </div>
                     <div className="saved-range-actions">
-                      <button 
-                        className="edit-button" 
-                        onClick={() => handleEditDirectRange(index)}
-                      >
+                      <button className="edit-button" onClick={() => handleEditDirectRange(index)}>
                         編集
                       </button>
-                      <button 
-                        className="delete-button" 
-                        onClick={() => handleDeleteDirectRange(index)}
-                      >
+                      <button className="delete-button" onClick={() => handleDeleteDirectRange(index)}>
                         削除
                       </button>
                     </div>
@@ -494,17 +477,7 @@ const SchedulePage = () => {
             </h3>
             <div className="date-selectors">
               <div className="selector-group">
-                <select
-                  className="date-select"
-                  value={selectedYear}
-                  onChange={(e) =>
-                    handleDirectDateChange(
-                      parseInt(e.target.value),
-                      selectedMonth,
-                      selectedDay
-                    )
-                  }
-                >
+                <select className="date-select" value={selectedYear} onChange={(e) => handleDirectDateChange(parseInt(e.target.value), selectedMonth, selectedDay)}>
                   {generateYearOptions().map((year) => (
                     <option key={year} value={year}>
                       {year}
@@ -515,17 +488,7 @@ const SchedulePage = () => {
               </div>
 
               <div className="selector-group">
-                <select
-                  className="date-select"
-                  value={selectedMonth}
-                  onChange={(e) =>
-                    handleDirectDateChange(
-                      selectedYear,
-                      parseInt(e.target.value),
-                      selectedDay
-                    )
-                  }
-                >
+                <select className="date-select" value={selectedMonth} onChange={(e) => handleDirectDateChange(selectedYear, parseInt(e.target.value), selectedDay)}>
                   {generateMonthOptions().map((month) => (
                     <option key={month} value={month}>
                       {month}
@@ -536,17 +499,7 @@ const SchedulePage = () => {
               </div>
 
               <div className="selector-group">
-                <select
-                  className="date-select"
-                  value={selectedDay}
-                  onChange={(e) =>
-                    handleDirectDateChange(
-                      selectedYear,
-                      selectedMonth,
-                      parseInt(e.target.value)
-                    )
-                  }
-                >
+                <select className="date-select" value={selectedDay} onChange={(e) => handleDirectDateChange(selectedYear, selectedMonth, parseInt(e.target.value))}>
                   {generateDayOptions().map((day) => (
                     <option key={day} value={day}>
                       {day}
@@ -556,9 +509,9 @@ const SchedulePage = () => {
                 <span className="selector-label">日</span>
               </div>
 
-              <div className="day-of-week">
+              {/* <div className="day-of-week">
                 {getDayOfWeek(new Date(selectedYear, selectedMonth - 1, selectedDay))}
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -568,11 +521,7 @@ const SchedulePage = () => {
             <div className="time-selectors">
               {/* 開始時間 */}
               <div className="selector-group">
-                <select
-                  className="time-select"
-                  value={selectedStartHour}
-                  onChange={(e) => setSelectedStartHour(e.target.value)}
-                >
+                <select className="time-select" value={selectedStartHour} onChange={(e) => setSelectedStartHour(e.target.value)}>
                   <option value="--">--</option>
                   {generateHourOptions().map((hour) => (
                     <option key={hour} value={hour}>
@@ -584,11 +533,7 @@ const SchedulePage = () => {
               </div>
 
               <div className="selector-group">
-                <select
-                  className="time-select"
-                  value={selectedStartMinute}
-                  onChange={(e) => setSelectedStartMinute(e.target.value)}
-                >
+                <select className="time-select" value={selectedStartMinute} onChange={(e) => setSelectedStartMinute(e.target.value)}>
                   <option value="--">--</option>
                   {generateMinuteOptions().map((minute) => (
                     <option key={minute} value={minute}>
@@ -602,11 +547,7 @@ const SchedulePage = () => {
 
               {/* 終了時間 */}
               <div className="selector-group">
-                <select
-                  className="time-select"
-                  value={selectedEndHour}
-                  onChange={(e) => setSelectedEndHour(e.target.value)}
-                >
+                <select className="time-select" value={selectedEndHour} onChange={(e) => setSelectedEndHour(e.target.value)}>
                   <option value="--">--</option>
                   {generateHourOptions().map((hour) => (
                     <option key={hour} value={hour}>
@@ -618,11 +559,7 @@ const SchedulePage = () => {
               </div>
 
               <div className="selector-group">
-                <select
-                  className="time-select"
-                  value={selectedEndMinute}
-                  onChange={(e) => setSelectedEndMinute(e.target.value)}
-                >
+                <select className="time-select" value={selectedEndMinute} onChange={(e) => setSelectedEndMinute(e.target.value)}>
                   <option value="--">--</option>
                   {generateMinuteOptions().map((minute) => (
                     <option key={minute} value={minute}>
@@ -635,12 +572,8 @@ const SchedulePage = () => {
 
             {/* 保存ボタン */}
             <div className="save-button-container">
-              <button
-                className={`save-direct-button ${canSaveDirectInput() ? 'active' : ''}`}
-                onClick={handleSaveDirectRange}
-                disabled={!canSaveDirectInput()}
-              >
-                {editingIndex >= 0 ? '更新' : '保存'}
+              <button className={`save-direct-button ${canSaveDirectInput() ? "active" : ""}`} onClick={handleSaveDirectRange} disabled={!canSaveDirectInput()}>
+                {editingIndex >= 0 ? "更新" : "保存"}
               </button>
               {editingIndex >= 0 && (
                 <button className="cancel-edit-button" onClick={handleCancelEdit}>
@@ -657,20 +590,26 @@ const SchedulePage = () => {
             <div className="calendar-header">
               <h3 className="calendar-title">📅 カレンダーから選択</h3>
               <div className="calendar-navigation">
-                <button
-                  className="nav-button"
-                  onClick={() => changeCalendarWeek(-1)}
-                >
-                  ◀ 前週
+                <button className="nav-button" onClick={() => changeCalendarWeek(-1)}>
+                  ◀ 前へ
                 </button>
-                <span className="current-period">
-                  {calendarStartDate.getMonth() + 1}月{calendarStartDate.getDate()}日の週
-                </span>
-                <button
-                  className="nav-button"
-                  onClick={() => changeCalendarWeek(1)}
-                >
-                  次週 ▶
+                <div className="current-period-wrapper">
+                  <span className="current-period-text">
+                    {calendarStartDate.getMonth() + 1}月{calendarStartDate.getDate()}日〜
+                  </span>
+                  <input
+                    type="date"
+                    className="current-period-input"
+                    onChange={(e) => {
+                      if (!e.target.value) return;
+                      const [y, m, d] = e.target.value.split("-").map(Number);
+                      setCalendarStartDate(new Date(y, m - 1, d));
+                      e.target.value = "";
+                    }}
+                  />
+                </div>
+                <button className="nav-button" onClick={() => changeCalendarWeek(1)}>
+                  次へ ▶
                 </button>
               </div>
             </div>
@@ -685,9 +624,7 @@ const SchedulePage = () => {
                     <div key={index} className="day-header">
                       <div className="day-date">
                         {date.getMonth() + 1}/{date.getDate()}
-                        <span className="day-name">
-                          ({getDayOfWeek(date)})
-                        </span>
+                        <span className="day-name">({getDayOfWeek(date)})</span>
                       </div>
                     </div>
                   ))}
@@ -696,19 +633,9 @@ const SchedulePage = () => {
                 {/* 時間スロット */}
                 {generateTimeSlots().map((slot, slotIndex) => (
                   <div key={slotIndex} className="calendar-row">
-                    <div className="time-label">
-                      {formatTime(slot.hour, slot.minute)}
-                    </div>
+                    <div className="time-label">{formatTime(slot.hour, slot.minute)}</div>
                     {generateCalendarDays().map((date, dayIndex) => (
-                      <button
-                        key={dayIndex}
-                        className={`time-slot ${
-                          isTimeSlotSelected(date, slot.hour, slot.minute)
-                            ? "selected"
-                            : ""
-                        }`}
-                        onClick={() => handleTimeSlotClick(date, slot.hour, slot.minute)}
-                      >
+                      <button key={dayIndex} className={`time-slot ${isTimeSlotSelected(date, slot.hour, slot.minute) ? "selected" : ""}`} onClick={() => handleTimeSlotClick(date, slot.hour, slot.minute)}>
                         {isTimeSlotSelected(date, slot.hour, slot.minute) ? "✓" : ""}
                       </button>
                     ))}
@@ -721,11 +648,7 @@ const SchedulePage = () => {
       </div>
 
       {/* 送信ボタン */}
-      <button
-        className={`schedule-submit-button ${isSelectionComplete() ? "active" : ""}`}
-        onClick={handleSubmit}
-        disabled={!isSelectionComplete()}
-      >
+      <button className={`schedule-submit-button ${isSelectionComplete() ? "active" : ""}`} onClick={handleSubmit} disabled={!isSelectionComplete()}>
         送信
       </button>
     </div>

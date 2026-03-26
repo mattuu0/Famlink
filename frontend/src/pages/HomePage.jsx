@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useMemo} from "react";
-import {useNavigate} from "react-router-dom";
+import React, { useState, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import happyImage from "../assets/happy.png";
 import sadImage from "../assets/sad.png";
@@ -11,14 +11,15 @@ import bellImage from "../assets/bell.png";
 import sendImage from "../assets/send.png";
 import useNotificationStore from "../stores/notificationStore";
 import NotificationDrawer from "../components/NotificationDrawer";
+import settingIcon from "../assets/weui_setting-filled.png";
 
-const HomePage = ({onLogout}) => {
+const HomePage = ({ onLogout }) => {
   const emotions = [
-    {id: "fun", name: "楽しい", image: funImage, color: "#B39DDB"},
-    {id: "sad", name: "悲しい", image: sadImage, color: "#90CAF9"},
-    {id: "normal", name: "普通", image: normalImage, color: "#A5D6A7"},
-    {id: "angry", name: "怒り", image: angryImage, color: "#EF9A9A"},
-    {id: "happy", name: "嬉しい", image: happyImage, color: "#FFF59D"},
+    { id: "fun", name: "楽しい", image: funImage, color: "#B39DDB" },
+    { id: "sad", name: "悲しい", image: sadImage, color: "#90CAF9" },
+    { id: "normal", name: "普通", image: normalImage, color: "#A5D6A7" },
+    { id: "angry", name: "怒り", image: angryImage, color: "#EF9A9A" },
+    { id: "happy", name: "嬉しい", image: happyImage, color: "#FFF59D" },
   ];
 
   const [selectedIndex, setSelectedIndex] = useState(2);
@@ -36,6 +37,18 @@ const HomePage = ({onLogout}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [userData, setUserData] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (!e.target.closest('.settings-menu-container')) {
+        setShowMenu(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
+
 
   useEffect(() => {
     let intervalId;
@@ -138,7 +151,7 @@ const HomePage = ({onLogout}) => {
     try {
       const response = await fetch(`${import.meta.env.VITE_API_URL}/api/messages`, {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(postData),
       });
       if (response.ok) {
@@ -181,8 +194,8 @@ const HomePage = ({onLogout}) => {
       try {
         await fetch(`${import.meta.env.VITE_API_URL}/api/families/leave`, {
           method: "POST",
-          headers: {"Content-Type": "application/json"},
-          body: JSON.stringify({email}),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email }),
         });
       } catch (error) {
         console.error("脱退処理エラー:", error);
@@ -222,12 +235,12 @@ const HomePage = ({onLogout}) => {
             className="settings-button"
             onClick={() => setShowMenu(!showMenu)}
           >
-            ⚙️
+            <img src={settingIcon} alt="設定" className="settings-image" />
           </button>
           {showMenu && (
             <div className="settings-dropdown">
               <button onClick={handleLogoutAndLeave}>
-                ログアウト（家族脱退）
+                ログアウト
               </button>
               <button onClick={handleInviteFamily}>
                 {inviteCopied ? "コピーしました！" : "家族を招待"}
@@ -304,7 +317,7 @@ const HomePage = ({onLogout}) => {
               <div key={index} className="history-item-card">
                 <span
                   className="history-dot"
-                  style={{backgroundColor: entry.color}}
+                  style={{ backgroundColor: entry.color }}
                 ></span>
                 <span className="history-content">
                   <strong>{entry.name}</strong>：{entry.emotion}
