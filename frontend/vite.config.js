@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   preview: {
-    allowedHosts: ['famlink-production-67b9.up.railway.app'], // RailwayのURLを許可するよ
+    allowedHosts: ['famlink.aoioq.com'], // RailwayのURLを許可するよ
     host: true,
     port: 5173
   },
